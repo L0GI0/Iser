@@ -1,0 +1,109 @@
+import React, { useRef } from "react";
+import styled from "styled-components";
+import { useHistory } from "react-router-dom";
+
+import TwoSectionsLayout from "../../../common/components/TwoSectionsLayout";
+import { LineSeparator } from "../../../common/components/styledElements";
+import {
+  WhiteSection,
+  NavyBlueBubbledSection,
+} from "../../../common/components/styledElements";
+import CredentialsFromInput from "../components/CredentialsFormInput";
+import { FormSectionContent, AccountForm } from "../components/styledElements";
+import RoundButton from "../../../common/components/RoundButton";
+import CheckboxInput from "../../../common/components/CheckboxInput";
+import InfoContent from "../components/InfoContent";
+import Typography from "@material-ui/core/Typography";
+
+const RegistrationTerms = styled(Typography).attrs({
+  variant: "body1",
+  component: "span",
+})`
+  && {
+    margin-top: 4em;
+    color: grey;
+    font-weight: bold;
+  }
+`;
+
+const SignUpForm: React.FC = () => {
+  const inputFormRef = useRef(null);
+
+  return (
+    <AccountForm onSubmit={() => console.log("test")}>
+      <CredentialsFromInput labelText="Rejestracja" ref={inputFormRef} />
+      <RoundButton
+        type="submit"
+        text="Załóż darmowe konto"
+        style={{ width: "100%", marginTop: "3em" }}
+        color="primary"
+      />
+    </AccountForm>
+  );
+};
+
+const SignUpRightSection: React.FC = () => {
+  return (
+    <WhiteSection>
+      <FormSectionContent
+        style={{ justifyContent: "flex-start", marginTop: "5em" }}
+      >
+        <SignUpForm />
+        <LineSeparator>LUB</LineSeparator>
+        <RoundButton
+          text="Zaloguj sie z kontem Google"
+          style={{ width: "100%", marginBottom: "3em" }}
+          color="primary"
+        />
+        <CheckboxInput
+          promptText={
+            "Zapisuje się do newslettera i chcę otrzymywać najnowsze treści"
+          }
+        />
+        <RegistrationTerms>
+          Rejestrując się potwierdzasz, że zapoznałeś się z regulaminem oraz
+          akceptujesz jego warunki.
+        </RegistrationTerms>
+      </FormSectionContent>
+    </WhiteSection>
+  );
+};
+
+const SignUpLeftSection: React.FC = () => {
+  const history = useHistory();
+
+  const redirectToSignInView = () => {
+    history.push("/signin");
+  };
+  return (
+    <NavyBlueBubbledSection>
+      <InfoContent
+        header="Zarejestruj się do wersji beta platformy i uzyskaj darmowy dostęp na zawsze"
+        description="Uzupełnij formularz i założ darmowe konto."
+        footer={
+          <React.Fragment>
+            Masz już konto?
+            <RoundButton
+              onClick={redirectToSignInView}
+              text="Zaloguj się"
+              backgroundHover="rgba(85,52,235,255)"
+              style={{ marginLeft: "2em" }}
+              color="secondary"
+            />
+          </React.Fragment>
+        }
+      />
+    </NavyBlueBubbledSection>
+  );
+};
+
+const SignUpView: React.FC = () => {
+  return (
+    <TwoSectionsLayout
+      leftSection={<SignUpLeftSection />}
+      rightSection={<SignUpRightSection />}
+    />
+  );
+};
+
+export default SignUpView;
