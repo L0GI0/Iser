@@ -1,3 +1,4 @@
+import { useRef, useEffect } from "react";
 import styled from "styled-components";
 import { TextField, InputAdornment, InputProps } from "@material-ui/core";
 import React from "react";
@@ -10,11 +11,16 @@ const TextInput = styled(TextField)`
     border-color: ${(props) =>
       props.error ? "#ff0f0f" : "rgba(85, 52, 235, 255)"};
     transition: all 0.3s;
-    margin: 1em 0em;
+    margin: 1.5em 0em;
   }
 
   .MuiInputBase-root {
     border-radius: 10em;
+  }
+
+  .MuiFormHelperText-root {
+    position: absolute;
+    bottom: -1.75em;
   }
 
   &&:hover {
@@ -43,16 +49,21 @@ interface InputFieldProps {
   placeholder: string;
   postfixIcon?: React.SVGProps<SVGSVGElement>;
   errorMessage?: string;
+  ref?: React.Ref<any>;
 }
 
-const RoundInput: React.FC<InputFieldProps & TextFieldProps> = ({
+export type RoundInputType = InputFieldProps & TextFieldProps & InputProps;
+
+const RoundInput: React.FC<RoundInputType> = ({
   placeholder,
   postfixIcon,
   errorMessage,
+  ref,
   ...props
 }: InputFieldProps) => {
   return (
     <TextInput
+      inputRef={ref}
       variant="outlined"
       label={placeholder}
       InputProps={{

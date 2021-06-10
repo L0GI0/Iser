@@ -21,16 +21,11 @@ const accountSlice = createSlice({
   reducers: {
     logIn(state, action: PayloadAction<logInPayload>): void {
       state.isLoggingIn = true;
-      console.log(
-        `User ${action.payload.accountLogin} logging = ${state.isLoggingIn}`
-      );
     },
 
     logInDone(state): void {
       state.accessToken = "loggedIn";
       state.isLoggingIn = false;
-      console.log("Log in done");
-      console.log(`Is logging = ${state.isLoggingIn}`);
     },
 
     logInFail(state): void {},

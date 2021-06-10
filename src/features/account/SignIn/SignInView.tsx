@@ -13,12 +13,14 @@ import {
 } from "../../../common/components/styledElements";
 import CredentialsFromInput, {
   CredentialsFormRef,
+  InputRef,
 } from "../components/CredentialsFormInput";
 import { AccountForm, GreyRedirectLink } from "../components/styledElements";
 import RoundButton from "../../../common/components/RoundButton";
 import CheckboxInput from "../../../common/components/CheckboxInput";
 import InfoContent from "../components/InfoContent";
 import Typography from "@material-ui/core/Typography";
+import { InputProps } from "@material-ui/core";
 
 const RememberMeContainer = styled.div`
   display: flex;
@@ -38,18 +40,44 @@ const ForgotPasswordTip = styled(Typography).attrs({
   width: 100%;
 `;
 
+interface IterableInputForm {
+  [s: string]: InputRef;
+}
+
 const SignInForm: React.FC = () => {
   const dispatch = useDispatch();
   const inputFormRef = useRef<CredentialsFormRef>(null);
 
+  const validateForm = (): boolean => {
+    if (inputFormRef.current) {
+      const foundError: keyof typeof inputFormRef.current | undefined =
+        Object.keys(inputFormRef.current).find((inputName) => {
+          if (
+            inputFormRef.current &&
+            (inputFormRef.current[inputName].input.error.length > 0 ||
+              inputFormRef.current[inputName].input.value.length === 0)
+          )
+            return inputName;
+        });
+
+      if (foundError) {
+        inputFormRef.current[foundError].focus();
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   const logInUser = () => {
-    dispatch(
-      inputFormRef.current &&
-        logIn({
-          accountLogin: inputFormRef.current.emailInputValue,
-          accountPassword: inputFormRef.current.passwordInputValue,
-        })
-    );
+    if (validateForm())
+      dispatch(
+        inputFormRef.current &&
+          logIn({
+            accountLogin: inputFormRef.current.emailInput.input.value,
+            accountPassword: inputFormRef.current.passwordInput.input.value,
+          })
+      );
   };
 
   return (

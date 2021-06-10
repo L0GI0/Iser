@@ -1,24 +1,16 @@
 import React, {
-  useEffect,
+  useRef,
   useState,
-  useImperativeHandle,
+  useEffect,
   forwardRef,
+  useImperativeHandle,
 } from "react";
 import styled from "styled-components";
-import { Observable, Subject, from } from "rxjs";
-import {
-  map,
-  filter,
-  mergeMap,
-  debounceTime,
-  distinctUntilChanged,
-} from "rxjs/operators";
+import { Subject } from "rxjs";
+import { map, debounceTime, distinctUntilChanged } from "rxjs/operators";
 
 import RoundInput from "../../../common/components/RoundInput";
-import {
-  useFormValidator,
-  fieldsNames,
-} from "../../../common/utils/useFormValidator";
+import { useFormValidator } from "../../../common/utils/useFormValidator";
 
 import { ReactComponent as PasswordIcon } from "../../../common/images/pswd-icon.svg";
 import { ReactComponent as MailIcon } from "../../../common/images/mail-icon.svg";
@@ -30,116 +22,140 @@ const FormLabel = styled.h1`
   margin-bottom: 2em;
 `;
 
-const useObservable = (
-  observable: Observable<any>,
-  setter: React.Dispatch<React.SetStateAction<any>>
-) => {
+const useObservable = (observable: any, setter: any) => {
   useEffect(() => {
-    let subscription = observable.subscribe((result) => {
+    let subscription = observable.subscribe((result: any) => {
       setter(result);
     });
-
     return () => subscription.unsubscribe();
-  }, [observable, setter]);
+  }, []);
 };
 
-export interface CredentialsFormRef {
-  emailInputValue: string;
-  passwordInputValue: string;
+export interface InputRef {
+  input: InputState;
+  focus: () => void;
 }
+
+export type CredentialsFormRef = Record<string, InputRef>;
 
 interface CredentialsFormProps {
   labelText: string;
 }
 
-type fieldsErrors = { [key in fieldsNames]: string };
+const validateEmailInput = new Subject();
+const validatePasswordInput = new Subject();
 
-const formFieldInput = new Subject();
-
-const createDebounceObservable = (callbackFunction: any) => {
-  console.log(`Running observable`);
-  return formFieldInput.pipe(
+const createDebounceObservable = (observable: any, callbackFunction: any) => {
+  return observable.pipe(
     debounceTime(750),
+    distinctUntilChanged(),
     map((value) => callbackFunction(value))
   );
 };
 
-// const validateFormObservable = formFieldInput.pipe(
-//   debounceTime(750),
-//   distinctUntilChanged(),
-//   (inputValue) => from("test")
-// );
+const emptyInputState = {
+  value: "",
+  error: "",
+};
+
+type InputState = typeof emptyInputState;
 
 const CredentialsFormInput = forwardRef(
   (
     { labelText }: CredentialsFormProps,
     inputValuesRef: React.Ref<CredentialsFormRef>
   ) => {
-    const [emailInputValue, setEmailInputValue] = useState<string>("");
-    const [passwordInputValue, setPasswordInputValue] = useState<string>("");
-    const [inputFieldsErrors, setInputFieldsErrors] = useState<fieldsErrors>({
-      email: "",
-      password: "",
+    const [emailInput, setEmailInput] = useState<InputState>({
+      ...emptyInputState,
     });
 
-    const { validateEmail } = useFormValidator();
+    const [passwordInput, setPasswordInput] = useState<InputState>({
+      ...emptyInputState,
+    });
 
-    useObservable(
-      createDebounceObservable(validateEmail),
-      setInputFieldsErrors
-    );
-
-    const handleEmailInputValueChange = (newValue: string) => {
-      setEmailInputValue(newValue);
-      formFieldInput.next(newValue);
-    };
-
-    const handlePasswordInputValueChange = (newValue: string) => {
-      setPasswordInputValue(newValue);
-      formFieldInput.next(newValue);
-    };
+    const emailInputField = useRef<HTMLInputElement>(null);
+    const passwordInputField = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-      console.log(`Input fields errors = ${inputFieldsErrors}`);
-    }, [inputFieldsErrors]);
+      emailInputField?.current?.focus();
+    }, []);
+
+    const { validateEmail, validatePassword } = useFormValidator();
+
+    useObservable(
+      createDebounceObservable(validateEmailInput, validateEmail),
+      (emailError: string) => {
+        setEmailInput((prevEmailState: InputState) => {
+          return { ...prevEmailState, error: emailError };
+        });
+      }
+    );
+
+    useObservable(
+      createDebounceObservable(validatePasswordInput, validatePassword),
+      (passwordError: string) => {
+        setPasswordInput((prevPasswordState: InputState) => {
+          return { ...prevPasswordState, error: passwordError };
+        });
+      }
+    );
+
+    const handleEmailInputValueChange = (newEmailValue: string) => {
+      setEmailInput((prevEmailState: InputState) => {
+        return { ...prevEmailState, value: newEmailValue };
+      });
+      validateEmailInput.next(newEmailValue);
+    };
+
+    const handlePasswordInputValueChange = (newPasswordValue: string) => {
+      setPasswordInput((prevPasswordState: InputState) => {
+        return { ...prevPasswordState, value: newPasswordValue };
+      });
+      validatePasswordInput.next(newPasswordValue);
+    };
 
     useImperativeHandle(
       inputValuesRef,
       (): CredentialsFormRef => ({
-        emailInputValue,
-        passwordInputValue,
+        emailInput: {
+          input: emailInput,
+          focus: () => {
+            emailInputField?.current?.focus();
+          },
+        },
+        passwordInput: {
+          input: passwordInput,
+          focus: () => {
+            passwordInputField?.current?.focus();
+          },
+        },
       })
     );
-
-    useEffect(() => {
-      console.log(
-        `Email = ${emailInputValue} | Password = ${passwordInputValue}`
-      );
-    }, [emailInputValue, passwordInputValue]);
 
     return (
       <React.Fragment>
         {labelText ? <FormLabel>{labelText}</FormLabel> : ""}
         <RoundInput
-          errorMessage={inputFieldsErrors.email}
+          value={emailInput.value}
+          errorMessage={emailInput.error}
           placeholder="Adres e-mail"
           type="text"
           postfixIcon={<MailIcon />}
-          value={emailInputValue}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            console.log("Handling input change");
             handleEmailInputValueChange(event.target.value);
           }}
+          inputRef={emailInputField}
         />
         <RoundInput
+          value={passwordInput.value}
+          errorMessage={passwordInput.error}
           placeholder="Hasło"
           type="password"
           postfixIcon={<PasswordIcon />}
-          value={passwordInputValue}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            console.log("Handling input change");
             handlePasswordInputValueChange(event.target.value);
           }}
+          inputRef={passwordInputField}
         />
       </React.Fragment>
     );
