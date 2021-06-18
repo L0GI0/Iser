@@ -3,11 +3,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface accountInitialStateParams {
   accessToken: string | null;
   isLoggingIn: boolean;
+  role: string;
 }
 
 const accountInitialState: accountInitialStateParams = {
   accessToken: null,
   isLoggingIn: false,
+  role: "admin",
 };
 
 interface logInPayload {
@@ -23,8 +25,9 @@ const accountSlice = createSlice({
       state.isLoggingIn = true;
     },
 
-    logInDone(state): void {
-      state.accessToken = "loggedIn";
+    logInDone(state, action: PayloadAction<any>): void {
+      console.log(`Action payload = ${action.payload.accessToken}`);
+      state.accessToken = action.payload.accessToken;
       state.isLoggingIn = false;
     },
 

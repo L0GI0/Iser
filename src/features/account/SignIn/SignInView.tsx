@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Typography from "@material-ui/core/Typography";
 
 import { logIn } from "../store/accountSlice";
-
 import TwoSectionsLayout from "../../../common/components/TwoSectionsLayout";
 import {
   WhiteSection,
@@ -13,14 +13,12 @@ import {
 } from "../../../common/components/styledElements";
 import CredentialsFromInput, {
   CredentialsFormRef,
-  InputRef,
 } from "../components/CredentialsFormInput";
 import { AccountForm, GreyRedirectLink } from "../components/styledElements";
 import RoundButton from "../../../common/components/RoundButton";
 import CheckboxInput from "../../../common/components/CheckboxInput";
 import InfoContent from "../components/InfoContent";
-import Typography from "@material-ui/core/Typography";
-import { InputProps } from "@material-ui/core";
+import { RootState } from "../../../rootStore/rootReducer";
 
 const RememberMeContainer = styled.div`
   display: flex;
@@ -40,44 +38,34 @@ const ForgotPasswordTip = styled(Typography).attrs({
   width: 100%;
 `;
 
-interface IterableInputForm {
-  [s: string]: InputRef;
-}
-
 const SignInForm: React.FC = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const inputFormRef = useRef<CredentialsFormRef>(null);
+  const accessToken = useSelector(
+    (state: RootState) => state.accountReducer.accessToken
+  );
 
-  const validateForm = (): boolean => {
-    if (inputFormRef.current) {
-      const foundError: keyof typeof inputFormRef.current | undefined =
-        Object.keys(inputFormRef.current).find((inputName) => {
-          if (
-            inputFormRef.current &&
-            (inputFormRef.current[inputName].input.error.length > 0 ||
-              inputFormRef.current[inputName].input.value.length === 0)
-          )
-            return inputName;
-        });
-
-      if (foundError) {
-        inputFormRef.current[foundError].focus();
-        return false;
-      }
-    }
-
-    return true;
+  const redirectToDashboard = () => {
+    history.push("/dashboard");
   };
 
+  useEffect(() => {
+    console.log(`Current access token = ${accessToken}`);
+  }, []);
+
   const logInUser = () => {
-    if (validateForm())
+    if (inputFormRef.current?.validateForm()) {
       dispatch(
         inputFormRef.current &&
           logIn({
-            accountLogin: inputFormRef.current.emailInput.input.value,
-            accountPassword: inputFormRef.current.passwordInput.input.value,
+            accountLogin: inputFormRef.current.inputs.emailInput.value,
+            accountPassword: inputFormRef.current.inputs.passwordInput.value,
           })
       );
+      redirectToDashboard();
+    }
   };
 
   return (

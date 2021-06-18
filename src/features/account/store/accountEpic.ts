@@ -40,7 +40,7 @@ export const logInEpic: Epic<AllLogInActions, AllLogInActions, RootState> = (
         .post(`auth/login`, { email, password })
         .pipe(
           concatMap((ajaxResponse) => {
-            return of(logInDone());
+            return of(logInDone(ajaxResponse.response));
           }),
           catchError((error) => {
             return of(logInFail());

@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
+import Typography from "@material-ui/core/Typography";
 
 import TwoSectionsLayout from "../../../common/components/TwoSectionsLayout";
 import { LineSeparator } from "../../../common/components/styledElements";
@@ -9,11 +10,11 @@ import {
   NavyBlueBubbledSection,
 } from "../../../common/components/styledElements";
 import CredentialsFromInput from "../components/CredentialsFormInput";
-import { FormSectionContent, AccountForm } from "../components/styledElements";
+import { AccountForm } from "../components/styledElements";
 import RoundButton from "../../../common/components/RoundButton";
 import CheckboxInput from "../../../common/components/CheckboxInput";
 import InfoContent from "../components/InfoContent";
-import Typography from "@material-ui/core/Typography";
+import { CredentialsFormRef } from "../components/CredentialsFormInput";
 
 const RegistrationTerms = styled(Typography).attrs({
   variant: "body1",
@@ -27,16 +28,27 @@ const RegistrationTerms = styled(Typography).attrs({
 `;
 
 const SignUpForm: React.FC = () => {
-  const inputFormRef = useRef(null);
+  const inputFormRef = useRef<CredentialsFormRef>(null);
+
+  const signUpUser = (): void => {
+    if (inputFormRef.current?.validateForm()) console.log("Form passed");
+    // dispatch(
+    //   inputFormRef.current &&
+    //     logIn({
+    //       accountLogin: inputFormRef.current.inputs.emailInput.value,
+    //       accountPassword: inputFormRef.current.inputs.passwordInput.value,
+    //     })
+    // );
+  };
 
   return (
     <AccountForm onSubmit={() => console.log("test")}>
       <CredentialsFromInput labelText="Rejestracja" ref={inputFormRef} />
       <RoundButton
-        type="submit"
         text="Załóż darmowe konto"
         style={{ width: "100%", marginTop: "3em" }}
         color="primary"
+        onClick={signUpUser}
       />
     </AccountForm>
   );
@@ -45,26 +57,22 @@ const SignUpForm: React.FC = () => {
 const SignUpRightSection: React.FC = () => {
   return (
     <WhiteSection>
-      <FormSectionContent
-        style={{ justifyContent: "flex-start", marginTop: "5em" }}
-      >
-        <SignUpForm />
-        <LineSeparator>LUB</LineSeparator>
-        <RoundButton
-          text="Zaloguj sie z kontem Google"
-          style={{ width: "100%", marginBottom: "3em" }}
-          color="primary"
-        />
-        <CheckboxInput
-          promptText={
-            "Zapisuje się do newslettera i chcę otrzymywać najnowsze treści"
-          }
-        />
-        <RegistrationTerms>
-          Rejestrując się potwierdzasz, że zapoznałeś się z regulaminem oraz
-          akceptujesz jego warunki.
-        </RegistrationTerms>
-      </FormSectionContent>
+      <SignUpForm />
+      <LineSeparator>LUB</LineSeparator>
+      <RoundButton
+        text="Zaloguj sie z kontem Google"
+        color="primary"
+        style={{ width: "100%", marginBottom: "3em" }}
+      />
+      <CheckboxInput
+        promptText={
+          "Zapisuje się do newslettera i chcę otrzymywać najnowsze treści"
+        }
+      />
+      <RegistrationTerms>
+        Rejestrując się potwierdzasz, że zapoznałeś się z regulaminem oraz
+        akceptujesz jego warunki.
+      </RegistrationTerms>
     </WhiteSection>
   );
 };

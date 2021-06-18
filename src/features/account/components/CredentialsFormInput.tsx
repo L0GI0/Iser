@@ -6,7 +6,7 @@ import React, {
   useImperativeHandle,
 } from "react";
 import styled from "styled-components";
-import { Subject } from "rxjs";
+import { Subject, Observable } from "rxjs";
 import { map, debounceTime, distinctUntilChanged } from "rxjs/operators";
 
 import RoundInput from "../../../common/components/RoundInput";
@@ -22,7 +22,7 @@ const FormLabel = styled.h1`
   margin-bottom: 2em;
 `;
 
-const useObservable = (observable: any, setter: any) => {
+const useObservable = (observable: Observable<any>, setter: any) => {
   useEffect(() => {
     let subscription = observable.subscribe((result: any) => {
       setter(result);
@@ -31,12 +31,17 @@ const useObservable = (observable: any, setter: any) => {
   }, []);
 };
 
-export interface InputRef {
-  input: InputState;
-  focus: () => void;
-}
+const emptyInputState = {
+  value: "",
+  error: "",
+};
 
-export type CredentialsFormRef = Record<string, InputRef>;
+type InputState = typeof emptyInputState;
+
+export interface CredentialsFormRef {
+  inputs: { [key: string]: InputState };
+  validateForm: () => boolean;
+}
 
 interface CredentialsFormProps {
   labelText: string;
@@ -52,13 +57,6 @@ const createDebounceObservable = (observable: any, callbackFunction: any) => {
     map((value) => callbackFunction(value))
   );
 };
-
-const emptyInputState = {
-  value: "",
-  error: "",
-};
-
-type InputState = typeof emptyInputState;
 
 const CredentialsFormInput = forwardRef(
   (
@@ -114,21 +112,45 @@ const CredentialsFormInput = forwardRef(
       validatePasswordInput.next(newPasswordValue);
     };
 
+    const validateForm = (): boolean => {
+      const formInputStates = [
+        {
+          input: emailInput,
+          focus: () => {
+            emailInputField.current?.focus();
+          },
+        },
+        {
+          input: passwordInput,
+          focus: () => {
+            passwordInputField.current?.focus();
+          },
+        },
+      ];
+
+      const foundInputError =
+        formInputStates.find(
+          (formInput) =>
+            formInput.input.error.length > 0 ||
+            formInput.input.value.length === 0
+        ) || null;
+
+      if (foundInputError) {
+        foundInputError.focus();
+        return false;
+      }
+
+      return true;
+    };
+
     useImperativeHandle(
       inputValuesRef,
       (): CredentialsFormRef => ({
-        emailInput: {
-          input: emailInput,
-          focus: () => {
-            emailInputField?.current?.focus();
-          },
+        inputs: {
+          emailInput: emailInput,
+          passwordInput: passwordInput,
         },
-        passwordInput: {
-          input: passwordInput,
-          focus: () => {
-            passwordInputField?.current?.focus();
-          },
-        },
+        validateForm,
       })
     );
 

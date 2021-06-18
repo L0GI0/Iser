@@ -5,7 +5,7 @@ type TranslateType = {
   loading: boolean;
 };
 
-const RedirectionSpinnerContainer = styled.div`
+export const RedirectionSpinnerContainer = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
