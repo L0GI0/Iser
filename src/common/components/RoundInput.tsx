@@ -30,6 +30,10 @@ const TextInput = styled(TextField)`
     }
     border-color: ${(props) =>
       props.error ? "#ff0f0f" : "rgba(92, 58, 252, 255)"};
+
+    .MuiFormLabel-root {
+      color: ${(props) => (props.error ? "#ff0f0f" : "rgba(92, 58, 252, 255)")};
+    }
   }
 
   &&:focus-within {

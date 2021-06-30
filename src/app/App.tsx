@@ -30,17 +30,42 @@ const theme = createMuiTheme({
   },
 });
 
-interface PrivateRouteProps {
-  component: any;
-  [k: string]: any;
+interface AuthRouteProps {
+  Component: React.FC<any>;
+  path: string;
+  exact?: boolean;
+  requiredRoles: string[];
 }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({
-  component: Component,
+const allRoutes = {
+  signIn: "/signin",
+  signUp: "/signup",
+  dashboard: "/dashboard",
+};
+
+interface UserRoles {
+  admin: {
+    landingPage: typeof allRoutes[keyof typeof allRoutes];
+  };
+}
+
+const userRoles: UserRoles = {
+  admin: {
+    landingPage: allRoutes.dashboard,
+  },
+};
+
+const AuthRoute = ({
+  Component,
   path,
-  ...props
-}) => {
+  exact = false,
+  requiredRoles,
+}: AuthRouteProps): JSX.Element => {
   const isLoggingIn = useSelector(
+    (state: RootState) => state.accountReducer.isLoggingIn
+  );
+
+  const userRole = useSelector(
     (state: RootState) => state.accountReducer.isLoggingIn
   );
 
@@ -49,7 +74,6 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   return (
     <PageLoadingWrapper loading={isLoggingIn}>
       <Route
-        {...props}
         path={path}
         render={(props) => {
           if (isAuthorized) {
@@ -80,10 +104,11 @@ function App() {
             <Switch>
               <Route path="/signin" component={SignInView} />
               <Route path="/signup" component={SignUpView} />
-              <PrivateRoute
+              <AuthRoute
                 path="/dashboard"
-                component={DashboardView}
-              ></PrivateRoute>
+                Component={DashboardView}
+                requiredRoles={["admin"]}
+              ></AuthRoute>
               <Redirect exact to="/signin" />
             </Switch>
           </div>
