@@ -9,11 +9,11 @@ import styled from "styled-components";
 import { Subject, Observable } from "rxjs";
 import { map, debounceTime, distinctUntilChanged } from "rxjs/operators";
 
-import RoundInput from "../../../common/components/RoundInput";
-import { useFormValidator } from "../../../common/utils/useFormValidator";
+import RoundInput from "common/components/RoundInput";
+import { useFormValidator } from "common/utils/useFormValidator";
 
-import { ReactComponent as PasswordIcon } from "../../../common/images/pswd-icon.svg";
-import { ReactComponent as MailIcon } from "../../../common/images/mail-icon.svg";
+import { ReactComponent as PasswordIcon } from "common/images/pswd-icon.svg";
+import { ReactComponent as MailIcon } from "common/images/mail-icon.svg";
 
 const FormLabel = styled.h1`
   font-size: 30px;

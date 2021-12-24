@@ -1,20 +1,23 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
+import { CircularProgress } from '@material-ui/core'
 
-import TwoSectionsLayout from "../../../common/components/TwoSectionsLayout";
-import { LineSeparator } from "../../../common/components/styledElements";
+import TwoSectionsLayout from "common/components/TwoSectionsLayout";
+import { LineSeparator } from "common/components/styledElements";
 import {
   WhiteSection,
   NavyBlueBubbledSection,
-} from "../../../common/components/styledElements";
+} from "common/components/styledElements";
 import CredentialsFromInput from "../components/CredentialsFormInput";
 import { AccountForm } from "../components/styledElements";
-import RoundButton from "../../../common/components/RoundButton";
-import CheckboxInput from "../../../common/components/CheckboxInput";
+import RoundButton from "common/components/RoundButton";
+import CheckboxInput from "common/components/CheckboxInput";
 import InfoContent from "../components/InfoContent";
 import { CredentialsFormRef } from "../components/CredentialsFormInput";
+import { signUp } from '../store/accountSlice'
 
 const RegistrationTerms = styled(Typography).attrs({
   variant: "body1",
@@ -27,18 +30,23 @@ const RegistrationTerms = styled(Typography).attrs({
   }
 `;
 
-const SignUpForm: React.FC = () => {
-  const inputFormRef = useRef<CredentialsFormRef>(null);
 
+const SignUpForm: React.FC = () => {
+
+  const inputFormRef = useRef<CredentialsFormRef>(null);
+  const isFetching = useState<boolean>(false);
+  const dispatch = useDispatch();
+  
   const signUpUser = (): void => {
-    if (inputFormRef.current?.validateForm()) console.log("Form passed");
-    // dispatch(
-    //   inputFormRef.current &&
-    //     logIn({
-    //       accountLogin: inputFormRef.current.inputs.emailInput.value,
-    //       accountPassword: inputFormRef.current.inputs.passwordInput.value,
-    //     })
-    // );
+    if (inputFormRef.current?.validateForm()) {
+      dispatch(
+        inputFormRef.current &&
+          signUp({
+            accountLogin: inputFormRef.current.inputs.emailInput.value,
+            accountPassword: inputFormRef.current.inputs.passwordInput.value,
+          })
+      );
+    }
   };
 
   return (

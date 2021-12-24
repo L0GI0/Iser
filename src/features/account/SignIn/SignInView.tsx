@@ -5,20 +5,20 @@ import { useDispatch, useSelector } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 
 import { logIn } from "../store/accountSlice";
-import TwoSectionsLayout from "../../../common/components/TwoSectionsLayout";
+import TwoSectionsLayout from "common/components/TwoSectionsLayout";
 import {
   WhiteSection,
   NavyBlueBubbledSection,
   LineSeparator,
-} from "../../../common/components/styledElements";
+} from "common/components/styledElements";
 import CredentialsFromInput, {
   CredentialsFormRef,
 } from "../components/CredentialsFormInput";
 import { AccountForm, GreyRedirectLink } from "../components/styledElements";
-import RoundButton from "../../../common/components/RoundButton";
-import CheckboxInput from "../../../common/components/CheckboxInput";
+import RoundButton from "common/components/RoundButton";
+import CheckboxInput from "common/components/CheckboxInput";
 import InfoContent from "../components/InfoContent";
-import { RootState } from "../../../rootStore/rootReducer";
+import { RootState } from "rootStore/rootReducer";
 
 const RememberMeContainer = styled.div`
   display: flex;

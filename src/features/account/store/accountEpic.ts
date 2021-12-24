@@ -9,11 +9,14 @@ import {
   logIn,
   logInDone,
   logInFail,
+  signUp,
+  signUpDone,
+  signUpFail,
   accountState,
   accountActionCreators,
 } from "./accountSlice";
-import { RootState } from "../../../rootStore/rootReducer";
-import { ajaxApi } from "../../../common/api/ajaxApi";
+import { RootState } from "rootStore/rootReducer";
+import { ajaxApi } from "common/api/ajaxApi";
 
 type ActionFromCreator<C extends ActionCreator<unknown>> = ReturnType<C>;
 
@@ -22,20 +25,23 @@ export type ActionFromCaseReducerActions<R extends CaseReducerRecord> =
   ActionFromCreator<R[keyof R]>;
 
 type LogInAction = ActionFromCreator<typeof logIn>;
-type LogInCallbackAction = ActionFromCreator<
+type LogInCallbackActions = ActionFromCreator<
   typeof logInDone | typeof logInFail
 >;
 
-type AllLogInActions = LogInAction | LogInCallbackAction;
+type AllLogInActions = LogInAction | LogInCallbackActions; /* this should be intersecftion not unon !?*/
 
+/* Input Stream Type, Output Stream Type, State related to the Epic dispatch */
 export const logInEpic: Epic<AllLogInActions, AllLogInActions, RootState> = (
   action$,
   state$
 ) =>
   action$.pipe(
-    ofType<AllLogInActions, LogInAction>(logIn.type),
-    mergeMap(() => {
-      const { email, password } = { email: "bob@email.com", password: "bob" };
+    /* All possible actions your app can dispatch, The types you want to filter for, The resulting action that match the above types*/
+    ofType<AllLogInActions, typeof logIn.type, LogInCallbackActions>(logIn.type),
+    mergeMap((action) => {
+      console.log(`Action payload = ${action?.payload?.error}`)
+      const { email, password } = { email: action?.payload?.accountLogin, password: action?.payload?.accountPassword };
       return ajaxApi(state$)
         .post(`auth/login`, { email, password })
         .pipe(
@@ -43,14 +49,42 @@ export const logInEpic: Epic<AllLogInActions, AllLogInActions, RootState> = (
             return of(logInDone(ajaxResponse.response));
           }),
           catchError((error) => {
-            return of(logInFail());
+            return of(logInFail(error));
           })
         );
     })
   );
 
+type SignUpAction = ActionFromCreator<typeof signUp>;
+type SignUpCallbackActions = ActionFromCreator<typeof signUpDone | typeof signUpFail>;
+type AllSignUpActions = SignUpAction | SignUpCallbackActions;
+
+/* Input Stream Type, Output Stream Type, State related to the Epic dispatch */
+  export const signUpEpic: Epic<AllSignUpActions, AllSignUpActions, RootState> = (
+    action$,
+    state$
+  ) =>
+    action$.pipe(
+      /* All possible actions your app can dispatch, The types you want to filter for, The resulting action that match the above types*/
+      ofType<AllSignUpActions, typeof signUp.type, SignUpCallbackActions>(signUp.type),
+      mergeMap((action) => {
+        console.log('SIGN UP EPIC!')
+        const { email, password } = { email: action?.payload?.accountLogin, password: action?.payload?.accountPassword };
+        return ajaxApi(state$)
+          .post(`users`, { email, password })
+          .pipe(
+            concatMap((ajaxResponse) => {
+              return of(logInDone(ajaxResponse.response));
+            }),
+            catchError((error) => {
+              return of(logInFail(error));
+            })
+          );
+      })
+    );  
+
 export type AccountEpicActions = ActionFromCaseReducerActions<
   typeof accountActionCreators
 >;
 
-export const accountEpic = combineEpics(logInEpic);
+export const accountEpic = combineEpics(logInEpic, signUpEpic);

@@ -1,7 +1,7 @@
 import { ajax, AjaxResponse } from "rxjs/ajax";
 import { Observable } from "rxjs/index";
 import { StateObservable } from "redux-observable";
-import { RootState } from "../../rootStore/rootReducer";
+import { RootState } from "rootStore/rootReducer";
 
 export const apiUrl =
   process.env.REACT_APP_API_URL || "http://localhost:5000/api/";
@@ -12,13 +12,13 @@ type ApiBodyCall = (
   endpoint: string,
   body?: Record<string, unknown>,
   headers?: Record<string, unknown>
-) => Observable<AjaxResponse>;
+) => Observable<AjaxResponse<any>>;
 
 type ApiBodylessCall = (
   endpoint: string,
   headers?: Record<string, unknown>,
   responseType?: ResponseType
-) => Observable<AjaxResponse>;
+) => Observable<AjaxResponse<any>>;
 
 export interface ApiAjaxCreationMethod {
   (
@@ -27,7 +27,7 @@ export interface ApiAjaxCreationMethod {
     body?: Record<string, unknown>,
     headers?: Record<string, unknown>,
     responseType?: ResponseType
-  ): Observable<AjaxResponse>;
+  ): Observable<AjaxResponse<any>>;
   get: ApiBodylessCall;
   post: ApiBodyCall;
   put: ApiBodyCall;

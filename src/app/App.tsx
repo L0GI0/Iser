@@ -11,11 +11,11 @@ import {
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 
-import { RootState } from "../rootStore/rootReducer";
-import PageLoadingWrapper from "../common/components/PageLoadingWrapper";
-import SignInView from "../features/account/SignIn/SignInView";
-import SignUpView from "../features/account/SignUp/SignUpView";
-import DashboardView from "../features/supervision/Manage/DashboardView";
+import { RootState } from "rootStore/rootReducer";
+import PageLoadingWrapper from "common/components/PageLoadingWrapper";
+import SignInView from "features/account/SignIn/SignInView";
+import SignUpView from "features/account/SignUp/SignUpView";
+import DashboardView from "features/supervision/Manage/DashboardView";
 
 import "./App.css";
 

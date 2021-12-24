@@ -1,5 +1,5 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import accountReducer from "../features/account/store/accountSlice";
+import accountReducer from "features/account/store/accountSlice";
 
 export const combinedReducer = combineReducers({
   accountReducer,
