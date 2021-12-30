@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Typography from "@material-ui/core/Typography";
+import Typography from "@mui/material/Typography";
 
 import { logIn } from "../store/accountSlice";
 import TwoSectionsLayout from "common/components/TwoSectionsLayout";

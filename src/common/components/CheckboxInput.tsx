@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import Checkbox from "@material-ui/core/Checkbox";
-import Typography from "@material-ui/core/Typography";
+import Checkbox from "@mui/material/Checkbox";
+import Typography from "@mui/material/Typography";
 
 const CheckboxInputContainer = styled.div`
   display: flex;

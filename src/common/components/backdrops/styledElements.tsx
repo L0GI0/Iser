@@ -1,7 +1,7 @@
-import { Backdrop } from "@material-ui/core"
+import { Backdrop } from "@mui/material"
 import styled from 'styled-components'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { withTheme } from "@material-ui/core/styles"
+import { withTheme } from "@mui/styles"
 
 export const LimitedBackdrop = styled(Backdrop)`
   &.MuiBackdrop-root {

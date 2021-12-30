@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { TextField, InputAdornment, InputProps } from "@material-ui/core";
+import { TextField, InputAdornment, InputProps } from "@mui/material";
 import React from "react";
 import { TextFieldProps } from "material-ui";
-import { withTheme } from "@material-ui/core/styles"
+import { withTheme } from "@mui/styles"
 
 const TextInput = withTheme(styled(TextField)`
   && {

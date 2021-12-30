@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import Typography from "@material-ui/core/Typography";
-import { withTheme } from "@material-ui/core/styles"
+import Typography from "@mui/material/Typography";
+import { withTheme } from "@mui/styles"
 
 
 export const FormSectionContent = styled.div`

@@ -8,7 +8,7 @@ import {
   useRouteMatch,
   useLocation,
 } from "react-router-dom";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { SnackbarProvider } from "notistack";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 
@@ -20,13 +20,13 @@ import DashboardView from "features/supervision/Manage/DashboardView";
 
 import "./App.css";
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     primary: {
-      main: "rgba(92, 58, 252, 255)",
+      main: 'rgba(92, 58, 252, 255)',
     },
     secondary: {
-      main: "rgba(110,96,255,255)",
+      main: 'rgba(110,96,255,255)',
     },
   },
 });

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { BackdropProps } from "@material-ui/core";
+import { BackdropProps } from "material-ui-core";
 import { LimitedBackdrop, SuccessIcon } from "./styledElements";
 import RoundButton from '../RoundButton'
 
