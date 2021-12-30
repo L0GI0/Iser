@@ -9,6 +9,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import { SnackbarProvider } from "notistack";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 
 import { RootState } from "rootStore/rootReducer";
@@ -98,6 +99,7 @@ const ErrorFallback: React.FC<FallbackProps> = ({ resetErrorBoundary }) => {
 function App() {
   return (
     <ThemeProvider theme={theme}>
+      <SnackbarProvider maxSnack={3}>
       <Router basename="/">
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <div className="App">
@@ -114,6 +116,7 @@ function App() {
           </div>
         </ErrorBoundary>
       </Router>
+      </SnackbarProvider>
     </ThemeProvider>
   );
 }

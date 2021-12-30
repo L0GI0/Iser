@@ -26,13 +26,13 @@ const useObservable = (observable: Observable<any>, setter: any) => {
   useEffect(() => {
     let subscription = observable.subscribe((result: any) => {
       setter(result);
-    });
+  });
     return () => subscription.unsubscribe();
   }, []);
 };
 
 const emptyInputState = {
-  value: "",
+  value: "testEmail@gmail.com",
   error: "",
 };
 
@@ -45,6 +45,7 @@ export interface CredentialsFormRef {
 
 interface CredentialsFormProps {
   labelText: string;
+  disableAutofocus?: boolean;
 }
 
 const validateEmailInput = new Subject();
@@ -60,7 +61,7 @@ const createDebounceObservable = (observable: any, callbackFunction: any) => {
 
 const CredentialsFormInput = forwardRef(
   (
-    { labelText }: CredentialsFormProps,
+    { labelText, disableAutofocus = false}: CredentialsFormProps,
     inputValuesRef: React.Ref<CredentialsFormRef>
   ) => {
     const [emailInput, setEmailInput] = useState<InputState>({
@@ -75,8 +76,8 @@ const CredentialsFormInput = forwardRef(
     const passwordInputField = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-      emailInputField?.current?.focus();
-    }, []);
+      !disableAutofocus && emailInputField?.current?.focus();
+    }, [disableAutofocus]);
 
     const { validateEmail, validatePassword } = useFormValidator();
 

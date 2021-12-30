@@ -1,14 +1,15 @@
-import React, { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
-import { CircularProgress } from '@material-ui/core'
+import { VariantType, useSnackbar } from 'notistack';
 
 import TwoSectionsLayout from "common/components/TwoSectionsLayout";
 import { LineSeparator } from "common/components/styledElements";
+
 import {
-  WhiteSection,
+WhiteSection,
   NavyBlueBubbledSection,
 } from "common/components/styledElements";
 import CredentialsFromInput from "../components/CredentialsFormInput";
@@ -16,8 +17,13 @@ import { AccountForm } from "../components/styledElements";
 import RoundButton from "common/components/RoundButton";
 import CheckboxInput from "common/components/CheckboxInput";
 import InfoContent from "../components/InfoContent";
+import LoadingBackdrop from "common/components/backdrops/LoadingBackdrop";
+import ResultBackdrop from "common/components/backdrops/ResultBackdrop";
+
 import { CredentialsFormRef } from "../components/CredentialsFormInput";
-import { signUp } from '../store/accountSlice'
+import { signUp, clearRequestStatus } from '../store/accountSlice'
+import { RootState } from "rootStore/rootReducer";
+
 
 const RegistrationTerms = styled(Typography).attrs({
   variant: "body1",
@@ -30,11 +36,19 @@ const RegistrationTerms = styled(Typography).attrs({
   }
 `;
 
-
 const SignUpForm: React.FC = () => {
 
+  const { enqueueSnackbar } = useSnackbar();
+
+  const isFetching = useSelector(
+    (state: RootState) => state.accountReducer.isFetching
+  );
+
+  const signUpStatus = useSelector(
+    (state: RootState) => state.accountReducer.requestStatus
+  );
+
   const inputFormRef = useRef<CredentialsFormRef>(null);
-  const isFetching = useState<boolean>(false);
   const dispatch = useDispatch();
   
   const signUpUser = (): void => {
@@ -49,23 +63,35 @@ const SignUpForm: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    console.log(`Use EFFECT RUN`);
+    if(signUpStatus){
+      enqueueSnackbar('Test snackbar', { variant: 'info'})
+      return
+    }
+  }, [signUpStatus, enqueueSnackbar])
+
   return (
-    <AccountForm onSubmit={() => console.log("test")}>
-      <CredentialsFromInput labelText="Rejestracja" ref={inputFormRef} />
-      <RoundButton
-        text="Załóż darmowe konto"
-        style={{ width: "100%", marginTop: "3em" }}
-        color="primary"
-        onClick={signUpUser}
-      />
-    </AccountForm>
+      <AccountForm onSubmit={() => console.log("test")}>
+        <LoadingBackdrop open={isFetching}>
+          <ResultBackdrop open={!!signUpStatus} resultText='Registration complete' onClose={() => dispatch(clearRequestStatus())}>
+            <CredentialsFromInput labelText="Rejestracja" disableAutofocus ref={inputFormRef} />
+            <RoundButton
+              text="Załóż darmowe konto"
+              style={{ width: "100%", marginTop: "3em" }}
+              color="primary"
+              onClick={signUpUser}/>
+          </ResultBackdrop>
+        </LoadingBackdrop>
+      </AccountForm>
+
   );
 };
 
 const SignUpRightSection: React.FC = () => {
   return (
     <WhiteSection>
-      <SignUpForm />
+      <SignUpForm/>
       <LineSeparator>LUB</LineSeparator>
       <RoundButton
         text="Zaloguj sie z kontem Google"

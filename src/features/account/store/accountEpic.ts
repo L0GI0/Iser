@@ -14,6 +14,7 @@ import {
   signUpFail,
   accountState,
   accountActionCreators,
+  asyncActionCreators
 } from "./accountSlice";
 import { RootState } from "rootStore/rootReducer";
 import { ajaxApi } from "common/api/ajaxApi";
@@ -29,7 +30,7 @@ type LogInCallbackActions = ActionFromCreator<
   typeof logInDone | typeof logInFail
 >;
 
-type AllLogInActions = LogInAction | LogInCallbackActions; /* this should be intersecftion not unon !?*/
+type AllLogInActions = LogInAction | LogInCallbackActions;
 
 /* Input Stream Type, Output Stream Type, State related to the Epic dispatch */
 export const logInEpic: Epic<AllLogInActions, AllLogInActions, RootState> = (
@@ -74,17 +75,17 @@ type AllSignUpActions = SignUpAction | SignUpCallbackActions;
           .post(`users`, { email, password })
           .pipe(
             concatMap((ajaxResponse) => {
-              return of(logInDone(ajaxResponse.response));
+              return of(signUpDone(ajaxResponse.response));
             }),
             catchError((error) => {
-              return of(logInFail(error));
+              return of(signUpFail(error));
             })
           );
       })
     );  
 
 export type AccountEpicActions = ActionFromCaseReducerActions<
-  typeof accountActionCreators
+  typeof asyncActionCreators
 >;
 
 export const accountEpic = combineEpics(logInEpic, signUpEpic);

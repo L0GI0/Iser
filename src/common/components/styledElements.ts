@@ -3,6 +3,7 @@ import BubbledBackground from "../images/bgg.png";
 
 export const WhiteSection = styled.section`
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;

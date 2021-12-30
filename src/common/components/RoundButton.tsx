@@ -14,7 +14,8 @@ const ButtonContainer = styled(Button)<ButtonStyleProps>`
   &.MuiButton-root {
     border-radius: 5em;
     margin: 1em 0;
-    transition: all 0.5s;
+    transition-property: background, box-shadow;
+    transition-duration: .2s;
     box-shadow: ${(props) =>
       props.color === "primary"
         ? "0px 10px 10px rgba(92, 58, 252, 0.5)"
