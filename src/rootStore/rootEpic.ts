@@ -9,14 +9,5 @@ export const rootEpic = combineEpics(accountEpic);
 
 type EpicMiddlewareRoot = AccountEpicActions;
 
-// type EpicMiddlewareRoot =
-//   | DashboardEpicsAction
-//   | DocumentsEpicsAction
-//   | PermitsEpicsAction
-//   | UsersEpicsAction
-//   | CurrentSessionEpicsAction
-//   | LabelsEpicsAction
-//   | UserRegistrationEpicsAction;
-
 export const epicMiddleware =
   createEpicMiddleware<EpicMiddlewareRoot, EpicMiddlewareRoot, RootState>();

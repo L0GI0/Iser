@@ -8,10 +8,10 @@ const SpinBlur = styled.div<BackdropProps>`
   opacity: ${(props) => props.open ? '.3': '1'};
 `
 
-const LoadingBackdrop: React.FC<BackdropProps> = ({open, children}) => {
+const LoadingBackdrop: React.FC<BackdropProps> = ({open, children, ...props}) => {
   return (
     <React.Fragment>
-        <LimitedBackdrop open={open}>
+        <LimitedBackdrop open={open} {...props}>
             <CircularProgress />
         </LimitedBackdrop>
         <SpinBlur open={open}>

@@ -7,7 +7,7 @@ import storage from "redux-persist/lib/storage";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["accountReducer"],
+  whitelist: ["accountReducer", 'notifiersReducer'],
 };
 
 const persistedReducer = persistReducer(persistConfig, combinedReducer);
@@ -17,6 +17,7 @@ const store = configureStore({
   middleware: [
     ...getDefaultMiddleware({
       thunk: false,
+      serializableCheck: false
     }),
     epicMiddleware,
   ],
@@ -25,5 +26,7 @@ const store = configureStore({
 epicMiddleware.run(rootEpic);
 
 export default store;
+
+export type AppDispatch = typeof store.dispatch;
 
 export const persistor = persistStore(store);

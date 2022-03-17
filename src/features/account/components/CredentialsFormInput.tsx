@@ -157,7 +157,7 @@ const CredentialsFormInput = forwardRef(
 
     return (
       <React.Fragment>
-        {labelText ? <FormLabel>{labelText}</FormLabel> : ""}
+        {labelText && <FormLabel>{labelText}</FormLabel>}
         <RoundInput
           value={emailInput.value}
           errorMessage={emailInput.error}

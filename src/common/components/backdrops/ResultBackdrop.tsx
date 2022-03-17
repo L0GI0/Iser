@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { BackdropProps } from "material-ui-core";
-import { LimitedBackdrop, SuccessIcon } from "./styledElements";
+import { BorderFlexLimitedBackdrop, SuccessIcon, ResultHeader, InformationIcon, AppWarningIcon, ErrorIcon } from "./styledElements";
 import RoundButton from '../RoundButton'
 
 
@@ -9,22 +9,46 @@ const ResultBlur = styled.div<BackdropProps>`
   opacity: ${(props) => props.open ? '0': '1'};
 ` 
 
-interface ResultBackdropProps {
-    onClose: () => void,
-    resultText: string
+export type ResultVariant = 'success' | 'info' | 'warning' | 'error' ;
+
+export const RESULT_VARIANTS: Record<ResultVariant, ResultVariant> = {
+    success: 'success',
+    info: 'info',
+    warning: 'warning',
+    error: 'error'
 }
 
-const ResultBackdrop: React.FC<BackdropProps & ResultBackdropProps> = (props) => {
+interface ResultBackdropProps {
+    resultText: string,
+    variant?: ResultVariant,
+    onClose: () => void,
+}
 
-    const {open, resultText, onClose, children } = props 
+const getVariant = (variant: ResultVariant): React.ReactElement => {
+    if(variant === 'success')
+        return <SuccessIcon/>
     
+    if(variant === 'info')
+        return <InformationIcon/>
+
+    if(variant === 'warning')
+        return <AppWarningIcon/>
+    
+    if(variant === 'error')
+        return <ErrorIcon/>
+
+    return <InformationIcon/>
+}
+
+const ResultBackdrop: React.FC<BackdropProps & ResultBackdropProps> = ({open, variant = 'info', resultText, onClose, children, ...props}) => {
+
     return (
     <React.Fragment>
-        <LimitedBackdrop {...props} open={open}>
-            <SuccessIcon/>
-                { resultText }
+        <BorderFlexLimitedBackdrop {...props} open={open}>
+            {getVariant(variant)}
+            <ResultHeader> {resultText} </ResultHeader>
             <RoundButton text="Close" onClick={onClose} color="primary"/>
-        </LimitedBackdrop>
+        </BorderFlexLimitedBackdrop>
         <ResultBlur open={open}>
             {children}
         </ResultBlur>

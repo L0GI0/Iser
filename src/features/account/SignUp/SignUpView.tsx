@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
@@ -12,16 +12,20 @@ import {
 WhiteSection,
   NavyBlueBubbledSection,
 } from "common/components/styledElements";
-import { AccountForm } from "../components/styledElements";
 import RoundButton from "common/components/RoundButton";
 import CheckboxInput from "common/components/CheckboxInput";
-import InfoContent from "../components/InfoContent";
 import LoadingBackdrop from "common/components/backdrops/LoadingBackdrop";
 import ResultBackdrop from "common/components/backdrops/ResultBackdrop";
+import { RootState } from "rootStore/rootReducer";
+import { RESULT_VARIANTS, ResultVariant } from "common/components/backdrops/ResultBackdrop";
 
+import { AccountForm } from "../components/styledElements";
+import InfoContent from "../components/InfoContent";
 import CredentialsFromInput, { CredentialsFormRef } from "../components/CredentialsFormInput";
 import { signUp, clearRequestStatus } from '../store/accountSlice'
-import { RootState } from "rootStore/rootReducer";
+import { REQUEST_STATUS, RequestStatus } from "../store/accountSlice";
+import { useStateChangeNotifier, getSignUpStateToSnackbarMap } from 'features/notifiers/useStateChangeNotifiers'
+
 
 
 const RegistrationTerms = styled(Typography).attrs({
@@ -35,21 +39,32 @@ const RegistrationTerms = styled(Typography).attrs({
   }
 `;
 
+type SignUpResult = {
+  variant: ResultVariant,
+  message: string
+}
+
+const getSignUpResult = (status: RequestStatus): SignUpResult => {
+  if(status === REQUEST_STATUS.success)
+    return { variant: RESULT_VARIANTS.success, message: 'Registration complete'}
+
+  return { variant: RESULT_VARIANTS.error, message: 'Registration failed'}
+}
+
 const SignUpForm: React.FC = () => {
 
-  const { enqueueSnackbar } = useSnackbar();
-
-  const isFetching = useSelector(
-    (state: RootState) => state.accountReducer.isFetching
-  );
-
-  const signUpStatus = useSelector(
-    (state: RootState) => state.accountReducer.requestStatus
-  );
+  const { requestStatus: { signUp: signUpStatus }, isFetching } = useSelector((state: RootState) => state.accountReducer)
 
   const inputFormRef = useRef<CredentialsFormRef>(null);
   const dispatch = useDispatch();
-  
+  useStateChangeNotifier(signUpStatus, getSignUpStateToSnackbarMap(dispatch));
+
+  const signUpResult: SignUpResult = useMemo(() => {
+    if(signUpStatus)
+      return getSignUpResult(signUpStatus)
+    return { variant: RESULT_VARIANTS.error, message: 'Internal Application Error' }
+  }, [signUpStatus])
+
   const signUpUser = (): void => {
     if (inputFormRef.current?.validateForm()) {
       dispatch(
@@ -61,19 +76,11 @@ const SignUpForm: React.FC = () => {
       );
     }
   };
-
-  useEffect(() => {
-    console.log(`Use EFFECT RUN`);
-    if(signUpStatus){
-      enqueueSnackbar('Test snackbar', { variant: 'info'})
-      return
-    }
-  }, [signUpStatus, enqueueSnackbar])
-
+  
   return (
       <AccountForm onSubmit={() => console.log("test")}>
         <LoadingBackdrop open={isFetching}>
-          <ResultBackdrop open={!!signUpStatus} resultText='Registration complete' onClose={() => dispatch(clearRequestStatus())}>
+          <ResultBackdrop open={!!signUpStatus} variant={signUpResult.variant} resultText={signUpResult.message} onClose={() => dispatch(clearRequestStatus())}>
             <CredentialsFromInput labelText="Rejestracja" disableAutofocus={!!signUpStatus} ref={inputFormRef} />
             <RoundButton
               text="Załóż darmowe konto"
