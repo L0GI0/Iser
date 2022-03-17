@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { ReactComponent as GreenCircle } from "../images/g-circle.svg";
 import { ReactComponent as PinkCircle } from "../images/p-circle.svg";
-import Grid from "@material-ui/core/Grid";
+import Grid from "@mui/material/Grid";
 
 const TwoSections = styled.div`
   display: flex;

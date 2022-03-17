@@ -1,5 +1,7 @@
 import styled from "styled-components";
-import Typography from "@material-ui/core/Typography";
+import Typography from "@mui/material/Typography";
+import { withTheme } from "@mui/styles"
+
 
 export const FormSectionContent = styled.div`
   display: flex;
@@ -28,7 +30,7 @@ export const AccountForm = styled.form`
   width: 100%;
 `;
 
-export const GreyRedirectLink = styled(Typography).attrs({
+export const GreyRedirectLink = withTheme(styled(Typography).attrs({
   variant: "subtitle2",
 })`
   && {
@@ -37,10 +39,11 @@ export const GreyRedirectLink = styled(Typography).attrs({
     margin: 0 1em;
   }
   text-decoration: underline;
-  transition: all 0.3s;
+  transition-property: color text-shadow;
+  transition-duration: .2s;
   &:hover {
     cursor: pointer;
-    color: rgba(85, 52, 235, 255);
+    color: ${(props) => props.theme.palette.primary.main};
     text-shadow: 0px 0px 1px rgba(92, 58, 252, 0.5);
   }
-`;
+`);

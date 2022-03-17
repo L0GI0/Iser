@@ -1,20 +1,32 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import Typography from "@material-ui/core/Typography";
+import Typography from "@mui/material/Typography";
+import { VariantType, useSnackbar } from 'notistack';
 
-import TwoSectionsLayout from "../../../common/components/TwoSectionsLayout";
-import { LineSeparator } from "../../../common/components/styledElements";
+import TwoSectionsLayout from "common/components/TwoSectionsLayout";
+import { LineSeparator } from "common/components/styledElements";
+
 import {
-  WhiteSection,
+WhiteSection,
   NavyBlueBubbledSection,
-} from "../../../common/components/styledElements";
-import CredentialsFromInput from "../components/CredentialsFormInput";
+} from "common/components/styledElements";
+import RoundButton from "common/components/RoundButton";
+import CheckboxInput from "common/components/CheckboxInput";
+import LoadingBackdrop from "common/components/backdrops/LoadingBackdrop";
+import ResultBackdrop from "common/components/backdrops/ResultBackdrop";
+import { RootState } from "rootStore/rootReducer";
+import { RESULT_VARIANTS, ResultVariant } from "common/components/backdrops/ResultBackdrop";
+
 import { AccountForm } from "../components/styledElements";
-import RoundButton from "../../../common/components/RoundButton";
-import CheckboxInput from "../../../common/components/CheckboxInput";
 import InfoContent from "../components/InfoContent";
-import { CredentialsFormRef } from "../components/CredentialsFormInput";
+import CredentialsFromInput, { CredentialsFormRef } from "../components/CredentialsFormInput";
+import { signUp, clearRequestStatus } from '../store/accountSlice'
+import { REQUEST_STATUS, RequestStatus } from "../store/accountSlice";
+import { useStateChangeNotifier, getSignUpStateToSnackbarMap } from 'features/notifiers/useStateChangeNotifiers'
+
+
 
 const RegistrationTerms = styled(Typography).attrs({
   variant: "body1",
@@ -27,37 +39,65 @@ const RegistrationTerms = styled(Typography).attrs({
   }
 `;
 
+type SignUpResult = {
+  variant: ResultVariant,
+  message: string
+}
+
+const getSignUpResult = (status: RequestStatus): SignUpResult => {
+  if(status === REQUEST_STATUS.success)
+    return { variant: RESULT_VARIANTS.success, message: 'Registration complete'}
+
+  return { variant: RESULT_VARIANTS.error, message: 'Registration failed'}
+}
+
 const SignUpForm: React.FC = () => {
+
+  const { requestStatus: { signUp: signUpStatus }, isFetching } = useSelector((state: RootState) => state.accountReducer)
+
   const inputFormRef = useRef<CredentialsFormRef>(null);
+  const dispatch = useDispatch();
+  useStateChangeNotifier(signUpStatus, getSignUpStateToSnackbarMap(dispatch));
+
+  const signUpResult: SignUpResult = useMemo(() => {
+    if(signUpStatus)
+      return getSignUpResult(signUpStatus)
+    return { variant: RESULT_VARIANTS.error, message: 'Internal Application Error' }
+  }, [signUpStatus])
 
   const signUpUser = (): void => {
-    if (inputFormRef.current?.validateForm()) console.log("Form passed");
-    // dispatch(
-    //   inputFormRef.current &&
-    //     logIn({
-    //       accountLogin: inputFormRef.current.inputs.emailInput.value,
-    //       accountPassword: inputFormRef.current.inputs.passwordInput.value,
-    //     })
-    // );
+    if (inputFormRef.current?.validateForm()) {
+      dispatch(
+        inputFormRef.current &&
+          signUp({
+            accountLogin: inputFormRef.current.inputs.emailInput.value,
+            accountPassword: inputFormRef.current.inputs.passwordInput.value,
+          })
+      );
+    }
   };
-
+  
   return (
-    <AccountForm onSubmit={() => console.log("test")}>
-      <CredentialsFromInput labelText="Rejestracja" ref={inputFormRef} />
-      <RoundButton
-        text="Załóż darmowe konto"
-        style={{ width: "100%", marginTop: "3em" }}
-        color="primary"
-        onClick={signUpUser}
-      />
-    </AccountForm>
+      <AccountForm onSubmit={() => console.log("test")}>
+        <LoadingBackdrop open={isFetching}>
+          <ResultBackdrop open={!!signUpStatus} variant={signUpResult.variant} resultText={signUpResult.message} onClose={() => dispatch(clearRequestStatus())}>
+            <CredentialsFromInput labelText="Rejestracja" disableAutofocus={!!signUpStatus} ref={inputFormRef} />
+            <RoundButton
+              text="Załóż darmowe konto"
+              style={{ width: "100%", marginTop: "3em" }}
+              color="primary"
+              onClick={signUpUser}/>
+          </ResultBackdrop>
+        </LoadingBackdrop>
+      </AccountForm>
+
   );
 };
 
 const SignUpRightSection: React.FC = () => {
   return (
     <WhiteSection>
-      <SignUpForm />
+      <SignUpForm/>
       <LineSeparator>LUB</LineSeparator>
       <RoundButton
         text="Zaloguj sie z kontem Google"

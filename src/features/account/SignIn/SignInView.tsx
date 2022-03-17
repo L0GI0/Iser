@@ -2,23 +2,25 @@ import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Typography from "@material-ui/core/Typography";
+import Typography from "@mui/material/Typography";
 
-import { logIn } from "../store/accountSlice";
-import TwoSectionsLayout from "../../../common/components/TwoSectionsLayout";
+import { logIn, clearSignInStatus } from "../store/accountSlice";
+import TwoSectionsLayout from "common/components/TwoSectionsLayout";
 import {
   WhiteSection,
   NavyBlueBubbledSection,
   LineSeparator,
-} from "../../../common/components/styledElements";
+} from "common/components/styledElements";
 import CredentialsFromInput, {
   CredentialsFormRef,
 } from "../components/CredentialsFormInput";
 import { AccountForm, GreyRedirectLink } from "../components/styledElements";
-import RoundButton from "../../../common/components/RoundButton";
-import CheckboxInput from "../../../common/components/CheckboxInput";
+import RoundButton from "common/components/RoundButton";
+import CheckboxInput from "common/components/CheckboxInput";
 import InfoContent from "../components/InfoContent";
-import { RootState } from "../../../rootStore/rootReducer";
+import { RootState } from "rootStore/rootReducer";
+import { useStateChangeNotifier, getSignInStateSnackbarMap } from 'features/notifiers/useStateChangeNotifiers'
+import LoadingBackdrop from "common/components/backdrops/LoadingBackdrop";
 
 const RememberMeContainer = styled.div`
   display: flex;
@@ -38,22 +40,27 @@ const ForgotPasswordTip = styled(Typography).attrs({
   width: 100%;
 `;
 
+
 const SignInForm: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
   const inputFormRef = useRef<CredentialsFormRef>(null);
-  const accessToken = useSelector(
-    (state: RootState) => state.accountReducer.accessToken
+  const { accessToken, requestStatus: { signIn: signInStatus }, isLoggedIn, isLoggingIn } = useSelector(
+    (state: RootState) => state.accountReducer
   );
+
+  useStateChangeNotifier(signInStatus, getSignInStateSnackbarMap(dispatch));
 
   const redirectToDashboard = () => {
     history.push("/dashboard");
   };
 
+
   useEffect(() => {
-    console.log(`Current access token = ${accessToken}`);
-  }, []);
+    if(isLoggedIn)
+      redirectToDashboard()
+  }, [isLoggedIn]);
 
   const logInUser = () => {
     if (inputFormRef.current?.validateForm()) {
@@ -64,18 +71,19 @@ const SignInForm: React.FC = () => {
             accountPassword: inputFormRef.current.inputs.passwordInput.value,
           })
       );
-      redirectToDashboard();
     }
   };
 
   return (
-    <AccountForm onSubmit={() => console.log("test")}>
-      <CredentialsFromInput labelText="Logowanie" ref={inputFormRef} />
-      <RememberMeContainer>
-        <CheckboxInput promptText={"Zapamiętaj mnie na tym komputerze"} />
-        <RoundButton text="Zaloguj sie" color="primary" onClick={logInUser} />
-      </RememberMeContainer>
-    </AccountForm>
+      <AccountForm onSubmit={() => console.log("test")}>
+        <LoadingBackdrop open={isLoggingIn}>
+          <CredentialsFromInput labelText="Logowanie" ref={inputFormRef} />
+        </LoadingBackdrop>
+        <RememberMeContainer>
+          <CheckboxInput promptText={"Zapamiętaj mnie na tym komputerze"} />
+          <RoundButton text="Zaloguj sie" color="primary" onClick={logInUser} />
+        </RememberMeContainer>
+      </AccountForm>
   );
 };
 

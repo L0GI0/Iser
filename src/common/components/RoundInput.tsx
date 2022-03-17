@@ -1,16 +1,12 @@
-import { useRef, useEffect } from "react";
 import styled from "styled-components";
-import { TextField, InputAdornment, InputProps } from "@material-ui/core";
+import { TextField, InputAdornment, InputProps } from "@mui/material";
 import React from "react";
 import { TextFieldProps } from "material-ui";
+import { withTheme } from "@mui/styles"
 
-const TextInput = styled(TextField)`
+const TextInput = withTheme(styled(TextField)`
   && {
     width: 100%;
-    outline: none;
-    border-color: ${(props) =>
-      props.error ? "#ff0f0f" : "rgba(85, 52, 235, 255)"};
-    transition: all 0.3s;
     margin: 1.5em 0em;
   }
 
@@ -23,31 +19,42 @@ const TextInput = styled(TextField)`
     bottom: -1.75em;
   }
 
+  fieldset {
+    transition-propety: border-color color font-weight;
+    transition-duration: .3s;
+  }
+
+  & .MuiInputLabel-animated {
+    transition: color .2s cubic-bezier(0.0, 0, 0.2, 1) 0s, transform .2s cubic-bezier(0.0, 0, 0.2, 1) 0s, 
+    font-weight .3s cubic-bezier(0.0, 0, 0.2, 1) 0s;
+  }
+
   &&:hover {
     fieldset {
       border-color: ${(props) =>
-        props.error ? "#ff0f0f" : "rgba(92, 58, 252, 255)"};
+        props.error ? props.theme.palette.error.main : props.theme.palette.primary.main};
     }
     border-color: ${(props) =>
-      props.error ? "#ff0f0f" : "rgba(92, 58, 252, 255)"};
+      props.error ? props.theme.palette.error.main : props.theme.palette.primary.main};
 
     .MuiFormLabel-root {
-      color: ${(props) => (props.error ? "#ff0f0f" : "rgba(92, 58, 252, 255)")};
+      color: ${(props) => (props.error ? props.theme.palette.error.main : props.theme.palette.primary.main)};
     }
   }
 
   &&:focus-within {
     fieldset {
       border-color: ${(props) =>
-        props.error ? "#ff0f0f" : "rgba(92, 58, 252, 255)"};
+        props.error ? props.theme.palette.error.main : props.theme.palette.primary.main};
     }
 
-    label {
+    .MuiFormLabel-root {
       border-color: ${(props) =>
-        props.error ? "#ff0f0f" : "rgba(92, 58, 252, 255)"};
+        props.error ? props.theme.palette.error.main : props.theme.palette.primary.main};
+      font-weight: bold;
     }
   }
-`;
+`);
 
 interface InputFieldProps {
   placeholder: string;
