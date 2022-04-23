@@ -1,4 +1,5 @@
 import { ajax, AjaxResponse } from "rxjs/ajax";
+import { useSelector } from 'react-redux'
 import { Observable } from "rxjs/index";
 import { StateObservable } from "redux-observable";
 import { RootState } from "rootStore/rootReducer";
@@ -26,7 +27,8 @@ export interface ApiAjaxCreationMethod {
     method: string,
     body?: Record<string, unknown>,
     headers?: Record<string, unknown>,
-    responseType?: ResponseType
+    responseType?: ResponseType,
+    withCredentials?: boolean
   ): Observable<AjaxResponse<any>>;
   get: ApiBodylessCall;
   post: ApiBodyCall;
@@ -35,22 +37,25 @@ export interface ApiAjaxCreationMethod {
   delete: ApiBodylessCall;
 }
 
+
 export const ajaxApi = <
   T extends StateObservable<RootState> | RootState = StateObservable<RootState>
 >(
   state$?: T
 ): ApiAjaxCreationMethod => {
-  const accessToken =
-    (state$ as RootState)?.accountReducer?.accessToken ||
+  // const accessToken = useSelector((state: RootState) => state.accountReducer.accessToken)
+  const accessToken = (state$ as RootState)?.accountReducer?.accessToken ||
     (state$ as StateObservable<RootState>)?.value?.accountReducer?.accessToken;
+  
+  console.log(`Call with access token = ${accessToken}`)
 
   const mainHeader = state$
     ? {
-        Accept: "application/json",
-        Authorization: `Bearer ${accessToken}`,
+        accept: "application/json",
+        authorization: `Bearer ${accessToken}`,
       }
     : {
-        Accept: "application/json",
+        accept: "application/json",
       };
 
   const ajaxCall = function (
@@ -58,31 +63,38 @@ export const ajaxApi = <
     method = "GET",
     body?: Record<string, unknown>,
     headers?: Record<string, unknown>,
-    responseType: ResponseType = "json"
+    responseType: ResponseType = "json",
+    withCredentials = false
   ) {
     const directUrl = apiUrl + endpoint;
     const bodyHeaders = body ? { "Content-Type": "application/json" } : {};
     const allHeaders = { ...mainHeader, ...bodyHeaders, ...(headers || {}) };
+    
+    console.log(`Ajax call with accesstoken = ${mainHeader.authorization}`)
+
+    console.log(`All headers = ${JSON.stringify(allHeaders)}`)
+
     return ajax({
       url: directUrl,
       method,
       body,
       headers: allHeaders,
       responseType,
-    });
+      withCredentials
+    }); 
   };
 
   ajaxCall.get = (
     endpoint: string,
     headers?: Record<string, unknown>,
     responseType?: ResponseType
-  ) => ajaxCall(endpoint, "GET", undefined, headers, responseType);
+  ) => ajaxCall(endpoint, "GET", undefined, headers, responseType, true);
   ajaxCall.post = (
     endpoint: string,
     body?: Record<string, unknown>,
     headers?: Record<string, unknown>,
     responseType?: ResponseType
-  ) => ajaxCall(endpoint, "POST", body, headers, responseType);
+  ) => ajaxCall(endpoint, "POST", body, headers, responseType, true);
   ajaxCall.put = (
     endpoint: string,
     body?: Record<string, unknown>,
