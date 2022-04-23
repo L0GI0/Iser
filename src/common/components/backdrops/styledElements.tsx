@@ -26,8 +26,6 @@ export const ResultHeader = styled(Typography).attrs({variant: 'h5'})`
   &.MuiTypography-root {
     margin: 1.75rem 0 .75rem 0;
   }
-
-
 `
 
 export const SuccessIcon = withTheme(styled(CheckCircleIcon)`

@@ -31,7 +31,6 @@ export const AccountForm = styled.form`
 `;
 
 export const GreyRedirectLink = withTheme(styled(Typography).attrs({
-  variant: "subtitle2",
 })`
   && {
     color: grey;

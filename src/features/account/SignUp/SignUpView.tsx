@@ -22,7 +22,7 @@ import { RESULT_VARIANTS, ResultVariant } from "common/components/backdrops/Resu
 import { AccountForm } from "../components/styledElements";
 import InfoContent from "../components/InfoContent";
 import CredentialsFromInput, { CredentialsFormRef } from "../components/CredentialsFormInput";
-import { signUp, clearRequestStatus } from '../store/accountSlice'
+import { signUp, clearSignUpStatus } from '../store/accountSlice'
 import { REQUEST_STATUS, RequestStatus } from "../store/accountSlice";
 import { useStateChangeNotifier, getSignUpStateToSnackbarMap } from 'features/notifiers/useStateChangeNotifiers'
 
@@ -72,6 +72,7 @@ const SignUpForm: React.FC = () => {
           signUp({
             accountLogin: inputFormRef.current.inputs.emailInput.value,
             accountPassword: inputFormRef.current.inputs.passwordInput.value,
+            accountType: 'user'
           })
       );
     }
@@ -80,7 +81,7 @@ const SignUpForm: React.FC = () => {
   return (
       <AccountForm onSubmit={() => console.log("test")}>
         <LoadingBackdrop open={isFetching}>
-          <ResultBackdrop open={!!signUpStatus} variant={signUpResult.variant} resultText={signUpResult.message} onClose={() => dispatch(clearRequestStatus())}>
+          <ResultBackdrop open={!!signUpStatus} variant={signUpResult.variant} resultText={signUpResult.message} onClose={() => dispatch(clearSignUpStatus())}>
             <CredentialsFromInput labelText="Rejestracja" disableAutofocus={!!signUpStatus} ref={inputFormRef} />
             <RoundButton
               text="Załóż darmowe konto"
