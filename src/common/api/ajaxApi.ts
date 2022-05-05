@@ -47,8 +47,6 @@ export const ajaxApi = <
   const accessToken = (state$ as RootState)?.accountReducer?.accessToken ||
     (state$ as StateObservable<RootState>)?.value?.accountReducer?.accessToken;
   
-  console.log(`Call with access token = ${accessToken}`)
-
   const mainHeader = state$
     ? {
         accept: "application/json",
@@ -70,10 +68,6 @@ export const ajaxApi = <
     const bodyHeaders = body ? { "Content-Type": "application/json" } : {};
     const allHeaders = { ...mainHeader, ...bodyHeaders, ...(headers || {}) };
     
-    console.log(`Ajax call with accesstoken = ${mainHeader.authorization}`)
-
-    console.log(`All headers = ${JSON.stringify(allHeaders)}`)
-
     return ajax({
       url: directUrl,
       method,

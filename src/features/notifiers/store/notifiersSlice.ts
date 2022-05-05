@@ -1,14 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { VariantType, useSnackbar, OptionsObject, SnackbarMessage } from 'notistack';
-import { stat } from "fs";
-import { random } from "lodash";
-import { Options } from "pretty-format";
+import { OptionsObject, SnackbarMessage } from 'notistack';
 
-
-type WritableType<T> = { -readonly [P in keyof T]: T[P] }
-
-
-type DeepWritableType<T> = { -readonly [P in keyof T]: DeepWritableType<T[P]> }
 
 export type SnackBarType = {
   message: SnackbarMessage, 
@@ -18,19 +10,23 @@ export type SnackBarType = {
 
 export type SnackBarKeyType = SnackBarType['options']['key'];
 
-interface NotifiersInitialState {
+interface NotifiersState {
   notifications: Array<SnackBarType>
+  viewed: Array<number>,
+  notificationId: number
 }
 
-const notifiersInitialState: NotifiersInitialState = {
-  notifications: []
+const notifiersInitialState: NotifiersState = {
+  notifications: [],
+  viewed: [],
+  notificationId: 1,
 }
 
 const notifiersSlice = createSlice({
   name: "notifiersSlice",
   initialState: notifiersInitialState,
   reducers: {
-    closeSnackbar(state, action: PayloadAction<SnackBarKeyType>): void {
+    closeSnackbar(state: NotifiersState, action: PayloadAction<SnackBarKeyType>) {
 
         const targetSnackBarKey = action.payload;
 
@@ -41,41 +37,53 @@ const notifiersSlice = createSlice({
         ))
     },
 
-    removeSnackbar(state, action: PayloadAction<SnackBarKeyType>): void {
+    removeSnackbar(state: NotifiersState, action: PayloadAction<SnackBarKeyType>) {
       const targetSnackBarKey = action.payload;
 
       state.notifications = state.notifications.filter(notification => (
         notification.options.key !== targetSnackBarKey
       ))
+    },
 
+    triggerNotification(state: NotifiersState) {
+      state.notificationId += 1;
     },
 
     enqueueSnackbar: {
-      reducer: (state, action: PayloadAction<SnackBarType>) => {
+      reducer: (state: NotifiersState, action: PayloadAction<SnackBarType>) => {
+
+        if(state.viewed.some((viewed: number) => { 
+          return viewed === state.notificationId })){
+            return
+        }
+
+        state.notifications.forEach((notificaiton: SnackBarType) => { 
+          console.log(`Notification id = ${notificaiton.options.key}`)
+        });
 
         const newSnackBar: SnackBarType = Object.assign({ ...action.payload});
-
+        
+        console.log(`Key when enqueuing snackbar = ${state.notificationId}`)
         state.notifications.push({ ...newSnackBar, options: {
-          key: newSnackBar.options.key,
+          key: state.notificationId,
           variant: newSnackBar.options.variant,
           onExit: newSnackBar.options.onExit,
           defaultValue: ''
         }});
 
-
+        state.viewed.push(state.notificationId)
       },
       prepare: (notification: SnackBarType) => {
 
         const dismissed = notification?.dismissed || false;
         const key = notification.options && notification.options.key;
 
-
+        console.log(`Key in prepare = ${key}`)
 
         return { payload: {
           ...notification,
           options: {
             ...notification.options,
-            key: key ?? new Date().getTime() + Math.random(),
             defaultValue: ''
           },
           dismissed
@@ -88,11 +96,11 @@ const notifiersSlice = createSlice({
 
 const notifiersActionCreators = notifiersSlice.actions;
 
-const { closeSnackbar, removeSnackbar, enqueueSnackbar} = notifiersActionCreators;
+const { closeSnackbar, removeSnackbar, enqueueSnackbar, triggerNotification } = notifiersActionCreators;
 
 const notifiersReducer = notifiersSlice.reducer;
 
 export { notifiersActionCreators };
-export { closeSnackbar, removeSnackbar, enqueueSnackbar };
+export { closeSnackbar, removeSnackbar, enqueueSnackbar, triggerNotification };
 export type notifierState = ReturnType<typeof notifiersReducer>;
 export default notifiersReducer;

@@ -47,11 +47,6 @@ declare module '@mui/material/styles' {
       darker: string,
     }    
 
-    // interface PaletteOptions {
-    //   lighter: string,
-    //   darker: string,
-    // }
-  
     interface PaletteColor {
       lighter: string,
       darker: string,
@@ -64,4 +59,6 @@ declare module '@mui/material/styles' {
     export function createTheme(options?: ThemeOptions): Theme;
 }
 
-
+declare module 'styled-components' {
+  export interface DefaultTheme extends Theme {}
+}

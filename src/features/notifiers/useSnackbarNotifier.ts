@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import { RootState } from 'rootStore/rootReducer';
 import { removeSnackbar, SnackBarKeyType } from './store/notifiersSlice'
 
-let displayed = new Array<SnackBarKeyType>();
 
 const useSnackbarNotifier = () => {
     const dispatch = useDispatch();
@@ -12,12 +11,14 @@ const useSnackbarNotifier = () => {
 
     const notifications = useSelector((state: RootState) => state.notifiersReducer.notifications || []);
 
+    const displayed = useRef<Array<SnackBarKeyType>>([])
+
     const storeDisplayed = (id: SnackBarKeyType) => {
-        displayed = [...displayed, id];
+        displayed.current = [...displayed.current, id];
     };
 
     const removeDisplayed = (id: SnackBarKeyType) => {
-        displayed = [...displayed.filter(key => id !== key)];
+        displayed.current = [...displayed.current.filter(key => id !== key)];
     };
 
     React.useEffect(() => {
@@ -32,7 +33,7 @@ const useSnackbarNotifier = () => {
             }
 
             // do nothing if snackbar is already displayed
-            if (displayed.includes(options.key)) return;
+            if (displayed.current.includes(options.key)) return;
 
             // display snackbar using notistack
             enqueueSnackbar(message, {
@@ -44,7 +45,6 @@ const useSnackbarNotifier = () => {
                 },
                 onExited: (event, targetKey) => {
                     // remove this snackbar from redux store
-                    console.log(`Exiting ${targetKey} snackbar`)
                     dispatch(removeSnackbar(targetKey));
                     removeDisplayed(targetKey);
                 },

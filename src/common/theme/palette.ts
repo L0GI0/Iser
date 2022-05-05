@@ -21,17 +21,6 @@ declare module '@mui/material' {
    }    
 }
 
-// const appTheme = {
-//   palette: {
-//     primary: {
-//       main: 'rgba(92, 58, 252, 255)',
-//     },
-//     secondary: {
-//       main: 'rgba(110,96,255,255)',
-//     },
-//   }
-// }
-
 // SETUP COLORS
 const GREY: Omit<Color, 50 | 'A100' | 'A200' |'A400' |'A700'> = {
   0: '#FFFFFF',

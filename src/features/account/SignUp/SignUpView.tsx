@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import { VariantType, useSnackbar } from 'notistack';
 
@@ -10,7 +10,7 @@ import { LineSeparator } from "common/components/styledElements";
 
 import {
 WhiteSection,
-  NavyBlueBubbledSection,
+  NavyBlueBubbledSectionLeft,
 } from "common/components/styledElements";
 import RoundButton from "common/components/RoundButton";
 import CheckboxInput from "common/components/CheckboxInput";
@@ -25,7 +25,7 @@ import CredentialsFromInput, { CredentialsFormRef } from "../components/Credenti
 import { signUp, clearSignUpStatus } from '../store/accountSlice'
 import { REQUEST_STATUS, RequestStatus } from "../store/accountSlice";
 import { useStateChangeNotifier, getSignUpStateToSnackbarMap } from 'features/notifiers/useStateChangeNotifiers'
-
+import { triggerNotification } from 'features/notifiers/store/notifiersSlice'
 
 
 const RegistrationTerms = styled(Typography).attrs({
@@ -67,6 +67,7 @@ const SignUpForm: React.FC = () => {
 
   const signUpUser = (): void => {
     if (inputFormRef.current?.validateForm()) {
+      dispatch(triggerNotification());
       dispatch(
         inputFormRef.current &&
           signUp({
@@ -119,13 +120,13 @@ const SignUpRightSection: React.FC = () => {
 };
 
 const SignUpLeftSection: React.FC = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const redirectToSignInView = () => {
-    history.push("/signin");
+    navigate("/app/signin");
   };
   return (
-    <NavyBlueBubbledSection>
+    <NavyBlueBubbledSectionLeft>
       <InfoContent
         header="Zarejestruj się do wersji beta platformy i uzyskaj darmowy dostęp na zawsze"
         description="Uzupełnij formularz i założ darmowe konto."
@@ -142,7 +143,7 @@ const SignUpLeftSection: React.FC = () => {
           </React.Fragment>
         }
       />
-    </NavyBlueBubbledSection>
+    </NavyBlueBubbledSectionLeft>
   );
 };
 

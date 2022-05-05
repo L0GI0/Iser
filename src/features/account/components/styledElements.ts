@@ -30,7 +30,7 @@ export const AccountForm = styled.form`
   width: 100%;
 `;
 
-export const GreyRedirectLink = withTheme(styled(Typography).attrs({
+export const GreyRedirectLink = styled(Typography).attrs({
 })`
   && {
     color: grey;
@@ -45,4 +45,4 @@ export const GreyRedirectLink = withTheme(styled(Typography).attrs({
     color: ${(props) => props.theme.palette.primary.main};
     text-shadow: 0px 0px 1px rgba(92, 58, 252, 0.5);
   }
-`);
+`

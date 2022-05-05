@@ -4,12 +4,12 @@ import React, { useMemo } from 'react';
 // material
 import { CssBaseline } from '@mui/material';
 import { ThemeProvider as MUIThemeProvider, createTheme, StyledEngineProvider } from '@mui/material/styles';
+import { ThemeProvider as StyledComponentsThemeProvider} from 'styled-components';
 //
 import palette from './palette';
 import componentsOverride from './overrides';
 import shadows, { customShadows } from './shadows';
 import { Shadows } from '@mui/material/styles/shadows'
-import { CSSObject } from '@mui/material'
 // ----------------------------------------------------------------------
 
 interface Props {
@@ -37,8 +37,10 @@ export default function ThemeProvider({ children }: Props) {
   return (
     <StyledEngineProvider injectFirst>
       <MUIThemeProvider theme={theme}>
+      <StyledComponentsThemeProvider theme={theme}>
         <CssBaseline />
         {children}
+      </StyledComponentsThemeProvider>
       </MUIThemeProvider>
     </StyledEngineProvider>
   );

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Typography from "@mui/material/Typography";
 
@@ -8,7 +8,7 @@ import { logIn, clearSignInStatus } from "../store/accountSlice";
 import TwoSectionsLayout from "common/components/TwoSectionsLayout";
 import {
   WhiteSection,
-  NavyBlueBubbledSection,
+  NavyBlueBubbledSectionRight,
   LineSeparator,
 } from "common/components/styledElements";
 import CredentialsFromInput, {
@@ -21,6 +21,7 @@ import InfoContent from "../components/InfoContent";
 import { RootState } from "rootStore/rootReducer";
 import { useStateChangeNotifier, getSignInStateSnackbarMap } from 'features/notifiers/useStateChangeNotifiers'
 import LoadingBackdrop from "common/components/backdrops/LoadingBackdrop";
+import { triggerNotification } from "features/notifiers/store/notifiersSlice";
 
 const RememberMeContainer = styled.div`
   display: flex;
@@ -43,7 +44,7 @@ const ForgotPasswordTip = styled(Typography).attrs({
 
 const SignInForm: React.FC = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const inputFormRef = useRef<CredentialsFormRef>(null);
   const { accessToken, requestStatus: { signIn: signInStatus }, isLoggedIn, isLoggingIn } = useSelector(
@@ -52,18 +53,9 @@ const SignInForm: React.FC = () => {
 
   useStateChangeNotifier(signInStatus, getSignInStateSnackbarMap(dispatch));
 
-  const redirectToDashboard = () => {
-    history.push("/dashboard");
-  };
-
-
-  useEffect(() => {
-    if(isLoggedIn)
-      redirectToDashboard()
-  }, [isLoggedIn]);
-
   const logInUser = () => {
     if (inputFormRef.current?.validateForm()) {
+      dispatch(triggerNotification());
       dispatch(
         inputFormRef.current &&
           logIn({
@@ -105,15 +97,16 @@ const SignInLeftSection: React.FC = () => {
   );
 };
 
+
 const SignInRightSection: React.FC = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const redirectToSignUpView = () => {
-    history.push("/signup");
+    navigate("/app/signup");
   };
 
   return (
-    <NavyBlueBubbledSection>
+    <NavyBlueBubbledSectionRight>
       <InfoContent
         header="Witaj w LanguaGeiser - platformie do konfigurowalnej nauki!"
         description="Wprowadź swoje dane żeby zalogować się do panelu"
@@ -131,7 +124,7 @@ const SignInRightSection: React.FC = () => {
           </React.Fragment>
         }
       />
-    </NavyBlueBubbledSection>
+    </NavyBlueBubbledSectionRight>
   );
 };
 

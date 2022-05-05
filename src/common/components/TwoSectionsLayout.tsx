@@ -30,17 +30,6 @@ const Logo = styled.div<LogoProps>`
   height: 50px;
 `;
 
-const TopCenterCircle = styled(PinkCircle)`
-  position: absolute;
-  top: -750px;
-`;
-
-const BottomLeftCircle = styled(GreenCircle)`
-  position: absolute;
-  bottom: -500px;
-  right: -650px;
-`;
-
 interface TwoSectionsLayoutProps {
   leftSection: React.ReactNode;
   rightSection: React.ReactNode;
@@ -54,8 +43,6 @@ const TwoSectionsLayout: React.FC<TwoSectionsLayoutProps> = ({
 }) => (
   <TwoSections>
     {logo && <Logo logoSource={logo} />}
-    <TopCenterCircle />
-    <BottomLeftCircle />
     <Grid container>
       <Grid xs={6}>{leftSection}</Grid>
       <Grid xs={6}>{rightSection}</Grid>
