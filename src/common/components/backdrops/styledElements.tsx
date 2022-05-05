@@ -28,34 +28,33 @@ export const ResultHeader = styled(Typography).attrs({variant: 'h5'})`
   }
 `
 
-export const SuccessIcon = withTheme(styled(CheckCircleIcon)`
+export const SuccessIcon = styled(CheckCircleIcon)`
     &.MuiSvgIcon-root {
         font-size: 5em;
     }
     color: ${props => props.theme.palette.success.main};
 `
-);
 
-export const InformationIcon = withTheme(styled(InfoIcon)`
+export const InformationIcon = styled(InfoIcon)`
   &.MuiSvgIcon-root {
     font-size: 5em;
   }
 
   color:  ${props => props.theme.palette.info.main}
-`);
+`
 
-export const AppWarningIcon = withTheme(styled(WarningIcon)`
+export const AppWarningIcon = styled(WarningIcon)`
   &.MuiSvgIcon-root {
     font-size: 5em;
   }
 
   color: ${props => props.theme.palette.warning.main}
-`);
+`
 
-export const ErrorIcon = withTheme(styled(ReportIcon)`
+export const ErrorIcon = styled(ReportIcon)`
   &.MuiSvgIcon-root {
     font-size: 5em;
   }
 
   color: ${props => props.theme.palette.error.main}
-`);
+`

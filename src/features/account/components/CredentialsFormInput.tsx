@@ -100,16 +100,12 @@ const CredentialsFormInput = forwardRef(
     );
 
     const handleEmailInputValueChange = (newEmailValue: string) => {
-      setEmailInput((prevEmailState: InputState) => {
-        return { ...prevEmailState, value: newEmailValue };
-      });
+      setEmailInput({ value: newEmailValue, error: "" });
       validateEmailInput.next(newEmailValue);
     };
 
     const handlePasswordInputValueChange = (newPasswordValue: string) => {
-      setPasswordInput((prevPasswordState: InputState) => {
-        return { ...prevPasswordState, value: newPasswordValue };
-      });
+      setPasswordInput({ value: newPasswordValue, error: "" });
       validatePasswordInput.next(newPasswordValue);
     };
 

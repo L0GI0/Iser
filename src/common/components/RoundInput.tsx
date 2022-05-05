@@ -2,9 +2,8 @@ import styled from "styled-components";
 import { TextField, InputAdornment, InputProps } from "@mui/material";
 import React from "react";
 import { TextFieldProps } from "material-ui";
-import { withTheme } from "@mui/styles"
 
-const TextInput = withTheme(styled(TextField)`
+const TextInput = styled(TextField)`
   && {
     width: 100%;
     margin: 1.5em 0em;
@@ -54,7 +53,7 @@ const TextInput = withTheme(styled(TextField)`
       font-weight: bold;
     }
   }
-`);
+`
 
 interface InputFieldProps {
   placeholder: string;

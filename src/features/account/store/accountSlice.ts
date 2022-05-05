@@ -119,8 +119,6 @@ const accountSlice = createSlice({
       state.accessToken = null;
     },
 
-
-
     refreshToken(state){
       console.log(`Refreshing the token`);
     },

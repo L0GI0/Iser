@@ -14,8 +14,6 @@ export default function Button(theme: Theme) {
     MuiButton: {
         styleOverrides: {
           root: {
-            // textTransform: 'none',
-            // margin: '1em 0',
             textTransform: "none" as Property.TextTransform,
             margin: '1em 0' as Property.Margin,
             boxShadow: 'none' as Property.BoxShadow

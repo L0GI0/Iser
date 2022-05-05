@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from 'react-redux' 
 import { logOut, authenticate } from 'features/account/store/accountSlice' 
 import RoundButton from "common/components/RoundButton";
-import { useHistory } from "react-router-dom";
 import { RootState } from "rootStore/rootReducer";
 import LinearProgress from "@mui/material/LinearProgress";
 import styled from 'styled-components'
@@ -27,9 +26,6 @@ const DashboardView = () => {
 
   
   return (<>
-  <AppBar>
-    App Bar Options
-  </AppBar>
     <div>Admin Dashboard  </div>
       <RoundButton text="Log out" onClick={onLogOut}/>
       <RoundButton text="auth" onClick={getUsers}/>

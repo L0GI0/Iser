@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { useDispatch } from "react-redux"
 import { AppDispatch } from "rootStore/store"
 import { enqueueSnackbar } from './store/notifiersSlice'
@@ -56,7 +56,6 @@ export const useStateChangeNotifier = (observedState: any, stateToSnackbarMap: A
 
     useEffect(() => {
         stateToSnackbarMap.forEach((targetState: StatetoSnackBarMap) => {
-
             if(observedState === targetState.triggerValue){
                 dispatch(enqueueSnackbar({
                     message: targetState.snackBarMessage,
@@ -68,7 +67,8 @@ export const useStateChangeNotifier = (observedState: any, stateToSnackbarMap: A
             }
         })
 
-    }, [dispatch, observedState])
+    }, [dispatch, observedState]) 
+    
 }
 
 // export default useStateChangeNotifiers;
