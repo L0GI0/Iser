@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import Button from "@mui/material/Button";
 import { alpha } from '@mui/material/styles';
 import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
-
 import Iconify from "common/components/Iconify";
+import Searchbar from "./Searchbar";
+import LanguagePopover from "./LanguagePopover";
 
 // ----------------------------------------------------------------------
 
@@ -13,6 +13,7 @@ const APPBAR_DESKTOP = 92;
 
 const IserAppBarStyle = styled(AppBar)`
   backdrop-filter: blur(6px);
+  box-shadow: none;
   -webkit-backdrop-filter: blur(6px);
   background-color: ${({ theme })  => alpha(theme.palette.background.default, 0.72)};
   ${({ theme }) => theme.breakpoints.up('lg')} {
@@ -36,6 +37,7 @@ const IconButtonStyle = styled(IconButton)(( { theme }) => ({
   }
 }));
 
+// ----------------------------------------------------------------------
 
 interface DashboardNavbar {
   onOpenSidebar: () => void;
@@ -49,13 +51,11 @@ export default function IserAppBar({ onOpenSidebar }: DashboardNavbar) {
           <Iconify icon="eva:menu-2-fill" />
         </IconButtonStyle>
 
-        {/* <Searchbar /> */}
+        <Searchbar />
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
-          {/* <LanguagePopover />
-          <NotificationsPopover />
-          <AccountPopover /> */}
+           <LanguagePopover />
         </Stack>
       </IserToolbar>
     </IserAppBarStyle>

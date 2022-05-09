@@ -4,10 +4,13 @@ import { BackdropProps } from "@mui/material";
 import { BorderFlexLimitedBackdrop, SuccessIcon, ResultHeader, InformationIcon, AppWarningIcon, ErrorIcon } from "./styledElements";
 import RoundButton from '../RoundButton'
 
+// ----------------------------------------------------------------------
 
 const ResultBlur = styled.div<BackdropProps>`
   opacity: ${(props) => props.open ? '0': '1'};
 ` 
+
+// ----------------------------------------------------------------------
 
 export type ResultVariant = 'success' | 'info' | 'warning' | 'error' ;
 

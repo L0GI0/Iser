@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-// material
 import styled from 'styled-components';
-//
-import IserAppBar from './IserAppBar';
-// import DashboardSidebar from './DashboardSidebar';
+import IserAppBar from './AppBar';
 
 // ----------------------------------------------------------------------
 
@@ -39,7 +36,6 @@ export default function DashboardLayout() {
   return (
     <RootStyle>
       <IserAppBar onOpenSidebar={() => setOpen(true)} />
-      {/* <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} /> */}
       <MainStyle>
         <Outlet />
       </MainStyle>

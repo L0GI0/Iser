@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { ReactComponent as GreenCircle } from "../images/g-circle.svg";
-import { ReactComponent as PinkCircle } from "../images/p-circle.svg";
 import Grid from "@mui/material/Grid";
+
+// ----------------------------------------------------------------------
 
 const TwoSections = styled.div`
   display: flex;
@@ -29,6 +29,8 @@ const Logo = styled.div<LogoProps>`
   width: 200px;
   height: 50px;
 `;
+
+// ----------------------------------------------------------------------
 
 interface TwoSectionsLayoutProps {
   leftSection: React.ReactNode;

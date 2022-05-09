@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { OptionsObject, SnackbarMessage } from 'notistack';
 
+// ----------------------------------------------------------------------
 
 export type SnackBarType = {
   message: SnackbarMessage, 
@@ -57,13 +58,8 @@ const notifiersSlice = createSlice({
             return
         }
 
-        state.notifications.forEach((notificaiton: SnackBarType) => { 
-          console.log(`Notification id = ${notificaiton.options.key}`)
-        });
-
         const newSnackBar: SnackBarType = Object.assign({ ...action.payload});
         
-        console.log(`Key when enqueuing snackbar = ${state.notificationId}`)
         state.notifications.push({ ...newSnackBar, options: {
           key: state.notificationId,
           variant: newSnackBar.options.variant,
@@ -76,9 +72,6 @@ const notifiersSlice = createSlice({
       prepare: (notification: SnackBarType) => {
 
         const dismissed = notification?.dismissed || false;
-        const key = notification.options && notification.options.key;
-
-        console.log(`Key in prepare = ${key}`)
 
         return { payload: {
           ...notification,

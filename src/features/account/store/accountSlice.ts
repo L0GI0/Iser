@@ -1,7 +1,7 @@
-import { createSlice, PayloadAction, ActionCreatorWithoutPayload } from "@reduxjs/toolkit";
-import { VariantType, useSnackbar } from 'notistack';
-import { stat } from "fs";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AjaxError } from "rxjs/ajax";
+
+// ----------------------------------------------------------------------
 
 type AccountType = 'admin' | 'user'
 
@@ -40,11 +40,9 @@ export interface AccountPayloadIn {
 }
 
 
-
 export interface AccountPayloadError {
   error: AjaxError;
 }
-
 
 const accountInitialState: AccountInitialStateParams & AccountActionsState = {
   accessToken: null,
@@ -74,14 +72,11 @@ const accountSlice = createSlice({
       state.isLoggingIn = false;
       state.isLoggedIn = true;
       state.requestStatus.signIn = 'success';
-      console.log(`Log in done = the access token is = ${state.accessToken}`)
     },
 
     logInFail(state, action: PayloadAction<AccountPayloadError>){
 
       const signInError = action.payload.error;
-
-      console.log(`Log in failed = ${JSON.stringify(signInError)}`)
 
       if(signInError.status === 401)
         state.requestStatus.signIn = 'unauthorized'
@@ -103,7 +98,6 @@ const accountSlice = createSlice({
     },
 
     signUpFail(state, action: PayloadAction<AccountPayloadError>){
-      // state.accountEpicRequestError = action.payload.message;
       state.isFetching = false;
       state.requestStatus.signUp = 'failed';
     },
@@ -120,17 +114,13 @@ const accountSlice = createSlice({
     },
 
     refreshToken(state){
-      console.log(`Refreshing the token`);
     },
 
     refreshTokenFailed(state, action: PayloadAction<AccountPayloadError>) {
     },
 
     refreshTokenDone(state, action: PayloadAction<SinInPayload>) {
-      console.log(`Prev token = ${state.accessToken}`)
       state.accessToken = action.payload.accessToken;
-      console.log(`New token = ${action.payload.accessToken}`)
-      console.log(`Token refreshed`);
     },
 
     clearSignUpStatus(state) {

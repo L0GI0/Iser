@@ -2,6 +2,8 @@ import styled from "styled-components";
 import Checkbox from "@mui/material/Checkbox";
 import Typography from "@mui/material/Typography";
 
+// ----------------------------------------------------------------------
+
 const CheckboxInputContainer = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -27,6 +29,8 @@ const StyledCheckbox = styled(Checkbox)`
     }
   }
 `;
+
+// ----------------------------------------------------------------------
 
 interface CheckboxInputProps {
   promptText?: string;

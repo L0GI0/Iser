@@ -1,4 +1,4 @@
-import { alpha, PaletteColor, ColorObject} from '@mui/material/styles';
+import { alpha, PaletteColor, Palette } from '@mui/material/styles';
 import { Color } from '@mui/material'
 
 // ----------------------------------------------------------------------
@@ -21,7 +21,6 @@ declare module '@mui/material' {
    }    
 }
 
-// SETUP COLORS
 const GREY: Omit<Color, 50 | 'A100' | 'A200' |'A400' |'A700'> = {
   0: '#FFFFFF',
   100: '#F9FAFB',
@@ -31,7 +30,7 @@ const GREY: Omit<Color, 50 | 'A100' | 'A200' |'A400' |'A700'> = {
   500: '#919EAB',
   600: '#637381',
   700: '#454F5B',
-  800: '#212B36as',
+  800: '#212B36',
   900: '#161C24',
   500_8: alpha('#919EAB', 0.08),
   500_12: alpha('#919EAB', 0.12),
@@ -42,6 +41,7 @@ const GREY: Omit<Color, 50 | 'A100' | 'A200' |'A400' |'A700'> = {
   500_56: alpha('#919EAB', 0.56),
   500_80: alpha('#919EAB', 0.8),
 };
+
 
 const PRIMARY: PaletteColor = {
   lighter: '#D1E9FC',
@@ -69,6 +69,7 @@ const INFO: PaletteColor = {
   darker: '#04297A',
   contrastText: '#fff',
 };
+
 
 const SUCCESS: PaletteColor = {
   lighter: '#E9FCD4',

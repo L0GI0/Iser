@@ -3,6 +3,8 @@ import { TextField, InputAdornment, InputProps } from "@mui/material";
 import React from "react";
 import { TextFieldProps } from "material-ui";
 
+// ----------------------------------------------------------------------
+
 const TextInput = styled(TextField)`
   && {
     width: 100%;
@@ -54,6 +56,8 @@ const TextInput = styled(TextField)`
     }
   }
 `
+
+// ----------------------------------------------------------------------
 
 interface InputFieldProps {
   placeholder: string;
