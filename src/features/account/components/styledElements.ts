@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Typography from "@mui/material/Typography";
-import { withTheme } from "@mui/styles"
 
+// ----------------------------------------------------------------------
 
 export const FormSectionContent = styled.div`
   display: flex;

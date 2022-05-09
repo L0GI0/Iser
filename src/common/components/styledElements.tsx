@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import React from 'react';
 import BubbledBackground from "../images/bgg.png";
-import { alpha } from '@mui/material/styles'
 import { ReactComponent as GreenCircle } from "../images/g-circle.svg";
 import { ReactComponent as PinkCircle } from "../images/p-circle.svg";
+
+// ----------------------------------------------------------------------
 
 export const WhiteSection = styled.section`
   display: flex;
@@ -41,13 +42,13 @@ interface SectionProps {
 const TopRightCircle = styled(PinkCircle)`
   position: absolute;
   top: -750px;
-  left: 400px;
+  left: calc(100% - 450px);
 `;
 
 const TopLeftCircle = styled(PinkCircle)`
   position: absolute;
   top: -750px;
-  right: 400px;
+  right: calc(100% - 450px);
 `;
 
 const BottomLeftCircle = styled(GreenCircle)`

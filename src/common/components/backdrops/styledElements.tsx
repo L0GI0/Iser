@@ -1,11 +1,12 @@
 import { Backdrop } from "@mui/material"
-import styled from 'styled-components'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import InfoIcon from '@mui/icons-material/Info';
 import WarningIcon from '@mui/icons-material/Warning';
 import ReportIcon from '@mui/icons-material/Report';
-import { withTheme } from "@mui/styles"
 import { Typography  } from "material-ui-core";
+import styled from 'styled-components'
+
+// ----------------------------------------------------------------------
 
 export const LimitedBackdrop = styled(Backdrop)`
   &.MuiBackdrop-root {

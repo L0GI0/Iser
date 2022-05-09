@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
-import { VariantType, useSnackbar } from 'notistack';
 
 import TwoSectionsLayout from "common/components/TwoSectionsLayout";
 import { LineSeparator } from "common/components/styledElements";
@@ -27,6 +26,7 @@ import { REQUEST_STATUS, RequestStatus } from "../store/accountSlice";
 import { useStateChangeNotifier, getSignUpStateToSnackbarMap } from 'features/notifiers/useStateChangeNotifiers'
 import { triggerNotification } from 'features/notifiers/store/notifiersSlice'
 
+// ----------------------------------------------------------------------
 
 const RegistrationTerms = styled(Typography).attrs({
   variant: "body1",
@@ -38,6 +38,8 @@ const RegistrationTerms = styled(Typography).attrs({
     font-weight: bold;
   }
 `;
+
+// ----------------------------------------------------------------------
 
 type SignUpResult = {
   variant: ResultVariant,
@@ -80,7 +82,7 @@ const SignUpForm: React.FC = () => {
   };
   
   return (
-      <AccountForm onSubmit={() => console.log("test")}>
+      <AccountForm>
         <LoadingBackdrop open={isFetching}>
           <ResultBackdrop open={!!signUpStatus} variant={signUpResult.variant} resultText={signUpResult.message} onClose={() => dispatch(clearSignUpStatus())}>
             <CredentialsFromInput labelText="Rejestracja" disableAutofocus={!!signUpStatus} ref={inputFormRef} />
@@ -95,6 +97,8 @@ const SignUpForm: React.FC = () => {
 
   );
 };
+
+// ----------------------------------------------------------------------
 
 const SignUpRightSection: React.FC = () => {
   return (
@@ -119,6 +123,8 @@ const SignUpRightSection: React.FC = () => {
   );
 };
 
+// ----------------------------------------------------------------------
+
 const SignUpLeftSection: React.FC = () => {
   const navigate = useNavigate();
 
@@ -136,7 +142,6 @@ const SignUpLeftSection: React.FC = () => {
             <RoundButton
               onClick={redirectToSignInView}
               text="Zaloguj się"
-              backgroundHover="rgba(85,52,235,255)"
               style={{ marginLeft: "2em" }}
               color="secondary"
             />
@@ -146,6 +151,8 @@ const SignUpLeftSection: React.FC = () => {
     </NavyBlueBubbledSectionLeft>
   );
 };
+
+// ----------------------------------------------------------------------
 
 const SignUpView: React.FC = () => {
   return (

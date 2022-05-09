@@ -1,15 +1,17 @@
-import React, { useState } from "react";
 import { useDispatch, useSelector } from 'react-redux' 
 import { logOut, authenticate } from 'features/account/store/accountSlice' 
 import RoundButton from "common/components/RoundButton";
 import { RootState } from "rootStore/rootReducer";
 import LinearProgress from "@mui/material/LinearProgress";
 import styled from 'styled-components'
-import AppBar from "@mui/material/AppBar";
+
+// ----------------------------------------------------------------------
 
 const StyledDiv = styled.div`
   width: 100px;
 `
+
+// ----------------------------------------------------------------------
 
 const DashboardView = () => {
 
@@ -24,7 +26,6 @@ const DashboardView = () => {
     dispatch(authenticate())
   }
 
-  
   return (<>
     <div>Admin Dashboard  </div>
       <RoundButton text="Log out" onClick={onLogOut}/>

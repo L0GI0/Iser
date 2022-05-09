@@ -1,10 +1,8 @@
-import { of, Observable, from, switchMap, defer } from "rxjs";
-import { Action, ActionCreator } from "@reduxjs/toolkit";
-import { map, delay, concatMap, catchError, mergeMap, mergeMapTo, takeUntil, take, mergeWith } from "rxjs/operators";
-import { TestScheduler } from "rxjs/testing";
-import { ajax, AjaxResponse, AjaxError } from "rxjs/ajax";
+import { of, Observable, switchMap, defer } from "rxjs";
+import { ActionCreator } from "@reduxjs/toolkit";
+import { concatMap, catchError, mergeMap, takeUntil, take, mergeWith } from "rxjs/operators";
+import { AjaxError } from "rxjs/ajax";
 import { Epic, ofType, combineEpics, StateObservable } from "redux-observable";
-import { isOfType } from "typesafe-actions";
 
 import {
   logIn,
@@ -22,6 +20,8 @@ import {
 } from "./accountSlice";
 import { RootState } from "rootStore/rootReducer";
 import { ajaxApi } from "common/api/ajaxApi";
+
+// ----------------------------------------------------------------------
 
 const authErrorHandler = (action$: Observable<any>, error: AjaxError, source: Observable<any>) => {
   if(error.status === 401 || error.status === 403) {
@@ -92,13 +92,11 @@ export const logInEpic: Epic<AsyncAccountActions, AsyncAccountActions, RootState
     })
   );
 
-/* Input Stream Type, Output Stream Type, State related to the Epic dispatch */
   export const signUpEpic: Epic<AsyncAccountActions, AsyncAccountActions, RootState> = (
     action$: Observable<AsyncAccountActions>,
     state$: StateObservable<RootState>
   ) =>
     action$.pipe(
-      /* All possible actions your app can dispatch, The types you want to filter for, The resulting action that match the above types*/
       ofType<AsyncAccountActions, typeof signUp.type, SignUpAction>(signUp.type),
       mergeMap((action) => {
         const { accountLogin, accountPassword, accountType } = action?.payload;

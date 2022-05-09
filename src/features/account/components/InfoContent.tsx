@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import Typography from "@mui/material/Typography";
-
 import { InfoSectionContent } from "./styledElements";
+
+// ----------------------------------------------------------------------
 
 const InfoHeader = styled(Typography).attrs({ variant: "h5", component: "h2" })`
   line-height: 1.5em;

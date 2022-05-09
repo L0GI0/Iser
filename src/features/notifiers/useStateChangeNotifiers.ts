@@ -1,10 +1,12 @@
-import { useEffect, useRef } from "react"
+import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { AppDispatch } from "rootStore/store"
 import { enqueueSnackbar } from './store/notifiersSlice'
-import { clearSignInStatus, clearSignUpStatus } from "features/account/store/accountSlice"
+import { clearSignInStatus } from "features/account/store/accountSlice"
 import { VariantType } from 'notistack';
 import { REQUEST_STATUS } from 'features/account/store/accountSlice'
+
+// ----------------------------------------------------------------------
 
 interface StatetoSnackBarMap {
     statePath: string,
@@ -70,5 +72,3 @@ export const useStateChangeNotifier = (observedState: any, stateToSnackbarMap: A
     }, [dispatch, observedState]) 
     
 }
-
-// export default useStateChangeNotifiers;

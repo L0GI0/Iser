@@ -1,14 +1,11 @@
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 
-interface ButtonStyleProps {
-  background?: string;
-  backgroundHover?: string;
-}
+// ----------------------------------------------------------------------
 
 const ButtonContainer = styled(Button).attrs({
   variant: "round",
-})<ButtonStyleProps>`
+})`
   flex-shrink: 0;
 
   &.MuiButton-root {
@@ -17,7 +14,9 @@ const ButtonContainer = styled(Button).attrs({
   }
 `;
 
-interface ButtonProps extends ButtonStyleProps {
+// ----------------------------------------------------------------------
+
+interface ButtonProps {
   text: string;
   postfixIcon?: React.SVGProps<SVGSVGElement>;
 }

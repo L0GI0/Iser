@@ -1,8 +1,9 @@
 import { ajax, AjaxResponse } from "rxjs/ajax";
-import { useSelector } from 'react-redux'
 import { Observable } from "rxjs/index";
 import { StateObservable } from "redux-observable";
 import { RootState } from "rootStore/rootReducer";
+
+// ----------------------------------------------------------------------
 
 export const apiUrl =
   process.env.REACT_APP_API_URL || "http://localhost:5000/api/";
@@ -43,7 +44,6 @@ export const ajaxApi = <
 >(
   state$?: T
 ): ApiAjaxCreationMethod => {
-  // const accessToken = useSelector((state: RootState) => state.accountReducer.accessToken)
   const accessToken = (state$ as RootState)?.accountReducer?.accessToken ||
     (state$ as StateObservable<RootState>)?.value?.accountReducer?.accessToken;
   

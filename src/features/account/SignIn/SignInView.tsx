@@ -1,10 +1,10 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Typography from "@mui/material/Typography";
 
-import { logIn, clearSignInStatus } from "../store/accountSlice";
+import { logIn } from "../store/accountSlice";
 import TwoSectionsLayout from "common/components/TwoSectionsLayout";
 import {
   WhiteSection,
@@ -22,6 +22,8 @@ import { RootState } from "rootStore/rootReducer";
 import { useStateChangeNotifier, getSignInStateSnackbarMap } from 'features/notifiers/useStateChangeNotifiers'
 import LoadingBackdrop from "common/components/backdrops/LoadingBackdrop";
 import { triggerNotification } from "features/notifiers/store/notifiersSlice";
+
+// ----------------------------------------------------------------------
 
 const RememberMeContainer = styled.div`
   display: flex;
@@ -41,13 +43,13 @@ const ForgotPasswordTip = styled(Typography).attrs({
   width: 100%;
 `;
 
+// ----------------------------------------------------------------------
 
 const SignInForm: React.FC = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const inputFormRef = useRef<CredentialsFormRef>(null);
-  const { accessToken, requestStatus: { signIn: signInStatus }, isLoggedIn, isLoggingIn } = useSelector(
+  const { requestStatus: { signIn: signInStatus }, isLoggingIn } = useSelector(
     (state: RootState) => state.accountReducer
   );
 
@@ -67,7 +69,7 @@ const SignInForm: React.FC = () => {
   };
 
   return (
-      <AccountForm onSubmit={() => console.log("test")}>
+      <AccountForm>
         <LoadingBackdrop open={isLoggingIn}>
           <CredentialsFromInput labelText="Logowanie" ref={inputFormRef} />
         </LoadingBackdrop>
@@ -78,6 +80,8 @@ const SignInForm: React.FC = () => {
       </AccountForm>
   );
 };
+
+// ----------------------------------------------------------------------
 
 const SignInLeftSection: React.FC = () => {
   return (
@@ -97,6 +101,7 @@ const SignInLeftSection: React.FC = () => {
   );
 };
 
+// ----------------------------------------------------------------------
 
 const SignInRightSection: React.FC = () => {
   const navigate = useNavigate();
@@ -127,6 +132,8 @@ const SignInRightSection: React.FC = () => {
     </NavyBlueBubbledSectionRight>
   );
 };
+
+// ----------------------------------------------------------------------
 
 const SignInView: React.FC = () => {
   return (

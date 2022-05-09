@@ -15,12 +15,18 @@ import { useFormValidator } from "common/utils/useFormValidator";
 import { ReactComponent as PasswordIcon } from "common/images/pswd-icon.svg";
 import { ReactComponent as MailIcon } from "common/images/mail-icon.svg";
 
+// ----------------------------------------------------------------------
+
+
 const FormLabel = styled.h1`
   font-size: 30px;
   text-align: start;
   width: 100%;
   margin-bottom: 2em;
 `;
+
+// ----------------------------------------------------------------------
+
 
 const useObservable = (observable: Observable<any>, setter: any) => {
   useEffect(() => {
