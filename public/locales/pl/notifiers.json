@@ -1,0 +1,10 @@
+{
+  "notification_msg_sign_up": {
+    "sign_up_failed": "Sign up failed",
+    "sign_up_success": "Sign up successful"
+  },
+  "notification_msg_sign_in": {
+    "sign_in_failed": "Unable to sign in",
+    "sign_in_unauthorized": "Invalid user name or password"
+  }
+}

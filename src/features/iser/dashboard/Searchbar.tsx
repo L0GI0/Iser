@@ -1,10 +1,9 @@
 import { useState } from 'react';
-// material
 import { alpha } from '@mui/material/styles';
 import styled, { css } from 'styled-components'
 import { Input, Slide, Button, IconButton, InputAdornment, ClickAwayListener } from '@mui/material';
-// component
 import Iconify from 'common/components/Iconify';
+import { useTranslation } from 'react-i18next';
 
 // ----------------------------------------------------------------------
 
@@ -58,6 +57,8 @@ export default function Searchbar() {
     setOpen(false);
   };
 
+  const { t } = useTranslation('dashboard');
+
   return (
     <ClickAwayListener onClickAway={handleClose}>
       <div>
@@ -73,7 +74,7 @@ export default function Searchbar() {
               autoFocus
               fullWidth
               disableUnderline
-              placeholder="Search…"
+              placeholder={t('search_bar.input_placeholder')}
               startAdornment={
                 <InputAdornment position="start">
                   <SearchFillIcon disabled/>
@@ -82,7 +83,7 @@ export default function Searchbar() {
               sx={{ mr: 1, fontWeight: 'fontWeightBold' }}
             />
             <Button variant="contained" onClick={handleClose}>
-              Search
+              {t('search_bar.button_search')}
             </Button>
           </SearchbarStyle>
         </Slide>

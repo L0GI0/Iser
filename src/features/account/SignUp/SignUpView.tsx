@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useMemo } from "react";
+import React, { useRef, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -25,6 +25,7 @@ import { signUp, clearSignUpStatus } from '../store/accountSlice'
 import { REQUEST_STATUS, RequestStatus } from "../store/accountSlice";
 import { useStateChangeNotifier, getSignUpStateToSnackbarMap } from 'features/notifiers/useStateChangeNotifiers'
 import { triggerNotification } from 'features/notifiers/store/notifiersSlice'
+import { useTranslation } from "react-i18next"
 
 // ----------------------------------------------------------------------
 
@@ -57,9 +58,11 @@ const SignUpForm: React.FC = () => {
 
   const { requestStatus: { signUp: signUpStatus }, isFetching } = useSelector((state: RootState) => state.accountReducer)
 
+  const { t } = useTranslation(['account', 'notifiers'])
+
   const inputFormRef = useRef<CredentialsFormRef>(null);
   const dispatch = useDispatch();
-  useStateChangeNotifier(signUpStatus, getSignUpStateToSnackbarMap(dispatch));
+  useStateChangeNotifier(signUpStatus, getSignUpStateToSnackbarMap(dispatch, t));
 
   const signUpResult: SignUpResult = useMemo(() => {
     if(signUpStatus)
@@ -85,9 +88,9 @@ const SignUpForm: React.FC = () => {
       <AccountForm>
         <LoadingBackdrop open={isFetching}>
           <ResultBackdrop open={!!signUpStatus} variant={signUpResult.variant} resultText={signUpResult.message} onClose={() => dispatch(clearSignUpStatus())}>
-            <CredentialsFromInput labelText="Rejestracja" disableAutofocus={!!signUpStatus} ref={inputFormRef} />
+             <CredentialsFromInput labelText={t('sign_up.form.label_sign_up')} disableAutofocus={!!signUpStatus} ref={inputFormRef} />
             <RoundButton
-              text="Załóż darmowe konto"
+              text={t('sign_up.form.button_sign_up')}
               style={{ width: "100%", marginTop: "3em" }}
               color="primary"
               onClick={signUpUser}/>
@@ -101,23 +104,25 @@ const SignUpForm: React.FC = () => {
 // ----------------------------------------------------------------------
 
 const SignUpRightSection: React.FC = () => {
+
+  const { t } = useTranslation('account')
+
   return (
     <WhiteSection>
       <SignUpForm/>
-      <LineSeparator>LUB</LineSeparator>
+      <LineSeparator>{t('separator-text')}</LineSeparator>
       <RoundButton
-        text="Zaloguj sie z kontem Google"
+        text={t('sign_up.form.button_sign_in_with_google')}
         color="primary"
         style={{ width: "100%", marginBottom: "3em" }}
       />
       <CheckboxInput
         promptText={
-          "Zapisuje się do newslettera i chcę otrzymywać najnowsze treści"
+          t("sign_up.form.checkbox_newsletter_agreement")
         }
       />
       <RegistrationTerms>
-        Rejestrując się potwierdzasz, że zapoznałeś się z regulaminem oraz
-        akceptujesz jego warunki.
+        {t('sign_up.form.text_registration_terms')}
       </RegistrationTerms>
     </WhiteSection>
   );
@@ -131,17 +136,20 @@ const SignUpLeftSection: React.FC = () => {
   const redirectToSignInView = () => {
     navigate("/app/signin");
   };
+
+  const { t } = useTranslation('account')
+
   return (
     <NavyBlueBubbledSectionLeft>
       <InfoContent
-        header="Zarejestruj się do wersji beta platformy i uzyskaj darmowy dostęp na zawsze"
-        description="Uzupełnij formularz i założ darmowe konto."
+        header={t('sign_up.section_info.info_content.header_welcome_to_iser')}
+        description={t("sign_up.section_info.info_content.text_description")}
         footer={
           <React.Fragment>
-            Masz już konto?
+            {t('sign_up.section_info.info_content.info_footer.text_already_signed_up')}
             <RoundButton
               onClick={redirectToSignInView}
-              text="Zaloguj się"
+              text={t('sign_up.section_info.info_content.info_footer.button_sign_in')}
               style={{ marginLeft: "2em" }}
               color="secondary"
             />
@@ -155,7 +163,7 @@ const SignUpLeftSection: React.FC = () => {
 // ----------------------------------------------------------------------
 
 const SignUpView: React.FC = () => {
-  return (
+  return ( 
     <TwoSectionsLayout
       leftSection={<SignUpLeftSection />}
       rightSection={<SignUpRightSection />}

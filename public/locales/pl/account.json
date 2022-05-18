@@ -1,0 +1,43 @@
+{
+  "separator_text": "LUB",
+  "sign_in": {
+    "form": {
+      "label_sign_in": "Logowanie",
+      "checkbox_remember_me": "Zapamiętaj mnie na tym komputerze",
+      "button_sign_in": "Zaloguj się",
+      "button_sign_in_with_google": "Zaloguj się z kontem Google",
+      "text_forgot_password": "Zapomniałeś hasła?",
+      "link_reset_password": "Zresetuj hasło"
+    },
+    "section_info": {
+      "info_content": {
+        "header_welcome_to_iser": "Witaj w Iser",
+        "text_description": "Wprowadź swoje dane żeby zalogować się do panelu",
+        "info_footer": {
+          "text_first_visit": "Nie masz jeszcze konta ?",
+          "button_sign_up": "Zajerestruj się"
+        }
+      }
+    }
+  },
+  "sign_up": {
+    "form": {
+      "label_sign_up": "Rejestracja",
+      "button_sign_up": "Załóż darmowe konto",
+      "button_sign_in_with_google": "Zaloguj się z kontem Google",
+      "checkbox_newsletter_agreement": "Zapisuje się do newslettera i chcę otrzymywać najnowsze treści",
+      "text_registration_terms": "Rejestrując się potwierdzasz, że zapoznałeś się z regulaminem oraz akceptujesz jego warunki."
+    },
+    "section_info": {
+      "info_content": {
+        "header_welcome_to_iser": "Zarejestruj się do wersji beta platformy i uzyskaj darmowy dostęp na zawsze",
+        "text_description": "Uzupełnij formularz i założ darmowe konto.",
+        "info_footer": {
+          "text_already_signed_up": "Masz już konto?",
+          "button_sign_in": "Zaloguj się"
+        }
+      }
+    }
+    
+  }
+}
