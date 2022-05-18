@@ -13,15 +13,18 @@ import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import { RootState } from "rootStore/rootReducer";
 import SignInView from "features/account/SignIn/SignInView";
 import SignUpView from "features/account/SignUp/SignUpView";
-import DashboardView from "features/supervision/dashboard/DashboardView";
+import DashboardView from "features/iser/dashboard/DashboardView";
 import useSnackbarNotifier from "features/notifiers/useSnackbarNotifier";
 import { useDispatch } from 'react-redux' 
 import { authenticate } from 'features/account/store/accountSlice' 
 import ThemeProvider from 'common/theme'
-import DashboardLayout from 'features/supervision/dashboard'
+import DashboardLayout from 'features/iser/dashboard'
 import AuthError from 'features/account/components/AuthError'
-import "./App.css";
 import AppError from "features/account/components/AppError";
+import { useTranslation } from 'react-i18next';
+import { namespaces } from "i18n";
+import PageLoadingWrapper from "common/components/PageLoadingWrapper";
+import "./App.css";
 
 // ----------------------------------------------------------------------
 
@@ -102,40 +105,44 @@ const ErrorFallback: React.FC<FallbackProps> = ({ resetErrorBoundary }) => {
     resetErrorBoundary();
   }, [resetErrorBoundary]);
 
-  return <Navigate to="/unath" />;
+  return <Navigate to="/error" />;
 };
 
 
 function App() {
 
   useSnackbarNotifier();
+  const { ready: areTranslationsLoaded } = useTranslation(namespaces);
 
   return (
-    <ThemeProvider>
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <Router basename="/">
-            <div className="App">
-              <Routes>
-                <Route path="/app" element={<PreAuthRoute/>}>
-                  <Route path="/app//signin" element={<SignInView/>} />
-                  <Route path="/app//signup" element={<SignUpView/>} />
-                </Route>              
-                <Route
-                  path="/dashboard"
-                  element={<PrivateRoute />}
-                >
-                  <Route path="/dashboard/" element={<DashboardLayout/>}>
-                    <Route path='/dashboard/' element={<DashboardView/>}/>
+    // split into preauth and app parts
+    <PageLoadingWrapper loading={!areTranslationsLoaded}> 
+      <ThemeProvider>
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <Router basename="/">
+              <div className="App">
+                <Routes>
+                  <Route path="/app" element={<PreAuthRoute/>}>
+                    <Route path="/app//signin" element={<SignInView/>} />
+                    <Route path="/app//signup" element={<SignUpView/>} />
+                  </Route>              
+                  <Route
+                    path="/dashboard"
+                    element={<PrivateRoute />}
+                  >
+                    <Route path="/dashboard/" element={<DashboardLayout/>}>
+                      <Route path='/dashboard/' element={<DashboardView/>}/>
+                    </Route>
                   </Route>
-                </Route>
-                <Route path="/unath" element={<AuthError/>}/>
-                <Route path="/error" element={<AppError/>}/>
-                <Route path="/" element={<Navigate to={"/app/signin"}/>}/>
-              </Routes>
-            </div>
-        </Router>
-      </ErrorBoundary>
-    </ThemeProvider>
+                  <Route path="/unath" element={<AuthError/>}/>
+                  <Route path="/error" element={<AppError/>}/>
+                  <Route path="/" element={<Navigate to={"/app/signin"}/>}/>
+                </Routes>
+              </div>
+          </Router>
+        </ErrorBoundary>
+      </ThemeProvider>
+    </PageLoadingWrapper>
   );
 }
 

@@ -14,9 +14,9 @@ import { useFormValidator } from "common/utils/useFormValidator";
 
 import { ReactComponent as PasswordIcon } from "common/images/pswd-icon.svg";
 import { ReactComponent as MailIcon } from "common/images/mail-icon.svg";
+import { useTranslation } from 'react-i18next'
 
 // ----------------------------------------------------------------------
-
 
 const FormLabel = styled.h1`
   font-size: 30px;
@@ -26,7 +26,6 @@ const FormLabel = styled.h1`
 `;
 
 // ----------------------------------------------------------------------
-
 
 const useObservable = (observable: Observable<any>, setter: any) => {
   useEffect(() => {
@@ -80,6 +79,8 @@ const CredentialsFormInput = forwardRef(
 
     const emailInputField = useRef<HTMLInputElement>(null);
     const passwordInputField = useRef<HTMLInputElement>(null);
+
+    const { t } = useTranslation('common');
 
     useEffect(() => {
       !disableAutofocus && emailInputField?.current?.focus();
@@ -163,7 +164,7 @@ const CredentialsFormInput = forwardRef(
         <RoundInput
           value={emailInput.value}
           errorMessage={emailInput.error}
-          placeholder="Adres e-mail"
+          placeholder={t('forms.fields.email.input_placeholder')}
           type="text"
           postfixIcon={<MailIcon />}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -174,7 +175,7 @@ const CredentialsFormInput = forwardRef(
         <RoundInput
           value={passwordInput.value}
           errorMessage={passwordInput.error}
-          placeholder="Hasło"
+          placeholder={t('forms.fields.password.input_placeholder')}
           type="password"
           postfixIcon={<PasswordIcon />}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {

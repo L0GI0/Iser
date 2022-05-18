@@ -22,6 +22,7 @@ import { RootState } from "rootStore/rootReducer";
 import { useStateChangeNotifier, getSignInStateSnackbarMap } from 'features/notifiers/useStateChangeNotifiers'
 import LoadingBackdrop from "common/components/backdrops/LoadingBackdrop";
 import { triggerNotification } from "features/notifiers/store/notifiersSlice";
+import { useTranslation } from 'react-i18next'
 
 // ----------------------------------------------------------------------
 
@@ -47,13 +48,14 @@ const ForgotPasswordTip = styled(Typography).attrs({
 
 const SignInForm: React.FC = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation(['account', 'notifiers']);
 
   const inputFormRef = useRef<CredentialsFormRef>(null);
   const { requestStatus: { signIn: signInStatus }, isLoggingIn } = useSelector(
     (state: RootState) => state.accountReducer
   );
 
-  useStateChangeNotifier(signInStatus, getSignInStateSnackbarMap(dispatch));
+  useStateChangeNotifier(signInStatus, getSignInStateSnackbarMap(dispatch, t));
 
   const logInUser = () => {
     if (inputFormRef.current?.validateForm()) {
@@ -71,11 +73,11 @@ const SignInForm: React.FC = () => {
   return (
       <AccountForm>
         <LoadingBackdrop open={isLoggingIn}>
-          <CredentialsFromInput labelText="Logowanie" ref={inputFormRef} />
+          <CredentialsFromInput labelText={t('sign_in.form.label_sign_in')} ref={inputFormRef} />
         </LoadingBackdrop>
         <RememberMeContainer>
-          <CheckboxInput promptText={"Zapamiętaj mnie na tym komputerze"} />
-          <RoundButton text="Zaloguj sie" color="primary" onClick={logInUser} />
+          <CheckboxInput promptText={t('sign_in.form.checkbox_remember_me')} />
+          <RoundButton text={t('sign_in.form.button_sign_in')} color="primary" onClick={logInUser} />
         </RememberMeContainer>
       </AccountForm>
   );
@@ -84,18 +86,21 @@ const SignInForm: React.FC = () => {
 // ----------------------------------------------------------------------
 
 const SignInLeftSection: React.FC = () => {
+
+  const { t } = useTranslation('account');
+
   return (
     <WhiteSection>
       <SignInForm />
-      <LineSeparator>LUB</LineSeparator>
+      <LineSeparator>{t('separator_text')}</LineSeparator>
       <RoundButton
-        text="Zaloguj sie z kontem Google"
+        text={t('sign_in.form.button_sign_in_with_google')}
         style={{ width: "100%" }}
         color="primary"
       />
       <ForgotPasswordTip>
-        {"Zapomniałeś hasła?"}
-        <GreyRedirectLink> {"Zresetuj hasło"}</GreyRedirectLink>
+      {t('sign_in.form.text_forgot_password')}
+        <GreyRedirectLink> {t('sign_in.form.link_reset_password')}</GreyRedirectLink>
       </ForgotPasswordTip>
     </WhiteSection>
   );
@@ -106,6 +111,8 @@ const SignInLeftSection: React.FC = () => {
 const SignInRightSection: React.FC = () => {
   const navigate = useNavigate();
 
+  const { t } = useTranslation('account');
+
   const redirectToSignUpView = () => {
     navigate("/app/signup");
   };
@@ -113,15 +120,15 @@ const SignInRightSection: React.FC = () => {
   return (
     <NavyBlueBubbledSectionRight>
       <InfoContent
-        header="Witaj w LanguaGeiser - platformie do konfigurowalnej nauki!"
-        description="Wprowadź swoje dane żeby zalogować się do panelu"
+        header={t('sign_in.section_info.info_content.header_welcome_to_iser')}
+        description={t('sign_in.section_info.info_content.text_description')}
         footer={
           <React.Fragment>
             <Typography variant="body2" component="span">
               Nie masz jeszcze konta ?
             </Typography>
             <RoundButton
-              text="Zarejestruj się"
+              text={t('sign_in.section_info.info_content.info_footer.button_sign_up')}
               style={{ marginLeft: "2em" }}
               color="secondary"
               onClick={redirectToSignUpView}

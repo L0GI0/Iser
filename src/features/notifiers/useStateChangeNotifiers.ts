@@ -5,6 +5,7 @@ import { enqueueSnackbar } from './store/notifiersSlice'
 import { clearSignInStatus } from "features/account/store/accountSlice"
 import { VariantType } from 'notistack';
 import { REQUEST_STATUS } from 'features/account/store/accountSlice'
+import { TFunction } from 'react-i18next'
 
 // ----------------------------------------------------------------------
 
@@ -16,26 +17,26 @@ interface StatetoSnackBarMap {
     onExit?: () => void
 }
 
-export const getSignUpStateToSnackbarMap = (dispatch: AppDispatch): Array<StatetoSnackBarMap> => [
+export const getSignUpStateToSnackbarMap = (dispatch: AppDispatch, t: TFunction<['account', 'notifiers']>): Array<StatetoSnackBarMap> => [
     {
         statePath: 'accountReducer.requestStatus.signUp',
         triggerValue: REQUEST_STATUS.failed,
-        snackBarMessage: 'Registraction failed',
+        snackBarMessage: t('notification_msg_sign_up.sign_up_failed', { ns: 'notifiers'} ),
         variant: 'error'
     },
     {
         statePath: 'accountReducer.requestStatus.signUp',
         triggerValue: REQUEST_STATUS.success,
-        snackBarMessage: 'Registraction successful',
+        snackBarMessage: t('notification_msg_sign_up.sign_up_success', { ns: 'notifiers'}),
         variant: 'success'
     },
 ]
 
-export const getSignInStateSnackbarMap = (dispatch: AppDispatch): Array<StatetoSnackBarMap> => [
+export const getSignInStateSnackbarMap = (dispatch: AppDispatch, t: TFunction<['account', 'notifiers']>): Array<StatetoSnackBarMap> => [
     {
         statePath: 'accountReducer.requestStatus.signIn',
         triggerValue: REQUEST_STATUS.failed,
-        snackBarMessage: 'Unable to log in',
+        snackBarMessage: t('notification_msg_sign_in.sign_in_failed', { ns: 'notifiers'}),
         variant: 'error',
         onExit: () => {
             dispatch(clearSignInStatus());
@@ -44,7 +45,7 @@ export const getSignInStateSnackbarMap = (dispatch: AppDispatch): Array<StatetoS
     {
         statePath: 'accountReducer.requestStatus.signIn',
         triggerValue: REQUEST_STATUS.unauthorized,
-        snackBarMessage: 'Invalid username or password',
+        snackBarMessage: t('notification_msg_sign_in.sign_in_unauthorized', { ns: 'notifiers'}),
         variant: 'error',
         onExit: () => {
             dispatch(clearSignInStatus());

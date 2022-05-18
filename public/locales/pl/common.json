@@ -1,0 +1,26 @@
+{
+  "forms": {
+    "fields": {
+      "email": {
+        "input_placeholder": "Adres e-mail",
+        "rule_msg": {
+          "email_required": "Podaj adres e-mail",
+          "email_invalid": {
+            "not_at_format": "Podany adres e-mail jest nieprawidłowy"
+          }
+        }
+      },
+      "password": {
+        "input_placeholder": "Hasło",
+        "rule_msg": {
+            "password_required": "Hasło powinno składać się z co najmniej 8 znaków",
+            "password_invalid": {
+              "at_least_one_digit": "Hasło powinno zawierać co najmniej jedną cyfrę",
+              "at_least_one_upper_case": "Hasło powinno zawierać co najmniej jedną wielką literę",
+              "at_least_one_lower_case": "Hasło powinno zawierać co najmniej jedną małą literę"
+          }
+        }
+      }
+    }
+  }
+}

@@ -38,7 +38,6 @@ export interface ApiAjaxCreationMethod {
   delete: ApiBodylessCall;
 }
 
-
 export const ajaxApi = <
   T extends StateObservable<RootState> | RootState = StateObservable<RootState>
 >(

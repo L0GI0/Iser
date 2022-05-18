@@ -1,3 +1,5 @@
+import { useTranslation, TFunction } from 'react-i18next'
+
 interface fieldErrorRule {
   required: string;
   invalid: Record<string, string>;
@@ -10,24 +12,31 @@ interface fieldValuesRulesProps {
 
 export type fieldsNames = keyof fieldValuesRulesProps;
 
-const fieldValuesRules: fieldValuesRulesProps = {
-  email: {
-    required: "Please provide an email address",
-    invalid: { noAtFormat: "Provided email address is invalid" },
-  },
-  password: {
-    required: "Password should consist of at least 8 characters",
-    invalid: {
-      atLeastOneDigit: "Password should contain at least one digit",
-      atLeastOneUpper:
-        "Password should contain at least one upper case character",
-      atLeastOneLower:
-        "Password should contain at least one lower case character",
+const getFieldValuesRules = (t: TFunction<'common'>): fieldValuesRulesProps => {
+  return {
+    email: {
+      required: t('forms.fields.email.rule_msg.email_required'),
+      invalid: { noAtFormat: t("forms.fields.email.rule_msg.email_invalid.not_at_format") },
     },
-  },
-};
+    password: {
+      required: t("forms.fields.password.rule_msg.passwod_required"),
+      invalid: {
+        atLeastOneDigit: t("forms.fields.password.password_invalid.at_least_one_digit"),
+        atLeastOneUpper:
+          t("forms.fields.password.password_invalid.at_least_one_upper_case"),
+        atLeastOneLower:
+          t("forms.fields.password.password_invalid.at_least_one_lower_case"),
+      },
+    },
+  };
+}
 
 export const useFormValidator = () => {
+
+  const { t } = useTranslation('common');
+
+  const fieldValuesRules = getFieldValuesRules(t);
+
   const validateEmail = (
     emailAddress: string
   ): string | Record<string, string> => {

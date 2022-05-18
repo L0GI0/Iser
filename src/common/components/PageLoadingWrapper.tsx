@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import CircularProgress from '@mui/material/CircularProgress';
 
 // ----------------------------------------------------------------------
 
@@ -21,7 +22,7 @@ const PageLoadingWrapper: React.FC<TranslateType> = ({ loading, children }) => {
   return (
     <React.Fragment>
       {loading ? (
-        <RedirectionSpinnerContainer>Loading</RedirectionSpinnerContainer>
+        <RedirectionSpinnerContainer><CircularProgress /></RedirectionSpinnerContainer>
       ) : (
         children
       )}

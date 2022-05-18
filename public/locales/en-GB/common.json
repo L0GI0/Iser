@@ -1,0 +1,26 @@
+{
+  "forms": {
+    "fields": {
+      "email": {
+        "input_placeholder": "Email addres",
+        "rule_msg": {
+          "email_required": "Please provide an email address",
+          "email_invalid": {
+            "not_at_format": "Provided email address is invalid"
+          }
+        }
+      },
+      "password": {
+        "input_placeholder": "Password",
+        "rule_msg": {
+            "password_required": "Password should consist of at least 8 characters",
+            "password_invalid": {
+              "at_least_one_digit": "Password should contain at least one digit",
+              "at_least_one_upper_case": "Password should contain at least one upper case character",
+              "at_least_one_lower_case": "Password should contain at least one lower case character"
+          }
+        }
+      }
+    }
+  }
+}
