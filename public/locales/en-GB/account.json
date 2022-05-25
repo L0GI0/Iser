@@ -10,14 +10,12 @@
       "link_reset_password": "Reset your password"
     },
     "section_info": {
-      "info_content": {
         "header_welcome_to_iser": "Welcome to Iser.",
         "text_description": "Enter your details to sign in in to the dasboard",
         "info_footer": {
           "text_first_visit": "You don't have an account yet?",
           "button_sign_up": "Sign up"
         }
-      }
     }
   },
   "sign_up": {
@@ -29,15 +27,12 @@
       "text_registration_terms": "By signing up, you confirm that you have read the regulations and you accept its terms"
     },
     "section_info": {
-      "info_content": {
-        "header_welcome_to_iser": "Sign up for the beta version of the platform and get free access forever",
-        "text_description": "Complete the form and create a free account.",
-        "info_footer": {
-          "text_already_signed_up": "Already have an account?",
-          "button_sign_in": "Sign in"
-        }
+      "header_welcome_to_iser": "Sign up for the beta version of the platform and get free access forever",
+      "text_description": "Complete the form and create a free account.",
+      "info_footer": {
+        "text_already_signed_up": "Already have an account?",
+        "button_sign_in": "Sign in"
       }
     }
-    
   }
 }

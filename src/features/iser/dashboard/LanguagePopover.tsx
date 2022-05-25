@@ -23,9 +23,26 @@ const LanguageOptionIcon = styled(IconButton)<LanguageOptionIconProps>(({ theme,
   }) 
 }));
 
+
+const LanguageMenuPopover = styled(MenuPopover)(({ theme }) => ({
+  marginTop: 1.5,
+  marginLeft: 0.75,
+  width: 180,
+  '& .MuiMenuItem-root': { px: 1, typography: 'body2', borderRadius: 0.75 },
+}))
+
 // ----------------------------------------------------------------------
 
-const LANGS = [
+type Languages = 'en-GB' | 'pl' | 'de' | 'fr';
+
+interface Language {
+  value: Languages,
+  label: string,
+  icon: string,
+}
+
+
+const LANGS: Language[] = [
   {
     value: 'en-GB',
     label: 'English',
@@ -47,6 +64,13 @@ const LANGS = [
     icon: '/static/icons/lng_flag_fr.svg',
   },
 ];
+
+const getSelectedLanguage = (currentLanguage: string) => {
+    const selectedLanguage = LANGS.find((language) => {
+      return language.value === currentLanguage
+    })
+    return selectedLanguage || LANGS[0];
+}
 
 export default function LanguagePopover() {
   const anchorRef = useRef(null);
@@ -75,29 +99,23 @@ export default function LanguagePopover() {
         onClick={handleOpen}
         open
       >
-        <img src={LANGS[0].icon} alt={LANGS[0].label} />
+        <img src={getSelectedLanguage(i18n.language).icon} alt={getSelectedLanguage(i18n.language).label} />
       </LanguageOptionIcon>
 
-      <MenuPopover
+      <LanguageMenuPopover
         open={open}
         onClose={handleClose}
         anchorEl={anchorRef.current}
-        sx={{
-          mt: 1.5,
-          ml: 0.75,
-          width: 180,
-          '& .MuiMenuItem-root': { px: 1, typography: 'body2', borderRadius: 0.75 },
-        }}
       >
         <Stack spacing={0.75}>
           {LANGS.map((option) => (
-            <MenuItem key={option.value} selected={option.value === LANGS[0].value} onClick={() => changeLanguage(option.value)}>
+            <MenuItem key={option.value} selected={option.value === i18n.language} onClick={() => changeLanguage(option.value)}>
               <Box component="img" alt={option.label} src={option.icon} sx={{ width: 28, mr: 2 }} />
               {option.label}
             </MenuItem>
           ))}
         </Stack>
-      </MenuPopover>
+      </LanguageMenuPopover>
     </>
   );
 }

@@ -2,19 +2,18 @@ import React, { useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Typography from "@mui/material/Typography";
+import { Typography } from "@mui/material";
 
 import { logIn } from "../store/accountSlice";
 import TwoSectionsLayout from "common/components/TwoSectionsLayout";
 import {
   WhiteSection,
-  NavyBlueBubbledSectionRight,
-  LineSeparator,
+  NavyBlueBubbledSectionRight
 } from "common/components/styledElements";
 import CredentialsFromInput, {
   CredentialsFormRef,
 } from "../components/CredentialsFormInput";
-import { AccountForm, GreyRedirectLink } from "../components/styledElements";
+import { AccountForm, GreyRedirectLink, LineDivider } from "../components/styledElements";
 import RoundButton from "common/components/RoundButton";
 import CheckboxInput from "common/components/CheckboxInput";
 import InfoContent from "../components/InfoContent";
@@ -92,7 +91,7 @@ const SignInLeftSection: React.FC = () => {
   return (
     <WhiteSection>
       <SignInForm />
-      <LineSeparator>{t('separator_text')}</LineSeparator>
+      <LineDivider text={t('separator_text')} />
       <RoundButton
         text={t('sign_in.form.button_sign_in_with_google')}
         style={{ width: "100%" }}
@@ -120,15 +119,15 @@ const SignInRightSection: React.FC = () => {
   return (
     <NavyBlueBubbledSectionRight>
       <InfoContent
-        header={t('sign_in.section_info.info_content.header_welcome_to_iser')}
-        description={t('sign_in.section_info.info_content.text_description')}
+        header={t('sign_in.section_info.header_welcome_to_iser')}
+        description={t('sign_in.section_info.text_description')}
         footer={
           <React.Fragment>
             <Typography variant="body2" component="span">
-              Nie masz jeszcze konta ?
+            { t('sign_in.section_info.info_footer.text_first_visit') }
             </Typography>
             <RoundButton
-              text={t('sign_in.section_info.info_content.info_footer.button_sign_up')}
+              text={t('sign_in.section_info.info_footer.button_sign_up')}
               style={{ marginLeft: "2em" }}
               color="secondary"
               onClick={redirectToSignUpView}

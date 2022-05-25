@@ -3,10 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
-
 import TwoSectionsLayout from "common/components/TwoSectionsLayout";
-import { LineSeparator } from "common/components/styledElements";
-
 import {
 WhiteSection,
   NavyBlueBubbledSectionLeft,
@@ -18,7 +15,7 @@ import ResultBackdrop from "common/components/backdrops/ResultBackdrop";
 import { RootState } from "rootStore/rootReducer";
 import { RESULT_VARIANTS, ResultVariant } from "common/components/backdrops/ResultBackdrop";
 
-import { AccountForm } from "../components/styledElements";
+import { AccountForm, LineDivider } from "../components/styledElements";
 import InfoContent from "../components/InfoContent";
 import CredentialsFromInput, { CredentialsFormRef } from "../components/CredentialsFormInput";
 import { signUp, clearSignUpStatus } from '../store/accountSlice'
@@ -110,7 +107,7 @@ const SignUpRightSection: React.FC = () => {
   return (
     <WhiteSection>
       <SignUpForm/>
-      <LineSeparator>{t('separator-text')}</LineSeparator>
+      <LineDivider text={t('separator_text')}/>
       <RoundButton
         text={t('sign_up.form.button_sign_in_with_google')}
         color="primary"
@@ -142,14 +139,14 @@ const SignUpLeftSection: React.FC = () => {
   return (
     <NavyBlueBubbledSectionLeft>
       <InfoContent
-        header={t('sign_up.section_info.info_content.header_welcome_to_iser')}
-        description={t("sign_up.section_info.info_content.text_description")}
+        header={t('sign_up.section_info.header_welcome_to_iser')}
+        description={t("sign_up.section_info.text_description")}
         footer={
           <React.Fragment>
-            {t('sign_up.section_info.info_content.info_footer.text_already_signed_up')}
+            {t('sign_up.section_info.info_footer.text_already_signed_up')}
             <RoundButton
               onClick={redirectToSignInView}
-              text={t('sign_up.section_info.info_content.info_footer.button_sign_in')}
+              text={t('sign_up.section_info.info_footer.button_sign_in')}
               style={{ marginLeft: "2em" }}
               color="secondary"
             />
