@@ -71,27 +71,3 @@ export const NavyBlueBubbledSectionLeft = ( { children }: SectionProps) => {
       { children }
     </NavyBlueBubbledSection>
 }
-
-export const LineSeparator = styled.div`
-  display: flex;
-  align-items: center;
-  text-align: center;
-  margin: 2em 0;
-  font-size: 10px;
-  width: 100%;
-  color: rgba(225, 221, 221, 255);
-  ::before,
-  ::after {
-    content: "";
-    flex: 1;
-    border-bottom: 2px solid rgba(225, 221, 221, 255);
-  }
-
-  :not(:empty)::before {
-    margin-right: 1em;
-  }
-
-  :not(:empty)::after {
-    margin-left: 1em;
-  }
-`;

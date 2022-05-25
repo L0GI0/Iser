@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Typography from "@mui/material/Typography";
+import { Divider, Typography } from "@mui/material";
 
 // ----------------------------------------------------------------------
 
@@ -46,3 +46,16 @@ export const GreyRedirectLink = styled(Typography).attrs({
     text-shadow: 0px 0px 1px rgba(92, 58, 252, 0.5);
   }
 `
+
+interface LineDividerProps {
+  text: string
+}
+
+export const LineDivider = ({ text }: LineDividerProps) => { 
+  return (
+    <Divider sx={{ my: 5, width: '100%', alignItems: 'center', height: 0 }}>
+      <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+        { text }
+      </Typography>
+    </Divider>)
+}

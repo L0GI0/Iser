@@ -10,7 +10,6 @@
       "link_reset_password": "Zresetuj hasło"
     },
     "section_info": {
-      "info_content": {
         "header_welcome_to_iser": "Witaj w Iser",
         "text_description": "Wprowadź swoje dane żeby zalogować się do panelu",
         "info_footer": {
@@ -18,7 +17,6 @@
           "button_sign_up": "Zajerestruj się"
         }
       }
-    }
   },
   "sign_up": {
     "form": {
@@ -29,15 +27,12 @@
       "text_registration_terms": "Rejestrując się potwierdzasz, że zapoznałeś się z regulaminem oraz akceptujesz jego warunki."
     },
     "section_info": {
-      "info_content": {
-        "header_welcome_to_iser": "Zarejestruj się do wersji beta platformy i uzyskaj darmowy dostęp na zawsze",
-        "text_description": "Uzupełnij formularz i założ darmowe konto.",
-        "info_footer": {
-          "text_already_signed_up": "Masz już konto?",
-          "button_sign_in": "Zaloguj się"
-        }
+      "header_welcome_to_iser": "Zarejestruj się do wersji beta platformy i uzyskaj darmowy dostęp na zawsze",
+      "text_description": "Uzupełnij formularz i założ darmowe konto.",
+      "info_footer": {
+        "text_already_signed_up": "Masz już konto?",
+        "button_sign_in": "Zaloguj się"
       }
     }
-    
   }
 }

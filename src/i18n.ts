@@ -21,9 +21,7 @@ i18n
   .use(Backend)
   .use(LanguageDetector)
   .use(initReactI18next)
-
   .init({
-    fallbackLng: 'en-GB',
     debug: true,
     supportedLngs,
     ns: namespaces,

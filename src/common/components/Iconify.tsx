@@ -10,5 +10,5 @@ interface IconifyProps {
 }
 
 export default function Iconify({ icon, sx, ...other }: IconifyProps) {
-  return <Box component={Icon} icon={icon} sx={{ ...sx }} {...other} />;
+  return <Box component={Icon} icon={icon} sx={{ width: 22, height: 22,...sx }} {...other} />;
 }

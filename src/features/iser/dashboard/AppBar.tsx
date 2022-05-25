@@ -4,6 +4,7 @@ import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
 import Iconify from "common/components/Iconify";
 import Searchbar from "./Searchbar";
 import LanguagePopover from "./LanguagePopover";
+import AccountPopover from './AccountPopover'
 
 // ----------------------------------------------------------------------
 
@@ -28,8 +29,8 @@ const IserToolbar = styled(Toolbar)(( { theme }) => ({
     padding: theme.spacing(0, 5)
   }
 }));
-
-const IconButtonStyle = styled(IconButton)(( { theme }) => ({
+   
+const SidebarIconButtonStyle = styled(IconButton)(( { theme }) => ({
   marginRight: theme.spacing(1),
   color: theme.palette.text.primary,
   [theme.breakpoints.up('lg')]: {
@@ -47,15 +48,16 @@ export default function IserAppBar({ onOpenSidebar }: DashboardNavbar) {
   return (
     <IserAppBarStyle>
       <IserToolbar>
-        <IconButtonStyle onClick={onOpenSidebar}>
+        <SidebarIconButtonStyle onClick={onOpenSidebar}>
           <Iconify icon="eva:menu-2-fill" />
-        </IconButtonStyle>
+        </SidebarIconButtonStyle>
 
         <Searchbar />
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
            <LanguagePopover />
+           <AccountPopover />
         </Stack>
       </IserToolbar>
     </IserAppBarStyle>
