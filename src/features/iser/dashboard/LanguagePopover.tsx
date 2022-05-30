@@ -86,7 +86,6 @@ export default function LanguagePopover() {
 
   const changeLanguage = (targetLanguage: string) => {
     handleClose();
-    console.log(`Changing langueage to = ${targetLanguage}`)
     i18n.changeLanguage(targetLanguage)
   }
 

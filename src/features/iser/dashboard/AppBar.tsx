@@ -12,14 +12,18 @@ const DRAWER_WIDTH = 280;
 const APPBAR_MOBILE = 64;
 const APPBAR_DESKTOP = 92;
 
-const IserAppBarStyle = styled(AppBar)`
+interface IserAppBarProps {
+  isSidebarOpen: boolean
+}
+
+const IserAppBarStyle = styled(AppBar)<IserAppBarProps>`
   backdrop-filter: blur(6px);
   box-shadow: none;
   -webkit-backdrop-filter: blur(6px);
   background-color: ${({ theme })  => alpha(theme.palette.background.default, 0.72)};
-  ${({ theme }) => theme.breakpoints.up('lg')} {
+  ${({ theme, isSidebarOpen }) => isSidebarOpen && `${theme.breakpoints.up('lg')} {
     width: calc(100% - ${DRAWER_WIDTH + 1}px);
-  }
+  `}
 `
 
 const IserToolbar = styled(Toolbar)(( { theme }) => ({
@@ -29,28 +33,26 @@ const IserToolbar = styled(Toolbar)(( { theme }) => ({
     padding: theme.spacing(0, 5)
   }
 }));
-   
-const SidebarIconButtonStyle = styled(IconButton)(( { theme }) => ({
+
+const IconButtonStyle = styled(IconButton)(( { theme }) => ({
   marginRight: theme.spacing(1),
   color: theme.palette.text.primary,
-  [theme.breakpoints.up('lg')]: {
-    display: 'none'
-  }
 }));
 
 // ----------------------------------------------------------------------
 
 interface DashboardNavbar {
-  onOpenSidebar: () => void;
+  onTriggerSidebar: () => void;
+  isSidebarOpen: boolean;
 }
 
-export default function IserAppBar({ onOpenSidebar }: DashboardNavbar) {
+export default function IserAppBar({ onTriggerSidebar, isSidebarOpen }: DashboardNavbar) {
   return (
-    <IserAppBarStyle>
+    <IserAppBarStyle isSidebarOpen={isSidebarOpen}>
       <IserToolbar>
-        <SidebarIconButtonStyle onClick={onOpenSidebar}>
+        <IconButtonStyle onClick={onTriggerSidebar}>
           <Iconify icon="eva:menu-2-fill" />
-        </SidebarIconButtonStyle>
+        </IconButtonStyle>
 
         <Searchbar />
         <Box sx={{ flexGrow: 1 }} />

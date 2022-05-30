@@ -19,8 +19,10 @@ const MainStyle = styled('div')(({ theme }) => ({
   flexGrow: 1,
   overflow: 'auto',
   minHeight: '100%',
-  paddingTop: APP_BAR_MOBILE + 24,
+  paddingTop: APP_BAR_MOBILE + 24,  
   paddingBottom: theme.spacing(10),
+  paddingLeft: theme.spacing(1),
+  paddingRight: theme.spacing(1),
   [theme.breakpoints.up('lg')]: {
     paddingTop: APP_BAR_DESKTOP + 24,
     paddingLeft: theme.spacing(2),
@@ -31,12 +33,12 @@ const MainStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function DashboardLayout() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(true);
 
   return (
     <RootStyle>
-      <IserAppBar onOpenSidebar={() => setOpen(true)} />
-      <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
+      <IserAppBar onTriggerSidebar={() => setOpen((open) => !open)} isSidebarOpen={open}/>
+      <DashboardSidebar isSidebarOpen={open} onCloseSidebar={() => setOpen(false)} onOpenSidebar={() => setOpen(true)}/>
       <MainStyle>
         <Outlet />
       </MainStyle>

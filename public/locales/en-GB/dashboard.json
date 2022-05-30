@@ -2,5 +2,22 @@
   "search_bar": {
     "input_placeholder": "Search...",
     "button_search": "Search"
+  },
+  "navigation_section": {
+    "dashboard_nav_item": "dashboard",
+    "user_nav_item": "user",
+    "product_nav_item": "product",
+    "blog_nav_item": "blog"
+  },
+  "contact_section": {
+    "text_contact_me": "Contact me"
+  },
+  "account_popover": {
+    "menu_options": {
+      "home_option": "Home",
+      "profile_option": "Profile",
+      "settings_option": "Settings"
+    },
+    "log_out_button": "Log out" 
   }
 }
