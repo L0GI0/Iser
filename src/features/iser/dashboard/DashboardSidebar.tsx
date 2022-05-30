@@ -7,17 +7,22 @@ import useResponsive from 'common/utils/useResponsive';
 import Scrollbar from 'common/components/Scrollbar';
 import Iconify from "common/components/Iconify";
 import NavSection from './NavSection';
-import navConfig from './NavConfig';
+import getNavConfig from './NavConfig';
+import { useTranslation } from 'react-i18next';
 
 // ----------------------------------------------------------------------
 
 const DRAWER_WIDTH = 280;
 
-const RootStyle = styled('div')(({ theme }) => ({
-  [theme.breakpoints.up('lg')]: {
+interface RootStyleProps {
+  isSidebarOpen: boolean
+} 
+
+const RootStyle = styled('div')<RootStyleProps>(({ isSidebarOpen }) => ({
+  ...(isSidebarOpen && {
     flexShrink: 0,
     width: DRAWER_WIDTH,
-  },
+  }),
 }));
 
 const AccountStyle = styled('div')(({ theme }) => ({
@@ -45,21 +50,28 @@ const Logo = styled(Box).attrs({ component: 'img', src: "/static/iser-logo.png"}
 // ----------------------------------------------------------------------
 
 interface DashboardSidebarProps {
-  isOpenSidebar: boolean,
-  onCloseSidebar: () => void
+  isSidebarOpen: boolean,
+  onCloseSidebar: () => void,
+  onOpenSidebar: () => void
 }
 
-export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }: DashboardSidebarProps) {
+export default function DashboardSidebar({ isSidebarOpen, onCloseSidebar, onOpenSidebar }: DashboardSidebarProps) {
   const { pathname } = useLocation();
 
   const isDesktop = useResponsive('up', 'lg');
 
+  const { t } = useTranslation('dashboard');
+
   useEffect(() => {
-    if (isOpenSidebar) {
+    if (isSidebarOpen && !isDesktop) {
       onCloseSidebar();
     }
+
+    if(!isSidebarOpen && isDesktop){
+      onOpenSidebar();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+  }, [pathname, isDesktop]);
 
   const renderContent = (
     <SidebarScrollbar>
@@ -83,7 +95,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }: Dash
         </Link>
       </Box>
 
-      <NavSection navConfig={navConfig} />
+      <NavSection navConfig={getNavConfig(t)} />
 
       <Box sx={{ flexGrow: 1 }} />
 
@@ -97,7 +109,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }: Dash
 
           <Box sx={{ textAlign: 'center' }}>
             <Typography gutterBottom variant="h6">
-              Contact me
+              {t('contact_section.text_contact_me')}
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               Michal Pabjan
@@ -107,10 +119,10 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }: Dash
             </Typography>
           </Box>
           <Box sx={{ textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
-          <Button sx={{ margin: 0 }}startIcon={<Iconify icon={'akar-icons:github-fill'} />} href="https://material-ui.com/store/items/minimal-dashboard/" target="_blank" variant="contained">
+          <Button sx={{ margin: 0 }}startIcon={<Iconify icon={'akar-icons:github-fill'} />} href="https://github.com/L0GI0" target="_blank" variant="contained">
             Github
           </Button>
-          <Button startIcon={<Iconify icon={'akar-icons:linkedin-box-fill'}/>}href="https://material-ui.com/store/items/minimal-dashboard/" target="_blank" variant="contained">
+          <Button startIcon={<Iconify icon={'akar-icons:linkedin-box-fill'}/>}href="" target="_blank" variant="contained">
             Linkedin
           </Button>
           </Box>
@@ -122,10 +134,10 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }: Dash
   );
 
   return (
-    <RootStyle>
+    <RootStyle isSidebarOpen={isSidebarOpen}>
       {!isDesktop && (
         <Drawer
-          open={isOpenSidebar}
+          open={isSidebarOpen}
           onClose={onCloseSidebar}
           PaperProps={{
             sx: { width: DRAWER_WIDTH },
@@ -137,7 +149,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }: Dash
 
       {isDesktop && (
         <Drawer
-          open
+          open={isSidebarOpen}
           variant="persistent"
           PaperProps={{
             sx: {

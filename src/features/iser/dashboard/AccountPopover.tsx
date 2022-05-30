@@ -7,6 +7,7 @@ import Iconify from 'common/components/Iconify';
 import styled from 'styled-components'
 import account from '_mocks/account';
 import React from 'react';
+import { TFunction, useTranslation } from 'react-i18next';
 
 // ----------------------------------------------------------------------
 
@@ -16,23 +17,25 @@ interface MenuOptions {
   linkTo: string
 }
 
-const MENU_OPTIONS: MenuOptions[] = [
-  {
-    label: 'Home',
-    icon: 'eva:home-fill',
-    linkTo: '/',
-  },
-  {
-    label: 'Profile',
-    icon: 'eva:person-fill',
-    linkTo: '#',
-  },
-  {
-    label: 'Settings',
-    icon: 'eva:settings-2-fill',
-    linkTo: '#',
-  },
-];
+const getMenuOptions = (t: TFunction<'dashboard'>): MenuOptions[] => {
+  return [
+    {
+      label: t('account_popover.menu_options.home_option'),
+      icon: 'eva:home-fill',
+      linkTo: '/',
+    },
+    {
+      label: t('account_popover.menu_options.profile_option'),
+      icon: 'eva:person-fill',
+      linkTo: '#',
+    },
+    {
+      label: t('account_popover.menu_options.settings_option'),
+      icon: 'eva:settings-2-fill',
+      linkTo: '#',
+    },
+  ];
+}
 
 interface AvatarIconButtonProps {
   open: boolean
@@ -59,6 +62,8 @@ export default function AccountPopover() {
   const anchorRef = useRef(null);
 
   const [open, setOpen] = useState<EventTarget & HTMLButtonElement | null>(null);
+
+  const { t } = useTranslation('dashboard');
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setOpen(event.currentTarget);
@@ -104,7 +109,7 @@ export default function AccountPopover() {
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         <Stack sx={{ p: 1 }}>
-          {MENU_OPTIONS.map((option) => (
+          {getMenuOptions(t).map((option) => (
             <MenuItem key={option.label} to={option.linkTo} component={RouterLink} onClick={handleClose}>
               <Iconify sx={{ mx: 1 }} icon={option.icon} />
               {option.label}
