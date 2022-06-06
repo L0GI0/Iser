@@ -1,4 +1,4 @@
-import { alpha, PaletteColor, Palette } from '@mui/material/styles';
+import { alpha, PaletteColor } from '@mui/material/styles';
 import { Color } from '@mui/material'
 
 // ----------------------------------------------------------------------
@@ -45,18 +45,18 @@ const GREY: Omit<Color, 50 | 'A100' | 'A200' |'A400' |'A700'> = {
 
 const PRIMARY: PaletteColor = {
   lighter: '#D1E9FC',
-  light: '#76B0F1',
+  light: '#6748FD',
   main: '#5C3AFC',
-  dark: '#103996',
-  darker: '#061B64',
+  dark: '#401EE7',
+  darker: '#3C1BDA',
   contrastText: '#fff',
 };
 
 const SECONDARY: PaletteColor = {
-  lighter: '#D6E4FF',
-  light: '#84A9FF',
+  lighter: '#C2BCFF',
+  light: '#776AFF',
   main: '#6E60FF',
-  dark: '#1939B7',
+  dark: '#6354FD',
   darker: '#091A7A',
   contrastText: '#fff',
 };

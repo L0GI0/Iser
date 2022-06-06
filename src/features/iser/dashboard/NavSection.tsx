@@ -8,13 +8,22 @@ import { NavigationItem } from 'features/iser/dashboard/NavConfig'
 
 // ----------------------------------------------------------------------
 
-const ListItemStyle = styled((props) => <ListItemButton disableGutters {...props} />)(({ theme }) => ({
+interface ListItemProps {
+  isOpen: boolean
+}
+
+const ListItem = styled((props) => <ListItemButton disableGutters {...props} />)<ListItemProps>(({ theme, isOpen }) => ({
   ...theme.typography.body2,
   height: 48,
   position: 'relative',
   textTransform: 'capitalize',
   color: theme.palette.text.secondary,
   borderRadius: theme.shape.borderRadius,
+  ...(isOpen && {
+    color: theme.palette.primary.main,
+    fontWeight: theme.typography.fontWeightMedium,
+    backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
+  })
 }));
 
 const ListItemIconStyle = styled(ListItemIcon)`
@@ -27,6 +36,7 @@ const ListItemIconStyle = styled(ListItemIcon)`
   align-items: center;
   justify-content: center
 `
+
 // ----------------------------------------------------------------------
 
 interface NavItemProps { 
@@ -35,7 +45,6 @@ interface NavItemProps {
 }
 
 function NavItem({ item, active }: NavItemProps) {
-  const theme = useTheme();
 
    const isActiveRoot = active(item.path);
 
@@ -47,12 +56,6 @@ function NavItem({ item, active }: NavItemProps) {
     setOpen((prev) => !prev);
   };
 
-  const activeRootStyle = {
-    color: 'primary.main',
-    fontWeight: 'fontWeightMedium',
-    bgcolor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
-  };
-
   const activeSubStyle = {
     color: 'text.primary',
     fontWeight: 'fontWeightMedium',
@@ -61,11 +64,9 @@ function NavItem({ item, active }: NavItemProps) {
   if (children) {
     return (
       <>
-        <ListItemStyle
+        <ListItem
+          isOpen={open}
           onClick={handleOpen}
-          sx={{
-            ...(isActiveRoot && activeRootStyle),
-          }}
         >
           <ListItemIconStyle>{icon && icon}</ListItemIconStyle>
           <ListItemText disableTypography primary={title} />
@@ -74,7 +75,7 @@ function NavItem({ item, active }: NavItemProps) {
             icon={open ? 'eva:arrow-ios-downward-fill' : 'eva:arrow-ios-forward-fill'}
             sx={{ width: 16, height: 16, ml: 1 }}
           />
-        </ListItemStyle>
+        </ListItem>
 
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
@@ -83,7 +84,7 @@ function NavItem({ item, active }: NavItemProps) {
               const isActiveSub = active(path);
 
               return (
-                <ListItemStyle
+                <ListItem
                   key={title}
                   component={RouterLink}
                   to={path}
@@ -111,7 +112,7 @@ function NavItem({ item, active }: NavItemProps) {
                     />
                   </ListItemIconStyle>
                   <ListItemText disableTypography primary={title} />
-                </ListItemStyle>
+                </ListItem>
               );
             })}
           </List>
@@ -121,17 +122,15 @@ function NavItem({ item, active }: NavItemProps) {
   }
 
   return (
-    <ListItemStyle
+    <ListItem
       component={RouterLink}
       to={path}
-      sx={{
-        ...(isActiveRoot && activeRootStyle),
-      }}
+      isOpen={open}
     >
       <ListItemIconStyle>{icon && icon}</ListItemIconStyle>
       <ListItemText disableTypography primary={title} />
       {info && info}
-    </ListItemStyle>
+    </ListItem>
   );
 }
 
@@ -141,7 +140,6 @@ interface NavSectionProps {
 
 export default function NavSection({ navConfig, ...other }: NavSectionProps) {
   const { pathname } = useLocation();
-
   const match = (path: string) => (path ? !!matchPath({ path, end: false }, pathname) : false);
 
   return (

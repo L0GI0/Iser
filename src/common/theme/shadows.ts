@@ -49,12 +49,20 @@ const createCustomShadow = (color: string) => {
     z16: `0 0 2px 0 ${transparent}, 0 16px 32px -4px ${transparent}`,
     z20: `0 0 2px 0 ${transparent}, 0 20px 40px -4px ${transparent}`,
     z24: `0 0 4px 0 ${transparent}, 0 24px 48px 0 ${transparent}`,
-    primary: `0 8px 16px 0 ${alpha(palette.primary.main, 0.24)}`,
-    secondary: `0 8px 16px 0 ${alpha(palette.secondary.main, 0.24)}`,
-    info: `0 8px 16px 0 ${alpha(palette.info.main, 0.24)}`,
-    success: `0 8px 16px 0 ${alpha(palette.success.main, 0.24)}`,
-    warning: `0 8px 16px 0 ${alpha(palette.warning.main, 0.24)}`,
-    error: `0 8px 16px 0 ${alpha(palette.error.main, 0.24)}`,
+    primary: `0 6px 12px 0 ${alpha(palette.primary.main, 0.4)}`,
+    secondary: `0 6px 12px 0 ${alpha(palette.secondary.light, 0.4)}`,
+    info: `0 6px 12px 0 ${alpha(palette.info.main, 0.24)}`,
+    success: `0 6px 12px 0 ${alpha(palette.success.main, 0.24)}`,
+    warning: `0 6px 12px 0 ${alpha(palette.warning.main, 0.24)}`,
+    error: `0 6px 12px 0 ${alpha(palette.error.main, 0.24)}`,
+    action: {
+      primary: {
+        active: `0 4px 8px 0 ${alpha(palette.primary.main, 0.24)}`
+      },
+      secondary: {
+        active: `0 10px 18px 0 ${alpha(palette.secondary.lighter, 0.24)}`
+      }
+    }
   };
 };
 
