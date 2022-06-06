@@ -10,7 +10,7 @@ interface fieldValuesRulesProps {
   password: fieldErrorRule;
 }
 
-export type fieldsNames = keyof fieldValuesRulesProps;
+export type cfieldsNames = keyof fieldValuesRulesProps;
 
 const getFieldValuesRules = (t: TFunction<'common'>): fieldValuesRulesProps => {
   return {

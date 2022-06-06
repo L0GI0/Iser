@@ -10,7 +10,7 @@ interface Account {
 const account: Account = {
   displayName: 'Jaydon Frankie',
   email: 'demo@minimals.cc',
-  photoURL: '/static/mock-images/avatars/avatar_default.jpg',
+  photoURL: '/static/avatars/avatar_default.jpg',
   role: 'user',
 };
 

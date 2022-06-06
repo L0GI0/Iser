@@ -17,7 +17,11 @@ export default function Button(theme: Theme) {
           root: {
             textTransform: "none" as Property.TextTransform,
             margin: '1em 0' as Property.Margin,
-            boxShadow: 'none' as Property.BoxShadow
+            boxShadow: 'none' as Property.BoxShadow,
+            ":hover": {
+              background: theme.palette.primary.dark,
+              boxShadow: 'none' as Property.BoxShadow,
+            }
           }
         },
         variants: [
@@ -35,10 +39,9 @@ export default function Button(theme: Theme) {
             style: {
               background: theme.palette.primary.main,
               color: theme.palette.primary.contrastText,
-              boxShadow: '0px 10px 10px rgba(92, 58, 252, 0.5)',
+              boxShadow: theme.customShadows.primary,
               ":hover": {
-                background: 'rgba(92, 58, 252, 0.9)',
-                boxShadow: '0px 5px 10px rgba(92, 58, 252, 0.5)'
+                boxShadow: theme.customShadows.action.primary.active
               }
             }
           },
@@ -48,10 +51,10 @@ export default function Button(theme: Theme) {
               color: "secondary" as ButtonProps['color'] },
             style: {
               background: theme.palette.secondary.main,
-              boxShadow: '0px 10px 10px rgba(86,55,235,255)',
+              boxShadow: theme.customShadows.secondary,
               ":hover": {
-                background: 'rgba(86,55,235,255)',
-                boxShadow: '0px 0px 10px 1px rgba(110,96,255,255)'
+                background: theme.palette.secondary.light,
+                boxShadow: theme.customShadows.action.secondary.active
               }
             }
           },

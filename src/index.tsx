@@ -6,16 +6,23 @@ import { SnackbarProvider } from "notistack";
 import "./index.css";
 import App from "./app/App";
 import store, { persistor } from "./rootStore/store";
+import styled from 'styled-components'
 
 // ----------------------------------------------------------------------
+
+const StyledSnackbarProvider = styled(SnackbarProvider)`
+  &&.SnackbarItem-contentRoot {
+    border-radius: 5em;
+  }
+`
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <SnackbarProvider maxSnack={3}>
+        <StyledSnackbarProvider maxSnack={3}>
           <App />
-        </SnackbarProvider>
+        </StyledSnackbarProvider>
       </PersistGate>
     </Provider>
   </React.StrictMode>,
