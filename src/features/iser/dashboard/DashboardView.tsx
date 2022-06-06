@@ -18,17 +18,12 @@ const DashboardView = () => {
   const dispatch = useDispatch();
   const users = useSelector((state: RootState) => state.accountReducer.users)
 
-  const onLogOut = () => {
-    dispatch(logOut())
-  }
-
   const getUsers = () => {
     dispatch(authenticate())
   }
 
   return (<>
     <div>Admin Dashboard  </div>
-      <RoundButton text="Log out" onClick={onLogOut}/>
       <RoundButton text="auth" onClick={getUsers}/>
       <StyledDiv><LinearProgress value={60} valueBuffer={90} variant="determinate"/></StyledDiv>
       <ul>

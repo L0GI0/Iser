@@ -8,6 +8,8 @@ import styled from 'styled-components'
 import account from '_mocks/account';
 import React from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { logOut } from 'features/account/store/accountSlice' 
 
 // ----------------------------------------------------------------------
 
@@ -64,6 +66,7 @@ export default function AccountPopover() {
   const [open, setOpen] = useState<EventTarget & HTMLButtonElement | null>(null);
 
   const { t } = useTranslation('dashboard');
+  const dispatch = useDispatch();
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setOpen(event.currentTarget);
@@ -119,8 +122,8 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem onClick={handleClose} sx={{ m: 1 }}>
-          Logout
+        <MenuItem onClick={() => { handleClose(); dispatch(logOut()) }} sx={{ m: 1 }}>
+          {t('account_popover.log_out_button')}
         </MenuItem>
       </MenuPopover>
     </>

@@ -96,7 +96,7 @@ const PreAuthRoute = () => {
   );
 
   return (
-    isLoggedIn ? <Navigate to='/dashboard'/> : <Outlet/>
+    isLoggedIn ? <Navigate to='/dashboard/app'/> : <Outlet/>
   )
 }
 
@@ -123,15 +123,15 @@ function App() {
               <div className="App">
                 <Routes>
                   <Route path="/app" element={<PreAuthRoute/>}>
-                    <Route path="/app//signin" element={<SignInView/>} />
-                    <Route path="/app//signup" element={<SignUpView/>} />
+                    <Route path="/app/signin" element={<SignInView/>} />
+                    <Route path="/app/signup" element={<SignUpView/>} />
                   </Route>              
                   <Route
                     path="/dashboard"
                     element={<PrivateRoute />}
                   >
                     <Route path="/dashboard/" element={<DashboardLayout/>}>
-                      <Route path='/dashboard/' element={<DashboardView/>}/>
+                      <Route path='/dashboard/app' element={<DashboardView/>}/>
                     </Route>
                   </Route>
                   <Route path="/unath" element={<AuthError/>}/>

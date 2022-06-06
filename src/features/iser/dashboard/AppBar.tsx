@@ -5,6 +5,7 @@ import Iconify from "common/components/Iconify";
 import Searchbar from "./Searchbar";
 import LanguagePopover from "./LanguagePopover";
 import AccountPopover from './AccountPopover'
+import NotificationsPopover from './NotificationsPopover';
 
 // ----------------------------------------------------------------------
 
@@ -58,8 +59,9 @@ export default function IserAppBar({ onTriggerSidebar, isSidebarOpen }: Dashboar
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
-           <LanguagePopover />
-           <AccountPopover />
+            <LanguagePopover />
+            <NotificationsPopover />
+            <AccountPopover />
         </Stack>
       </IserToolbar>
     </IserAppBarStyle>
