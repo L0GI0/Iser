@@ -10,9 +10,6 @@ const TwoSections = styled.div`
   justify-content: center;
   height: 100%;
   width: 100%;
-  min-height: 900px;
-  min-width: 1600px;
-  overflow: hidden;
 `;
 
 interface LogoProps {
@@ -30,6 +27,11 @@ const Logo = styled.div<LogoProps>`
   height: 50px;
 `;
 
+const ResponsiveGrid = styled(Grid).attrs({ xs: 12, lg: 6 })`
+  min-height: 100vh;
+  scroll-snap-align: start; 
+`
+
 // ----------------------------------------------------------------------
 
 interface TwoSectionsLayoutProps {
@@ -40,14 +42,14 @@ interface TwoSectionsLayoutProps {
 
 const TwoSectionsLayout: React.FC<TwoSectionsLayoutProps> = ({
   leftSection,
-  rightSection,
+rightSection,
   logo,
 }) => (
   <TwoSections>
     {logo && <Logo logoSource={logo} />}
     <Grid container>
-      <Grid xs={6}>{leftSection}</Grid>
-      <Grid xs={6}>{rightSection}</Grid>
+      <ResponsiveGrid>{leftSection}</ResponsiveGrid>
+      <ResponsiveGrid>{rightSection}</ResponsiveGrid>
     </Grid>
   </TwoSections>
 );

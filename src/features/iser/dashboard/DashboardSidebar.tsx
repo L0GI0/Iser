@@ -134,7 +134,7 @@ export default function DashboardSidebar({ isSidebarOpen, onCloseSidebar, onOpen
   );
 
   return (
-    <RootStyle isSidebarOpen={isSidebarOpen}>
+    <RootStyle isSidebarOpen={isSidebarOpen && !!isDesktop}>
       {!isDesktop && (
         <Drawer
           open={isSidebarOpen}

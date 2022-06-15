@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { BackdropProps } from "@mui/material";
-import { BorderFlexLimitedBackdrop, SuccessIcon, ResultHeader, InformationIcon, AppWarningIcon, ErrorIcon } from "./styledElements";
+import { BackdropProps, Container } from "@mui/material";
+import { ReactiveContainer } from 'common/components/styledElements'
+import { BorderFlexLimitedBackdrop, SuccessIcon, ResultHeader, ResultDescription, InformationIcon, AppWarningIcon, ErrorIcon } from "./styledElements";
 import RoundButton from '../RoundButton'
 
 // ----------------------------------------------------------------------
@@ -23,6 +24,7 @@ export const RESULT_VARIANTS: Record<ResultVariant, ResultVariant> = {
 
 interface ResultBackdropProps {
   resultText: string,
+  descriptionText?: string,
   variant?: ResultVariant,
   onClose: () => void,
 }
@@ -43,18 +45,19 @@ const getVariant = (variant: ResultVariant): React.ReactElement => {
   return <InformationIcon/>
 }
 
-const ResultBackdrop: React.FC<BackdropProps & ResultBackdropProps> = ({open, variant = 'info', resultText, onClose, children, ...props}) => {
+const ResultBackdrop: React.FC<BackdropProps & ResultBackdropProps> = ({open, variant = 'info', resultText, descriptionText, onClose, children, ...props}) => {
   return (
-    <React.Fragment>
-      <BorderFlexLimitedBackdrop {...props} open={open}>
+    <ReactiveContainer>
+      <BorderFlexLimitedBackdrop open={open} {...props }>
           {getVariant(variant)}
           <ResultHeader> {resultText} </ResultHeader>
+          { descriptionText && <ResultDescription> { descriptionText } </ResultDescription> }
           <RoundButton text="Close" onClick={onClose} color="primary"/>
       </BorderFlexLimitedBackdrop>
       <ResultBlur open={open}>
         {children}
-        </ResultBlur>
-    </React.Fragment>
+      </ResultBlur>
+    </ReactiveContainer>
   );
 };
 

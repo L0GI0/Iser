@@ -22,7 +22,7 @@ const getNavConfig = (t: TFunction<'dashboard'>): NavigationItem[] => {
   },
   {
     title: t('navigation_section.user_nav_item'),
-    path: '/dashboard/user',
+    path: '/dashboard/users',
     icon: getIcon('eva:people-fill')
   },
   {

@@ -3,18 +3,13 @@ import palette from './palette';
 import shadows, { customShadows } from './shadows';
 import 'styled-components';
 import {  PaletteColor as PaletteRoot } from '@mui/material/styles';
+import { IserThemeOptions } from './index'
 
 // ----------------------------------------------------------------------
 
-const iserThemeOptions = {
-    palette,
-    shape: { borderRadius: 8 },
-    shadows,
-    customShadows,
-} as const;
 
 type IserTheme = {
-    [Key in keyof typeof iserThemeOptions]: typeof iserThemeOptions[Key]
+    [Key in keyof typeof IserThemeOptions]: typeof IserThemeOptions[Key]
 }
 
 type IserShadows = typeof shadows; 

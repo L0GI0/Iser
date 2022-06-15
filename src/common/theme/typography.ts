@@ -43,8 +43,8 @@ const typography: TypographyVariantsOptions = {
   },
   h3: {
     fontWeight: 700,
-    lineHeight: 1.5,
-    fontSize: pxToRem(24),
+    lineHeight: 2.5,
+    fontSize: pxToRem(25),
     ...responsiveFontSizes({ sm: 26, md: 30, lg: 32 }),
   },
   h4: {
@@ -54,7 +54,7 @@ const typography: TypographyVariantsOptions = {
     ...responsiveFontSizes({ sm: 20, md: 24, lg: 24 }),
   },
   h5: {
-    fontWeight: 700,
+    fontWeight: 550,
     lineHeight: 1.5,
     fontSize: pxToRem(18),
     ...responsiveFontSizes({ sm: 19, md: 20, lg: 20 }),
@@ -76,7 +76,7 @@ const typography: TypographyVariantsOptions = {
     fontSize: pxToRem(14),
   },
   body1: {
-    lineHeight: 1.5,
+    lineHeight: 2,
     fontSize: pxToRem(16),
   },
   body2: {

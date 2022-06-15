@@ -1,10 +1,10 @@
 {
   "notification_msg_sign_up": {
-    "sign_up_failed": "Sign up failed",
-    "sign_up_success": "Sign up successful"
+    "sign_up_failed": "Rejestracja nie powodła się",
+    "sign_up_success": "Rejestracja zakończona pomyślnie"
   },
   "notification_msg_sign_in": {
-    "sign_in_failed": "Unable to sign in",
-    "sign_in_unauthorized": "Invalid user name or password"
+    "sign_in_failed": "Logowanie nie powodło się",
+    "sign_in_unauthorized": "Nieprawidłowa nazwa użytkownika lub haslo"
   }
 }

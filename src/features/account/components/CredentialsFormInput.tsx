@@ -49,7 +49,6 @@ export interface CredentialsFormRef {
 }
 
 interface CredentialsFormProps {
-  labelText: string;
   disableAutofocus?: boolean;
 }
 
@@ -66,7 +65,7 @@ const createDebounceObservable = (observable: any, callbackFunction: any) => {
 
 const CredentialsFormInput = forwardRef(
   (
-    { labelText, disableAutofocus = false}: CredentialsFormProps,
+    { disableAutofocus = false}: CredentialsFormProps,
     inputValuesRef: React.Ref<CredentialsFormRef>
   ) => {
     const [emailInput, setEmailInput] = useState<InputState>({
@@ -160,7 +159,6 @@ const CredentialsFormInput = forwardRef(
 
     return (
       <React.Fragment>
-        {labelText && <FormLabel>{labelText}</FormLabel>}
         <RoundInput
           value={emailInput.value}
           errorMessage={emailInput.error}

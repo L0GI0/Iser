@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import React from 'react';
+import { Container } from '@mui/material'
 import BubbledBackground from "../images/bgg.png";
 import { ReactComponent as GreenCircle } from "../images/g-circle.svg";
 import { ReactComponent as PinkCircle } from "../images/p-circle.svg";
@@ -13,7 +14,6 @@ export const WhiteSection = styled.section`
   align-items: center;
   min-height: 900px;
   flex-wrap: nowrap;
-  padding: 0em 7em;
   height: 100%;
   width: 100%;
   background-color: ${({ theme })  => theme.palette.background.default};
@@ -34,6 +34,11 @@ export const NavyBlueBubbledSection = styled.section`
   background-size: cover;
   background-position: center;
 `;
+
+export const ReactiveContainer = styled(Container)`
+  position: relative;
+  padding: 0;
+`
 
 interface SectionProps {
   children: React.ReactNode
@@ -57,17 +62,24 @@ const BottomLeftCircle = styled(GreenCircle)`
   right: -650px;
 `;
 
+
 export const NavyBlueBubbledSectionRight = ( { children }: SectionProps) => {
-  return <NavyBlueBubbledSection>
-    <TopLeftCircle/>
-    <BottomLeftCircle/>
-      { children }
-    </NavyBlueBubbledSection>
+  return (
+  <NavyBlueBubbledSection>
+    <Container maxWidth="sm">
+      <TopLeftCircle/>
+      <BottomLeftCircle/>
+        { children }
+    </Container>
+    </NavyBlueBubbledSection>)
 }
 
 export const NavyBlueBubbledSectionLeft = ( { children }: SectionProps) => {
-  return <NavyBlueBubbledSection>
-    <TopRightCircle/>
+  return ( 
+  <NavyBlueBubbledSection>
+    <Container maxWidth="sm">
+      <TopRightCircle/>
       { children }
-    </NavyBlueBubbledSection>
+      </Container>
+  </NavyBlueBubbledSection>)
 }

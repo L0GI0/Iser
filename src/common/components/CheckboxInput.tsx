@@ -16,7 +16,7 @@ const PromptText = styled(Typography).attrs({
   component: "span",
 })`
   && {
-    margin-left: 1em;
+    margin: 0 1em;
   }
   display: flex;
   color: grey;

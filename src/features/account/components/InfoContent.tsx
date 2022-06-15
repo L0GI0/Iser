@@ -1,18 +1,18 @@
 import styled from "styled-components";
-import Typography from "@mui/material/Typography";
+import { Typography, Container } from "@mui/material";
 import { InfoSectionContent } from "./styledElements";
 
 // ----------------------------------------------------------------------
 
-const InfoHeader = styled(Typography).attrs({ variant: "h5", component: "h2" })`
+const InfoHeader = styled(Typography).attrs({ variant: "h3", component: "h2" })`
   line-height: 1.5em;
+  width: 100%;
 `;
 
 const InfoDescription = styled(Typography).attrs({
   variant: "body1",
   component: "span",
 })`
-  text-align: left;
   width: 100%;
   font-size: 16px;
   opacity: 0.8;
