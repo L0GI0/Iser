@@ -4,6 +4,7 @@ import RoundButton from "common/components/RoundButton";
 import { RootState } from "rootStore/rootReducer";
 import LinearProgress from "@mui/material/LinearProgress";
 import styled from 'styled-components'
+import { Typography } from "@mui/material"
 
 // ----------------------------------------------------------------------
 
@@ -23,7 +24,7 @@ const DashboardView = () => {
   }
 
   return (<>
-    <div>Admin Dashboard  </div>
+    <Typography variant="h2">Admin Dashboard  </Typography>
       <RoundButton text="auth" onClick={getUsers}/>
       <StyledDiv><LinearProgress value={60} valueBuffer={90} variant="determinate"/></StyledDiv>
       <ul>

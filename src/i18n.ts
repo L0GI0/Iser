@@ -26,13 +26,13 @@ i18n
     supportedLngs,
     ns: namespaces,
     defaultNS,
+    fallbackLng: 'en-GB',
     react: {
       useSuspense: false,
     },
     interpolation: {
       escapeValue: false,
     }
-    
   });
 
 

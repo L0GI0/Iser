@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink as RouterLink, matchPath, useLocation } from 'react-router-dom';
-import { alpha, useTheme } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles';
 import { Box, List, Collapse, ListItemText, ListItemIcon, ListItemButton } from '@mui/material';
 import styled from 'styled-components'
 import Iconify from 'common/components/Iconify';
@@ -46,11 +46,15 @@ interface NavItemProps {
 
 function NavItem({ item, active }: NavItemProps) {
 
-   const isActiveRoot = active(item.path);
+  const isActiveRoot = active(item.path);
 
   const { title, path, icon, info, children } = item;
 
   const [open, setOpen] = useState(isActiveRoot);
+
+  useEffect(() => {
+      setOpen(isActiveRoot)
+  }, [active])
 
   const handleOpen = () => {
     setOpen((prev) => !prev);

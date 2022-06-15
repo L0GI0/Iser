@@ -15,19 +15,16 @@ export const FormSectionContent = styled.div`
 
 export const InfoSectionContent = styled.div`
   display: flex;
-  text-align: start;
+  margin: 0 2em;
   justify-content: space-between;
   align-items: flex-start;
-  width: 650px;
   flex-direction: column;
   height: 400px;
-`;
-
-export const AccountForm = styled.form`
-  position: relative;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 100%;
+  @media (max-width: 600px) {
+    flex-direction: column;
+    margin: 0;
+    text-align: center;
+  }
 `;
 
 export const GreyRedirectLink = styled(Typography).attrs({
@@ -46,6 +43,19 @@ export const GreyRedirectLink = styled(Typography).attrs({
     text-shadow: 0px 0px 1px rgba(92, 58, 252, 0.5);
   }
 `
+export const ResponsiveContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  @media (max-width: 600px) {
+    flex-direction: column;
+    margin: 0;
+    && .MuiButton-round {
+      width: 100%;
+    }
+  }
+`;
 
 interface LineDividerProps {
   text: string

@@ -3,8 +3,8 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import InfoIcon from '@mui/icons-material/Info';
 import WarningIcon from '@mui/icons-material/Warning';
 import ReportIcon from '@mui/icons-material/Report';
-import { Typography  } from "material-ui-core";
-import styled from 'styled-components'
+import { Typography  } from "@mui/material";
+import styled from 'styled-components';
 
 // ----------------------------------------------------------------------
 
@@ -17,23 +17,30 @@ export const LimitedBackdrop = styled(Backdrop)`
 `
 
 export const BorderFlexLimitedBackdrop = styled(LimitedBackdrop)`
+
+  transition: none !important; /* need to use imporant as transition is defined as inline style within the mui */
+
   &.MuiBackdrop-root {
     display: flex;
     flex-direction: column;
   }
 `
 
-export const ResultHeader = styled(Typography).attrs({variant: 'h5'})`  
+export const ResultHeader = styled(Typography).attrs({ variant: 'h4' })`  
   &.MuiTypography-root {
-    margin: 1.75rem 0 .75rem 0;
+    margin: 1rem 0 .75rem 0;
   }
+`
+
+export const ResultDescription = styled(Typography).attrs({ variant: "body1" })`
+  color: grey;
 `
 
 export const SuccessIcon = styled(CheckCircleIcon)`
     &.MuiSvgIcon-root {
         font-size: 5em;
     }
-    color: ${props => props.theme.palette.success.main};
+  color: ${props => props.theme.palette.success.main};
 `
 
 export const InformationIcon = styled(InfoIcon)`

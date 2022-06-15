@@ -53,7 +53,7 @@ export default function Button(theme: Theme) {
               background: theme.palette.secondary.main,
               boxShadow: theme.customShadows.secondary,
               ":hover": {
-                background: theme.palette.secondary.light,
+                background: theme.palette.primary.dark,
                 boxShadow: theme.customShadows.action.secondary.active
               }
             }

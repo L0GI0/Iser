@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import ThemeProvider from 'common/theme'
 import { useSelector } from "react-redux";
 import {
   BrowserRouter as Router,
@@ -14,10 +15,10 @@ import { RootState } from "rootStore/rootReducer";
 import SignInView from "features/account/SignIn/SignInView";
 import SignUpView from "features/account/SignUp/SignUpView";
 import DashboardView from "features/iser/dashboard/DashboardView";
+import UsersView from 'features/iser/users/UsersView';
 import useSnackbarNotifier from "features/notifiers/useSnackbarNotifier";
 import { useDispatch } from 'react-redux' 
 import { authenticate } from 'features/account/store/accountSlice' 
-import ThemeProvider from 'common/theme'
 import DashboardLayout from 'features/iser/dashboard'
 import AuthError from 'features/account/components/AuthError'
 import AppError from "features/account/components/AppError";
@@ -116,11 +117,11 @@ function App() {
 
   return (
     // split into preauth and app parts
-    <PageLoadingWrapper loading={!areTranslationsLoaded}> 
-      <ThemeProvider>
+    <ThemeProvider>
+      <PageLoadingWrapper loading={!areTranslationsLoaded}> 
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Router basename="/">
-              <div className="App">
+            <div className="App">
                 <Routes>
                   <Route path="/app" element={<PreAuthRoute/>}>
                     <Route path="/app/signin" element={<SignInView/>} />
@@ -132,6 +133,7 @@ function App() {
                   >
                     <Route path="/dashboard/" element={<DashboardLayout/>}>
                       <Route path='/dashboard/app' element={<DashboardView/>}/>
+                      <Route path="/dashboard/users" element={<UsersView/>}/>
                     </Route>
                   </Route>
                   <Route path="/unath" element={<AuthError/>}/>
@@ -141,8 +143,8 @@ function App() {
               </div>
           </Router>
         </ErrorBoundary>
-      </ThemeProvider>
-    </PageLoadingWrapper>
+      </PageLoadingWrapper>
+    </ThemeProvider>
   );
 }
 
