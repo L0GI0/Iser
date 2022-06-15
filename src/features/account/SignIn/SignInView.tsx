@@ -2,18 +2,17 @@ import React, { useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Typography } from "@mui/material";
-
-import { logIn } from "../store/accountSlice";
+import { Typography, Container } from "@mui/material";
 import TwoSectionsLayout from "common/components/TwoSectionsLayout";
 import {
   WhiteSection,
-  NavyBlueBubbledSectionRight
+  NavyBlueBubbledSectionRight,
+  ReactiveContainer as SignInFormContainer
 } from "common/components/styledElements";
 import CredentialsFromInput, {
   CredentialsFormRef,
 } from "../components/CredentialsFormInput";
-import { AccountForm, GreyRedirectLink, LineDivider } from "../components/styledElements";
+import { GreyRedirectLink, LineDivider, ResponsiveContainer } from "../components/styledElements";
 import RoundButton from "common/components/RoundButton";
 import CheckboxInput from "common/components/CheckboxInput";
 import InfoContent from "../components/InfoContent";
@@ -22,23 +21,18 @@ import { useStateChangeNotifier, getSignInStateSnackbarMap } from 'features/noti
 import LoadingBackdrop from "common/components/backdrops/LoadingBackdrop";
 import { triggerNotification } from "features/notifiers/store/notifiersSlice";
 import { useTranslation } from 'react-i18next'
+import { logIn } from "../store/accountSlice";
 
 // ----------------------------------------------------------------------
-
-const RememberMeContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
 
 const ForgotPasswordTip = styled(Typography).attrs({
   variant: "subtitle2",
 })`
   && {
-    margin-top: 5em;
+    margin-top: 2.5em;
   }
   display: inline-flex;
-  text-align: start;
+  align-items: center;
   color: grey;
   width: 100%;
 `;
@@ -70,15 +64,16 @@ const SignInForm: React.FC = () => {
   };
 
   return (
-      <AccountForm>
+      <SignInFormContainer>
+      <Typography variant="h3">{t('sign_in.form.label_sign_in')}</Typography>
         <LoadingBackdrop open={isLoggingIn}>
-          <CredentialsFromInput labelText={t('sign_in.form.label_sign_in')} ref={inputFormRef} />
+          <CredentialsFromInput ref={inputFormRef} />
         </LoadingBackdrop>
-        <RememberMeContainer>
+        <ResponsiveContainer>
           <CheckboxInput promptText={t('sign_in.form.checkbox_remember_me')} />
           <RoundButton text={t('sign_in.form.button_sign_in')} color="primary" onClick={logInUser} />
-        </RememberMeContainer>
-      </AccountForm>
+        </ResponsiveContainer>
+      </SignInFormContainer>
   );
 };
 
@@ -90,17 +85,19 @@ const SignInLeftSection: React.FC = () => {
 
   return (
     <WhiteSection>
-      <SignInForm />
-      <LineDivider text={t('separator_text')} />
-      <RoundButton
-        text={t('sign_in.form.button_sign_in_with_google')}
-        style={{ width: "100%" }}
-        color="primary"
-      />
-      <ForgotPasswordTip>
-      {t('sign_in.form.text_forgot_password')}
-        <GreyRedirectLink> {t('sign_in.form.link_reset_password')}</GreyRedirectLink>
-      </ForgotPasswordTip>
+      <Container maxWidth="sm">
+        <SignInForm />
+        <LineDivider text={t('separator_text')} />
+        <RoundButton
+          text={t('sign_in.form.button_sign_in_with_google')}
+          style={{ width: "100%" }}
+          color="primary"
+        />
+        <ForgotPasswordTip>
+        {t('sign_in.form.text_forgot_password')}
+          <GreyRedirectLink> {t('sign_in.form.link_reset_password')}</GreyRedirectLink>
+        </ForgotPasswordTip>
+      </Container>
     </WhiteSection>
   );
 };
@@ -118,23 +115,24 @@ const SignInRightSection: React.FC = () => {
 
   return (
     <NavyBlueBubbledSectionRight>
-      <InfoContent
-        header={t('sign_in.section_info.header_welcome_to_iser')}
-        description={t('sign_in.section_info.text_description')}
-        footer={
-          <React.Fragment>
-            <Typography variant="body2" component="span">
-            { t('sign_in.section_info.info_footer.text_first_visit') }
-            </Typography>
-            <RoundButton
-              text={t('sign_in.section_info.info_footer.button_sign_up')}
-              style={{ marginLeft: "2em" }}
-              color="secondary"
-              onClick={redirectToSignUpView}
-            />
-          </React.Fragment>
-        }
-      />
+      <Container maxWidth="sm">
+        <InfoContent
+          header={t('sign_in.section_info.header_welcome_to_iser')}
+          description={t('sign_in.section_info.text_description')}
+          footer={
+            <ResponsiveContainer>
+              <Typography variant="body2" component="span">
+              { t('sign_in.section_info.info_footer.text_first_visit') }
+              </Typography>
+              <RoundButton
+                onClick={redirectToSignUpView}
+                text={t('sign_in.section_info.info_footer.button_sign_up')}
+                color="secondary"
+              />
+            </ResponsiveContainer>
+          }
+        />
+      </Container>
     </NavyBlueBubbledSectionRight>
   );
 };

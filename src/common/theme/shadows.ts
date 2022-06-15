@@ -1,12 +1,13 @@
 // material
 import { alpha } from '@mui/material/styles';
 import palette from './palette';
+import { Shadows } from '@mui/material/styles/shadows'
 
 // ----------------------------------------------------------------------
 
 const LIGHT_MODE = palette.grey[500];
 
-const createShadow = (color: string) => {
+const createShadow = (color: string): Shadows => {
   const transparent1 = alpha(color, 0.2);
   const transparent2 = alpha(color, 0.14);
   const transparent3 = alpha(color, 0.12);
@@ -50,7 +51,7 @@ const createCustomShadow = (color: string) => {
     z20: `0 0 2px 0 ${transparent}, 0 20px 40px -4px ${transparent}`,
     z24: `0 0 4px 0 ${transparent}, 0 24px 48px 0 ${transparent}`,
     primary: `0 6px 12px 0 ${alpha(palette.primary.main, 0.4)}`,
-    secondary: `0 6px 12px 0 ${alpha(palette.secondary.light, 0.4)}`,
+    secondary: `0 6px 12px 0 ${alpha(palette.secondary.darker, 0.4)}`,
     info: `0 6px 12px 0 ${alpha(palette.info.main, 0.24)}`,
     success: `0 6px 12px 0 ${alpha(palette.success.main, 0.24)}`,
     warning: `0 6px 12px 0 ${alpha(palette.warning.main, 0.24)}`,
@@ -60,7 +61,7 @@ const createCustomShadow = (color: string) => {
         active: `0 4px 8px 0 ${alpha(palette.primary.main, 0.24)}`
       },
       secondary: {
-        active: `0 10px 18px 0 ${alpha(palette.secondary.lighter, 0.24)}`
+        active: `0 4px 8px 0 ${alpha(palette.secondary.darker, 0.24)}`
       }
     }
   };

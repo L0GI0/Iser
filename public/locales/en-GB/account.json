@@ -33,6 +33,13 @@
         "text_already_signed_up": "Already have an account?",
         "button_sign_in": "Sign in"
       }
+    },
+    "result": {
+      "sign_up_failure_description": "Please try again later"
+    },
+    "notifications": {
+      "sign_up_failure": "Sign up failed",
+      "sign_up_completed": "Signed up sucessfully"
     }
   }
 }

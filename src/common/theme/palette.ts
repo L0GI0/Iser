@@ -47,7 +47,7 @@ const PRIMARY: PaletteColor = {
   lighter: '#D1E9FC',
   light: '#6748FD',
   main: '#5C3AFC',
-  dark: '#401EE7',
+  dark: '#5537eb',
   darker: '#3C1BDA',
   contrastText: '#fff',
 };

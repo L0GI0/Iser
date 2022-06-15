@@ -33,6 +33,13 @@
         "text_already_signed_up": "Masz już konto?",
         "button_sign_in": "Zaloguj się"
       }
+    },
+    "result": {
+      "sign_up_failure_description": "Prosimy spróbować później"
+    },
+    "notifications": {
+      "sign_up_failure": "Rejestracja niepowodła się",
+      "sign_up_completed": "Rejestracja zakończona pomyślnie"
     }
   }
 }

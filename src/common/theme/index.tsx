@@ -14,14 +14,14 @@ interface Props {
     children: React.ReactNode
 }
 
-const IserThemeOptions = {
-    palette,
-    shape: { borderRadius: 8 },
-    customShadows,
-    typography,
-    sidebarWidth: 240,
+export const IserThemeOptions = {
+  typography,
+  palette,
+  shape: { borderRadius: 8 },
+  shadows,
+  customShadows,
+  sidebarWidth: 240,
 } as const;
-
 
 export default function ThemeProvider({ children }: Props) {
   const themeOptions = useMemo(
@@ -34,12 +34,12 @@ export default function ThemeProvider({ children }: Props) {
 
   return (
     <StyledEngineProvider injectFirst>
-      <MUIThemeProvider theme={theme}>
       <StyledComponentsThemeProvider theme={theme}>
+      <MUIThemeProvider theme={theme}>
         <CssBaseline />
-        {children}
-      </StyledComponentsThemeProvider>
+        { children }
       </MUIThemeProvider>
+      </StyledComponentsThemeProvider>
     </StyledEngineProvider>
   );
 }
