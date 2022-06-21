@@ -2,25 +2,25 @@ import React, { useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Typography, Container } from "@mui/material";
+import { Typography, Container, Box } from "@mui/material";
+import { useTranslation } from 'react-i18next'
 import TwoSectionsLayout from "common/components/TwoSectionsLayout";
 import {
   WhiteSection,
   NavyBlueBubbledSectionRight,
   ReactiveContainer as SignInFormContainer
 } from "common/components/styledElements";
-import CredentialsFromInput, {
-  CredentialsFormRef,
-} from "../components/CredentialsFormInput";
-import { GreyRedirectLink, LineDivider, ResponsiveContainer } from "../components/styledElements";
 import RoundButton from "common/components/RoundButton";
 import CheckboxInput from "common/components/CheckboxInput";
-import InfoContent from "../components/InfoContent";
 import { RootState } from "rootStore/rootReducer";
 import { useStateChangeNotifier, getSignInStateSnackbarMap } from 'features/notifiers/useStateChangeNotifiers'
 import LoadingBackdrop from "common/components/backdrops/LoadingBackdrop";
+import CredentialsFromInput, {
+  CredentialsFormRef,
+} from "../components/CredentialsFormInput";
+import InfoContent from "../components/InfoContent";
 import { triggerNotification } from "features/notifiers/store/notifiersSlice";
-import { useTranslation } from 'react-i18next'
+import { GreyRedirectLink, LineDivider, ResponsiveContainer, SignInWithGoogleButton } from "../components/styledElements";
 import { logIn } from "../store/accountSlice";
 
 // ----------------------------------------------------------------------
@@ -88,11 +88,7 @@ const SignInLeftSection: React.FC = () => {
       <Container maxWidth="sm">
         <SignInForm />
         <LineDivider text={t('separator_text')} />
-        <RoundButton
-          text={t('sign_in.form.button_sign_in_with_google')}
-          style={{ width: "100%" }}
-          color="primary"
-        />
+        <SignInWithGoogleButton/>
         <ForgotPasswordTip>
         {t('sign_in.form.text_forgot_password')}
           <GreyRedirectLink> {t('sign_in.form.link_reset_password')}</GreyRedirectLink>

@@ -14,9 +14,6 @@ import LoadingBackdrop from "common/components/backdrops/LoadingBackdrop";
 import ResultBackdrop from "common/components/backdrops/ResultBackdrop";
 import { RootState } from "rootStore/rootReducer";
 import { RESULT_VARIANTS, ResultVariant } from "common/components/backdrops/ResultBackdrop";
-import { LineDivider, ResponsiveContainer } from "../components/styledElements";
-import InfoContent from "../components/InfoContent";
-import CredentialsFromInput, { CredentialsFormRef } from "../components/CredentialsFormInput";
 import { signUp, clearSignUpStatus } from '../store/accountSlice'
 import { REQUEST_STATUS, RequestStatus } from "../store/accountSlice";
 import { useStateChangeNotifier, getSignUpStateToSnackbarMap } from 'features/notifiers/useStateChangeNotifiers'
@@ -24,6 +21,9 @@ import { triggerNotification } from 'features/notifiers/store/notifiersSlice'
 import { ReactiveContainer as SignUpFormContainer } from 'common/components/styledElements'
 import { useTranslation } from "react-i18next"
 import { TFunction } from "react-i18next";
+import InfoContent from "../components/InfoContent";
+import { LineDivider, ResponsiveContainer, SignInWithGoogleButton } from "../components/styledElements";
+import CredentialsFromInput, { CredentialsFormRef } from "../components/CredentialsFormInput";
 
 
 // ----------------------------------------------------------------------
@@ -117,11 +117,7 @@ const SignUpRightSection: React.FC = () => {
       <Container maxWidth="sm">
         <SignUpForm/>
         <LineDivider text={t('separator_text')}/>
-        <RoundButton
-          text={t('sign_up.form.button_sign_in_with_google')}
-          color="primary"
-          style={{ width: "100%", marginBottom: "3em" }}
-        />
+        <SignInWithGoogleButton sx={{ marginBottom: '2em' }}/>
         <CheckboxInput
           promptText={
             t("sign_up.form.checkbox_newsletter_agreement")

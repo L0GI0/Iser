@@ -1,5 +1,7 @@
 import styled from "styled-components";
-import { Divider, Typography } from "@mui/material";
+import { Divider, Typography, Box, ButtonProps } from "@mui/material";
+import RoundButton from "common/components/RoundButton";
+import { useTranslation } from 'react-i18next'
 
 // ----------------------------------------------------------------------
 
@@ -68,4 +70,17 @@ export const LineDivider = ({ text }: LineDividerProps) => {
         { text }
       </Typography>
     </Divider>)
+}
+
+export const SignInWithGoogleButton = (props: ButtonProps) => {
+  const { t } = useTranslation('account');
+
+  return (
+    <RoundButton
+      {...props }
+      text={t('sign_in.form.button_sign_in_with_google')}
+      style={{ width: "100%" }}
+      color="primary"
+      postfixIcon={<Box component="img" alt={"google-icon"} src={"/static/icons/ic_google.svg"} sx={{ width: 32 }} />}
+      />)
 }
