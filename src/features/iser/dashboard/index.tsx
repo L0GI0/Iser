@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import IserAppBar from './AppBar';
-import DashboardSidebar from './DashboardSidebar';
+import IserAppBar from './components/AppBar';
+import DashboardSidebar from './components/DashboardSidebar';
 
 // ----------------------------------------------------------------------
 
@@ -12,13 +12,14 @@ const APP_BAR_DESKTOP = 92;
 const RootStyle = styled('div')({
   display: 'flex',
   minHeight: '100%',
-  overflow: 'hidden'
+  overflow: 'hidden',
 });
 
 const MainStyle = styled('div')(({ theme }) => ({
   flexGrow: 1,
   overflow: 'auto',
   minHeight: '100%',
+  backgroundColor: theme.palette.background.neutral,
   paddingTop: APP_BAR_MOBILE + 24,  
   paddingBottom: theme.spacing(10),
   paddingLeft: theme.spacing(1),

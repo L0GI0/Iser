@@ -15,51 +15,35 @@ export default function Input(theme: Theme) {
           '&::placeholder': {
             opacity: 1,
             color: theme.palette.text.disabled
-          }
+          },
         }
       }
     },
     MuiInput: {
       styleOverrides: {
-        underline: {
-          '&:before': {
-            borderBottomColor: theme.palette.grey[500_56]
-          }
-        }
-      }
-    },
-    MuiFilledInput: {
-      styleOverrides: {
         root: {
-          backgroundColor: theme.palette.grey[500_12],
-          '&:hover': {
-            backgroundColor: theme.palette.grey[500_16]
-          },
-          '&.Mui-focused': {
-            backgroundColor: theme.palette.action.focus
-          },
-          '&.Mui-disabled': {
-            backgroundColor: theme.palette.action.disabledBackground
+          underline: {
+            '&:before': {
+              borderBottomColor: theme.palette.grey[500_56]
+            }
           }
         },
-        underline: {
-          '&:before': {
-            borderBottomColor: theme.palette.grey[500_56]
-          }
-        }
       }
     },
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          '& .MuiOutlinedInput-notchedOutline': {
-            borderColor: theme.palette.grey[500_32]
+        fieldset: {
+            transitionPropety: `border-color border-width color font-weight`,
+            transitionDuration: `.15s`,
+            borderColor: theme.palette.grey[400],
           },
-          '&.Mui-disabled': {
-            '& .MuiOutlinedInput-notchedOutline': {
-              borderColor: theme.palette.action.disabledBackground
-            }
-          }
+          '&.Mui-focused fieldset': {
+            boxShadow: theme.customShadows.action.primary.focus
+          },
+          '&&:hover fieldset': {
+            borderColor: theme.palette.primary.main,
+          },
         }
       }
     }

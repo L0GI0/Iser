@@ -11,7 +11,7 @@ import {
   ReactiveContainer as SignInFormContainer
 } from "common/components/styledElements";
 import RoundButton from "common/components/RoundButton";
-import CheckboxInput from "common/components/CheckboxInput";
+import CheckboxInput from "common/components/inputs/CheckboxInput";
 import { RootState } from "rootStore/rootReducer";
 import { useStateChangeNotifier, getSignInStateSnackbarMap } from 'features/notifiers/useStateChangeNotifiers'
 import LoadingBackdrop from "common/components/backdrops/LoadingBackdrop";

@@ -24,7 +24,6 @@ declare module '@mui/material/styles/shadows' {
   type Shadows = IserShadows
 }
 
-
 declare module '@mui/material/styles' {
    interface Theme extends IserTheme {}
    interface ThemeOptions extends IserTheme {}
@@ -41,6 +40,10 @@ declare module '@mui/material/styles' {
     interface SimplePaletteColorOptions {
       lighter: string,
       darker: string,
+    }
+
+    interface TypeBackground {
+      neutral: string;
     }
   
     export function createTheme(options?: ThemeOptions): Theme;

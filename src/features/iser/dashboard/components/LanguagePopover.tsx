@@ -1,12 +1,9 @@
 import { useRef, useState } from 'react';
-// material
 import { alpha } from '@mui/material/styles';
 import { Box, MenuItem, Stack, IconButton } from '@mui/material';
-// components
 import MenuPopover from 'common/components/MenuPopover';
 import styled from 'styled-components';
 import { useTranslation } from "react-i18next";
-
 
 // ----------------------------------------------------------------------
 
@@ -23,7 +20,6 @@ const LanguageOptionIcon = styled(IconButton)<LanguageOptionIconProps>(({ theme,
   }) 
 }));
 
-
 const LanguageMenuPopover = styled(MenuPopover)(({ theme }) => ({
   marginTop: 1.5,
   marginLeft: 0.75,
@@ -33,16 +29,15 @@ const LanguageMenuPopover = styled(MenuPopover)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-type Languages = 'en-GB' | 'pl' | 'de' | 'fr';
+ type Languages = 'en-GB' | 'pl' | 'de' | 'fr';
 
-interface Language {
+ export interface Language {
   value: Languages,
   label: string,
   icon: string,
 }
 
-
-const LANGS: Language[] = [
+export const LANGS: Language[] = [
   {
     value: 'en-GB',
     label: 'English',

@@ -9,11 +9,11 @@ import styled from "styled-components";
 import { Subject, Observable } from "rxjs";
 import { map, debounceTime, distinctUntilChanged } from "rxjs/operators";
 
-import RoundInput from "common/components/RoundInput";
+import RoundInput from "common/components/inputs/IserRoundTextInput";
 import { useFormValidator } from "common/utils/useFormValidator";
 
-import { ReactComponent as PasswordIcon } from "common/images/pswd-icon.svg";
-import { ReactComponent as MailIcon } from "common/images/mail-icon.svg";
+import { ReactComponent as PasswordIcon } from "common/images/pswd_icon.svg";
+import { ReactComponent as MailIcon } from "common/images/mail_icon.svg";
 import { useTranslation } from 'react-i18next'
 
 // ----------------------------------------------------------------------

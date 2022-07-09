@@ -17,22 +17,22 @@ const getNavConfig = (t: TFunction<'dashboard'>): NavigationItem[] => {
  return ([
   {
     title: t('navigation_section.dashboard_nav_item'),
-    path: '/dashboard/app',
+    path: '/iser/dashboard',
     icon: getIcon('eva:pie-chart-2-fill'),
   },
   {
     title: t('navigation_section.user_nav_item'),
-    path: '/dashboard/users',
+    path: '/iser/users',
     icon: getIcon('eva:people-fill')
   },
   {
     title: t('navigation_section.product_nav_item'),
-    path: '/dashboard/products',
+    path: '/iser/products',
     icon: getIcon('eva:shopping-bag-fill'),
   },
   {
     title: t('navigation_section.blog_nav_item'),
-    path: '/dashboard/blog',
+    path: '/iser/blog',
     icon: getIcon('eva:file-text-fill'),
   }])
 }

@@ -1,0 +1,30 @@
+{
+  "profile_settings": {
+    "profile_form": {
+      "label": "Informacje o Profilu",
+      "label_first_name": "Imię",
+      "label_last_name": "Nazwisko",
+      "label_gender": "Płeć",
+      "label_birth_date": "Data urodzenia",
+      "label_location": "Lokalizacja",
+      "label_language": "Język"
+    }
+  },
+  "platfrom_settings": {
+    "platform_settings_form": {
+      "label": "Ustawienia platformy",
+      "account_notification_settings": {
+        "label": "Konto",
+        "switch_course_enrolled": "Wyślij do mnie e-mail, gdy ktoś weźmie udział w moim kursie",
+        "switch_course_commented": "Wyślij do mnie e-mail, gdy ktoś doda komentarz do kursu",
+        "switch_course_rated": "Powiadom mnie, gdy ktoś oceni mój kurs"
+      },
+      "application_notification_settings": {
+        "label": "application",
+        "switch_new_launches_and_courses": "Nowe premiery i kursy",
+        "switch_product_updates": "Comiesięczne aktualizacje produktów",
+        "switch_newsletter": "Zapisz się do newslettera"
+      }
+    }
+  }
+}

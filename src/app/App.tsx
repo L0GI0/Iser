@@ -16,6 +16,7 @@ import SignInView from "features/account/SignIn/SignInView";
 import SignUpView from "features/account/SignUp/SignUpView";
 import DashboardView from "features/iser/dashboard/DashboardView";
 import UsersView from 'features/iser/users/UsersView';
+import Profile from 'features/iser/profile/ProfileView';
 import useSnackbarNotifier from "features/notifiers/useSnackbarNotifier";
 import { useDispatch } from 'react-redux' 
 import { authenticate } from 'features/account/store/accountSlice' 
@@ -25,6 +26,9 @@ import AppError from "features/account/components/AppError";
 import { useTranslation } from 'react-i18next';
 import { namespaces } from "i18n";
 import PageLoadingWrapper from "common/components/PageLoadingWrapper";
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+
 import "./App.css";
 
 // ----------------------------------------------------------------------
@@ -97,7 +101,7 @@ const PreAuthRoute = () => {
   );
 
   return (
-    isLoggedIn ? <Navigate to='/dashboard/app'/> : <Outlet/>
+    isLoggedIn ? <Navigate to='/iser/dashboard'/> : <Outlet/>
   )
 }
 
@@ -116,8 +120,8 @@ function App() {
   const { ready: areTranslationsLoaded } = useTranslation(namespaces);
 
   return (
-    // split into preauth and app parts
-    <ThemeProvider>
+  <ThemeProvider>
+    <LocalizationProvider dateAdapter={AdapterDateFns} >
       <PageLoadingWrapper loading={!areTranslationsLoaded}> 
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Router basename="/">
@@ -128,12 +132,13 @@ function App() {
                     <Route path="/app/signup" element={<SignUpView/>} />
                   </Route>              
                   <Route
-                    path="/dashboard"
+                    path="/iser"
                     element={<PrivateRoute />}
                   >
-                    <Route path="/dashboard/" element={<DashboardLayout/>}>
-                      <Route path='/dashboard/app' element={<DashboardView/>}/>
-                      <Route path="/dashboard/users" element={<UsersView/>}/>
+                    <Route path="/iser/" element={<DashboardLayout/>}>
+                      <Route path='/iser/dashboard' element={<DashboardView/>}/>
+                      <Route path="/iser/users" element={<UsersView/>}/>
+                      <Route path="/iser/profile" element={<Profile/>}/>
                     </Route>
                   </Route>
                   <Route path="/unath" element={<AuthError/>}/>
@@ -144,7 +149,8 @@ function App() {
           </Router>
         </ErrorBoundary>
       </PageLoadingWrapper>
-    </ThemeProvider>
+    </LocalizationProvider>
+  </ThemeProvider>
   );
 }
 

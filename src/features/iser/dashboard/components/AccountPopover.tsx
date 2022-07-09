@@ -29,7 +29,7 @@ const getMenuOptions = (t: TFunction<'dashboard'>): MenuOptions[] => {
     {
       label: t('account_popover.menu_options.profile_option'),
       icon: 'eva:person-fill',
-      linkTo: '#',
+      linkTo: '/iser/profile',
     },
     {
       label: t('account_popover.menu_options.settings_option'),
@@ -102,7 +102,7 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {account.firstName} {account.lastName}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
             {account.email}

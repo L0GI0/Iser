@@ -1,10 +1,7 @@
 import { TypographyVariantsOptions } from '@mui/material/styles';
+import { pxToRem } from './functions';
 
 // ----------------------------------------------------------------------
-
-function pxToRem(value: number) {
-  return `${value / 16}rem`;
-}
 
 type ResponseFontSizeProps = Record<string, number>;
 
@@ -85,7 +82,7 @@ const typography: TypographyVariantsOptions = {
   },
   caption: {
     lineHeight: 1.5,
-    fontSize: pxToRem(12),
+    fontSize: pxToRem(14),
   },
   overline: {
     fontWeight: 700,

@@ -58,10 +58,19 @@ const createCustomShadow = (color: string) => {
     error: `0 6px 12px 0 ${alpha(palette.error.main, 0.24)}`,
     action: {
       primary: {
-        active: `0 4px 8px 0 ${alpha(palette.primary.main, 0.24)}`
+        active: `0 4px 8px 0 ${alpha(palette.primary.main, 0.24)}`,
+        hover:  `0 0 0 1px ${alpha(palette.primary.main, palette.action.hoverOpacity)}`,
+        focus:  `0 0 2px 2px ${alpha(palette.primary.main, palette.action.focusOpacity)}`
       },
       secondary: {
-        active: `0 4px 8px 0 ${alpha(palette.secondary.darker, 0.24)}`
+        active: `0 4px 8px 0 ${alpha(palette.secondary.darker, 0.24)}`,
+        hover:  `0 0 0 1px ${alpha(palette.secondary.darker, palette.action.hoverOpacity)}`,
+        focus:  `0 0 2px 2px ${alpha(palette.secondary.darker, palette.action.focusOpacity)}`
+      },
+      error: {
+        active: `0 4px 8px 0 ${alpha(palette.error.main, 0.24)}`,
+        hover:  `0 0 0 1px ${alpha(palette.error.main, palette.action.hoverOpacity)}`,
+        focus:  `0 0 2px 2px ${alpha(palette.error.main, palette.action.focusOpacity)}`    
       }
     }
   };
