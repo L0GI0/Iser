@@ -10,7 +10,8 @@ export const namespaces = [
   "common",
   "account",
   "dashboard",
-  "notifiers"
+  "notifiers",
+  "profile"
 ]
 
 export const defaultNS = 'common'
@@ -26,7 +27,6 @@ i18n
     supportedLngs,
     ns: namespaces,
     defaultNS,
-    fallbackLng: 'en-GB',
     react: {
       useSuspense: false,
     },

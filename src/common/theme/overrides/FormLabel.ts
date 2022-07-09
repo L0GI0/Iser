@@ -1,0 +1,15 @@
+import { Theme } from '@mui/material/styles';
+
+// ----------------------------------------------------------------------
+
+export default function FormLabel(theme: Theme) {
+    return {
+      MuiFormLabel: {
+        styleOverrides: {
+          root: {
+            color: theme.palette.text.primary,
+          },
+        }
+      }
+    };
+  }

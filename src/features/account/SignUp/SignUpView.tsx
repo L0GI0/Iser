@@ -9,7 +9,7 @@ import {
   NavyBlueBubbledSectionLeft,
 } from "common/components/styledElements";
 import RoundButton from "common/components/RoundButton";
-import CheckboxInput from "common/components/CheckboxInput";
+import CheckboxInput from "common/components/inputs/CheckboxInput";
 import LoadingBackdrop from "common/components/backdrops/LoadingBackdrop";
 import ResultBackdrop from "common/components/backdrops/ResultBackdrop";
 import { RootState } from "rootStore/rootReducer";

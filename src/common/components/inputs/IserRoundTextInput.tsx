@@ -1,7 +1,7 @@
-import styled from "styled-components";
 import { TextField, InputAdornment, InputProps } from "@mui/material";
 import React from "react";
 import { TextFieldProps } from "material-ui";
+import styled from "styled-components";
 
 // ----------------------------------------------------------------------
 
@@ -20,24 +20,17 @@ const TextInput = styled(TextField)`
     bottom: -1.75em;
   }
 
-  fieldset {
-    transition-propety: border-color color font-weight;
-    transition-duration: .3s;
-  }
-
   & .MuiInputLabel-animated {
     transition: color .2s cubic-bezier(0.0, 0, 0.2, 1) 0s, transform .2s cubic-bezier(0.0, 0, 0.2, 1) 0s, 
     font-weight .3s cubic-bezier(0.0, 0, 0.2, 1) 0s;
   }
-
+  
   &&:hover {
     fieldset {
-      border-color: ${(props) =>
-        props.error ? props.theme.palette.error.main : props.theme.palette.primary.main};
+      ${( { error, theme }  ) => error && `border-color: ${theme.palette.error.main}`};
+      ${( { theme, error }  ) => error && `box-shadow: ${theme.customShadows.action.error.hover}`};  
     }
-    border-color: ${(props) =>
-      props.error ? props.theme.palette.error.main : props.theme.palette.primary.main};
-
+    
     .MuiFormLabel-root {
       color: ${(props) => (props.error ? props.theme.palette.error.main : props.theme.palette.primary.main)};
     }
@@ -45,10 +38,10 @@ const TextInput = styled(TextField)`
 
   &&:focus-within {
     fieldset {
-      border-color: ${(props) =>
-        props.error ? props.theme.palette.error.main : props.theme.palette.primary.main};
+      ${( { error, theme }  ) => error && `border-color: ${theme.palette.error.main} !important`};
+      ${( { theme, error }  ) => error && `box-shadow: ${theme.customShadows.action.error.focus} !important`};  
     }
-
+    
     .MuiFormLabel-root {
       border-color: ${(props) =>
         props.error ? props.theme.palette.error.main : props.theme.palette.primary.main};

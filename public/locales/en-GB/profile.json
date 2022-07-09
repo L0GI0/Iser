@@ -1,0 +1,30 @@
+{
+  "profile_settings": {
+    "profile_form": {
+      "label": "Profile information",
+      "label_first_name": "First name",
+      "label_last_name": "Last name",
+      "label_gender": "Gender",
+      "label_birth_date": "Birth date",
+      "label_location": "Location",
+      "label_language": "Language"
+    }
+  },
+  "platfrom_settings": {
+    "platform_settings_form": {
+      "label": "Platform settings",
+      "account_notification_settings": {
+        "label": "account",
+        "switch_course_enrolled": "Email me when someone takes my course",
+        "switch_course_commented": "Email me when someone adds a comment on a course",
+        "switch_course_rated": "Email me when someone rates my course"
+      },
+      "application_notification_settings": {
+        "label": "application",
+        "switch_new_launches_and_courses": "New launches and courses",
+        "switch_product_updates": "Monthly product updates",
+        "switch_newsletter": "Subscribe to newsletter"
+      }
+    }
+  }
+}

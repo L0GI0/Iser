@@ -21,7 +21,7 @@ declare module '@mui/material' {
    }    
 }
 
-const GREY: Omit<Color, 50 | 'A100' | 'A200' |'A400' |'A700'> = {
+const GREY: Omit<Color, 50 | 'A200' |'A400' |'A700'> = {
   0: '#FFFFFF',
   100: '#F9FAFB',
   200: '#F4F6F8',
@@ -32,6 +32,7 @@ const GREY: Omit<Color, 50 | 'A100' | 'A200' |'A400' |'A700'> = {
   700: '#454F5B',
   800: '#212B36',
   900: '#161C24',
+  'A100': 'black',
   500_8: alpha('#919EAB', 0.08),
   500_12: alpha('#919EAB', 0.12),
   500_16: alpha('#919EAB', 0.16),
@@ -126,8 +127,8 @@ const palette = {
   gradients: GRADIENTS,
   chart: CHART_COLORS,
   divider: GREY[500_24],
-  text: { primary: GREY[800], secondary: GREY[600], disabled: GREY[500] },
-  background: { paper: '#fff', default: GREY[100], neutral: GREY[200] },
+  text: { primary: GREY[900], secondary: GREY[600], disabled: GREY[500] },
+  background: { paper: GREY[0], default: GREY[100], neutral: GREY[200] },
   action: {
     active: GREY[600],
     hover: GREY[500_8],
@@ -135,7 +136,8 @@ const palette = {
     disabled: GREY[500_80],
     disabledBackground: GREY[500_24],
     focus: GREY[500_24],
-    hoverOpacity: 0.08,
+    hoverOpacity: .08,
+    focusOpacity: .2,
     disabledOpacity: 0.48,
   },
 };

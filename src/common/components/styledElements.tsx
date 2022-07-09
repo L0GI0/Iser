@@ -2,8 +2,8 @@ import styled from "styled-components";
 import React from 'react';
 import { Container } from '@mui/material'
 import BubbledBackground from "../images/bgg.png";
-import { ReactComponent as GreenCircle } from "../images/g-circle.svg";
-import { ReactComponent as PinkCircle } from "../images/p-circle.svg";
+import { ReactComponent as GreenCircle } from "../images/g_circle.svg";
+import { ReactComponent as PinkCircle } from "../images/p_circle.svg";
 
 // ----------------------------------------------------------------------
 
