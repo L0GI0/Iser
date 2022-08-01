@@ -1,13 +1,10 @@
-// material
 import { alpha } from '@mui/material/styles';
-import palette from './palette';
+import PaletteType from './palette';
 import { Shadows } from '@mui/material/styles/shadows'
 
 // ----------------------------------------------------------------------
 
-const LIGHT_MODE = palette.grey[500];
-
-const createShadow = (color: string): Shadows => {
+export const createShadows = (color: string): Shadows => {
   const transparent1 = alpha(color, 0.2);
   const transparent2 = alpha(color, 0.14);
   const transparent3 = alpha(color, 0.12);
@@ -40,8 +37,8 @@ const createShadow = (color: string): Shadows => {
   ];
 };
 
-const createCustomShadow = (color: string) => {
-  const transparent = alpha(color, 0.24);
+export const createCustomShadows = (themePalette: PaletteType) => {
+  const transparent = alpha(themePalette.background.default, 0.24);
 
   return {
     z1: `0 1px 2px 0 ${transparent}`,
@@ -50,34 +47,28 @@ const createCustomShadow = (color: string) => {
     z16: `0 0 2px 0 ${transparent}, 0 16px 32px -4px ${transparent}`,
     z20: `0 0 2px 0 ${transparent}, 0 20px 40px -4px ${transparent}`,
     z24: `0 0 4px 0 ${transparent}, 0 24px 48px 0 ${transparent}`,
-    primary: `0 6px 12px 0 ${alpha(palette.primary.main, 0.4)}`,
-    secondary: `0 6px 12px 0 ${alpha(palette.secondary.darker, 0.4)}`,
-    info: `0 6px 12px 0 ${alpha(palette.info.main, 0.24)}`,
-    success: `0 6px 12px 0 ${alpha(palette.success.main, 0.24)}`,
-    warning: `0 6px 12px 0 ${alpha(palette.warning.main, 0.24)}`,
-    error: `0 6px 12px 0 ${alpha(palette.error.main, 0.24)}`,
+    primary: `0 6px 12px 0 ${alpha(themePalette.primary.main, 0.4)}`,
+    secondary: `0 6px 12px 0 ${alpha(themePalette.secondary.darker, 0.4)}`,
+    info: `0 6px 12px 0 ${alpha(themePalette.info.main, 0.24)}`,
+    success: `0 6px 12px 0 ${alpha(themePalette.success.main, 0.24)}`,
+    warning: `0 6px 12px 0 ${alpha(themePalette.warning.main, 0.24)}`,
+    error: `0 6px 12px 0 ${alpha(themePalette.error.main, 0.24)}`,
     action: {
       primary: {
-        active: `0 4px 8px 0 ${alpha(palette.primary.main, 0.24)}`,
-        hover:  `0 0 0 1px ${alpha(palette.primary.main, palette.action.hoverOpacity)}`,
-        focus:  `0 0 2px 2px ${alpha(palette.primary.main, palette.action.focusOpacity)}`
+        active: `0 4px 8px 0 ${alpha(themePalette.primary.main, 0.24)}`,
+        hover:  `0 0 0 1px ${alpha(themePalette.primary.main, themePalette.action.hoverOpacity)}`,
+        focus:  `0 0 2px 2px ${alpha(themePalette.primary.main, themePalette.action.focusOpacity)}`
       },
       secondary: {
-        active: `0 4px 8px 0 ${alpha(palette.secondary.darker, 0.24)}`,
-        hover:  `0 0 0 1px ${alpha(palette.secondary.darker, palette.action.hoverOpacity)}`,
-        focus:  `0 0 2px 2px ${alpha(palette.secondary.darker, palette.action.focusOpacity)}`
+        active: `0 4px 8px 0 ${alpha(themePalette.secondary.darker, 0.24)}`,
+        hover:  `0 0 0 1px ${alpha(themePalette.secondary.darker, themePalette.action.hoverOpacity)}`,
+        focus:  `0 0 2px 2px ${alpha(themePalette.secondary.darker, themePalette.action.focusOpacity)}`
       },
       error: {
-        active: `0 4px 8px 0 ${alpha(palette.error.main, 0.24)}`,
-        hover:  `0 0 0 1px ${alpha(palette.error.main, palette.action.hoverOpacity)}`,
-        focus:  `0 0 2px 2px ${alpha(palette.error.main, palette.action.focusOpacity)}`    
+        active: `0 4px 8px 0 ${alpha(themePalette.error.main, 0.24)}`,
+        hover:  `0 0 0 1px ${alpha(themePalette.error.main, themePalette.action.hoverOpacity)}`,
+        focus:  `0 0 2px 2px ${alpha(themePalette.error.main, themePalette.action.focusOpacity)}`    
       }
     }
   };
 };
-
-export const customShadows = createCustomShadow(LIGHT_MODE);
-
-const shadows = createShadow(LIGHT_MODE);
-
-export default shadows;

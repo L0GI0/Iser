@@ -36,7 +36,8 @@ export default function MenuPopover({ children, sx, ...other }: MenuPopoverProps
       PaperProps={{
         sx: {
           p: 1,
-          width: 200,
+          width: 250,
+          backgroundColor: 'background.default',
           overflow: 'inherit',
           ...sx,
         },

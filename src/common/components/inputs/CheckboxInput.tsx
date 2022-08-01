@@ -19,13 +19,13 @@ const PromptText = styled(Typography).attrs({
     margin: 0 1em;
   }
   display: flex;
-  color: grey;
+  color: ${({ theme }) => theme.palette.text.secondary};
 `;
 
 const StyledCheckbox = styled(Checkbox)`
   &.MuiCheckbox-root {
     :hover {
-      background-color: rgba(92, 58, 252, 0.1);
+      background-color: ${({ theme }) => theme.palette.action.hover};
     }
   }
 `;

@@ -1,8 +1,10 @@
+import { alpha } from '@mui/material/styles';
 import { pxToRem } from "./functions";
+import PaletteType from './palette';
 
 // ----------------------------------------------------------------------
 
-const borders = {
+const bordersDimensions = {
   borderWidth: {
     0: 0,
     1: pxToRem(1),
@@ -23,4 +25,12 @@ const borders = {
   },
 };
 
-export default borders;
+export const createBorders = (themePalette: PaletteType) => {
+  return {
+      ...bordersDimensions,
+      default: `${bordersDimensions.borderWidth[1]} solid ${themePalette.divider}`,
+      action: {
+        selected: `${bordersDimensions.borderWidth[1]} solid ${alpha(themePalette.info.main, .4)}`
+    }
+  }
+}

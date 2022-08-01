@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AjaxError } from "rxjs/ajax";
+import { PaletteMode } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -8,6 +9,7 @@ type AccountType = 'admin' | 'user'
 interface AccountInitialStateParams {
   accessToken: string | null;
   accountType: AccountType;
+  themeMode: PaletteMode;
 }
 
 export type RequestStatus = 'success' | 'unauthorized' | 'failed';
@@ -56,6 +58,7 @@ const accountInitialState: AccountInitialStateParams & AccountActionsState = {
     signIn: null,
   },
   users: null,
+  themeMode: 'light'
 };
 
 const accountSlice = createSlice({
@@ -129,13 +132,17 @@ const accountSlice = createSlice({
 
     clearSignInStatus(state) {
       state.requestStatus.signIn = null;
+    },
+
+    setThemeMode(state, action: PayloadAction<AccountInitialStateParams['themeMode']>) {
+      state.themeMode = action.payload;
     }
   },
 });
 
 const accountActionCreators = accountSlice.actions;
 
-const { logIn, logInDone, logInFail, signUp, signUpDone, signUpFail, clearSignUpStatus, clearSignInStatus, authenticate, logOut, refreshToken, refreshTokenFailed, refreshTokenDone, authenticated } = accountActionCreators;
+const { logIn, logInDone, logInFail, signUp, signUpDone, signUpFail, clearSignUpStatus, clearSignInStatus, authenticate, logOut, refreshToken, refreshTokenFailed, refreshTokenDone, authenticated, setThemeMode } = accountActionCreators;
 
 const logInActionCreators = { logIn: accountSlice.actions.logIn, logInDone: accountSlice.actions.logInDone, logInFail: accountSlice.actions.logInDone }
 const signUpActionCreators = { signUp: accountSlice.actions.signUp, signUpDone: accountSlice.actions.signUpDone, signUpFail: accountSlice.actions.signUpDone }
@@ -146,6 +153,6 @@ const accountReducer = accountSlice.reducer;
 
 export { asyncActionCreators }
 export { accountActionCreators };
-export { logIn, logInDone, logInFail, signUp, signUpDone, signUpFail,  clearSignUpStatus, clearSignInStatus, authenticate, logOut, refreshToken, refreshTokenFailed, refreshTokenDone, authenticated };
+export { logIn, logInDone, logInFail, signUp, signUpDone, signUpFail,  clearSignUpStatus, clearSignInStatus, authenticate, logOut, refreshToken, refreshTokenFailed, refreshTokenDone, authenticated, setThemeMode };
 export type accountState = ReturnType<typeof accountReducer>;
 export default accountReducer;

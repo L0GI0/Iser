@@ -1,6 +1,5 @@
 import React, { useState, Dispatch, SetStateAction } from "react";
 import { Grid, Card } from "@mui/material";
-import CardLabel from "common/components/CardLabel";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import FormInput from 'common/components/inputs/FormInput';
@@ -10,11 +9,12 @@ import ACCOUNT from '_mocks/account';
 import { LANGS, Language } from "features/iser/dashboard/components/LanguagePopover";
 import useResponsive from "common/utils/useResponsive";
 import { useTranslation } from "react-i18next";
+import LabeledCard from "common/components/Card/LabeledCard";
 import { GENDERS } from './constants';
 
 // ----------------------------------------------------------------------
 
-const ProfileData = () => {
+const ProfileSettings = () => {
 
   const [birthDate, setBirthDate] = useState<string | null>(null)
   const [gender, setGender ] = useState<typeof GENDERS[number]>(ACCOUNT.gender)
@@ -30,8 +30,7 @@ const ProfileData = () => {
   }     
 
   return (
-    <Card>
-      <CardLabel>{t('profile_settings.profile_form.label')}</CardLabel>
+    <LabeledCard label={t('profile_settings.profile_form.label')}>
       <Grid container spacing={2
       }>
         <Grid xs={12 } sm={6} item>
@@ -81,8 +80,8 @@ const ProfileData = () => {
           </FormInput>
         </Grid>      
       </Grid>
-    </Card>
+    </LabeledCard>
   );
 }
 
-export default ProfileData;
+export default ProfileSettings;

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import ThemeProvider from 'common/theme'
+import ThemeProvider from 'common/theme';
 import { useSelector } from "react-redux";
 import {
   BrowserRouter as Router,
@@ -16,16 +16,17 @@ import SignInView from "features/account/SignIn/SignInView";
 import SignUpView from "features/account/SignUp/SignUpView";
 import DashboardView from "features/iser/dashboard/DashboardView";
 import UsersView from 'features/iser/users/UsersView';
-import Profile from 'features/iser/profile/ProfileView';
+import SettingsView from "features/account/settings/SettingsView";
+import ProfileView from 'features/iser/profile/ProfileView';
 import useSnackbarNotifier from "features/notifiers/useSnackbarNotifier";
-import { useDispatch } from 'react-redux' 
-import { authenticate } from 'features/account/store/accountSlice' 
+import { useDispatch } from 'react-redux'; 
+import { authenticate } from 'features/account/store/accountSlice'; 
 import DashboardLayout from 'features/iser/dashboard'
 import AuthError from 'features/account/components/AuthError'
 import AppError from "features/account/components/AppError";
+import PageLoadingWrapper from "common/components/PageLoadingWrapper";
 import { useTranslation } from 'react-i18next';
 import { namespaces } from "i18n";
-import PageLoadingWrapper from "common/components/PageLoadingWrapper";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 
@@ -75,8 +76,6 @@ const PrivateRoute = ({
 
   const isAuthorized = authorizedRoles?.includes(userRole) || !authorizedRoles 
   const navigate = useNavigate()
-
-
 
   useEffect(() => { 
     if(!isLoggedIn){
@@ -138,7 +137,8 @@ function App() {
                     <Route path="/iser/" element={<DashboardLayout/>}>
                       <Route path='/iser/dashboard' element={<DashboardView/>}/>
                       <Route path="/iser/users" element={<UsersView/>}/>
-                      <Route path="/iser/profile" element={<Profile/>}/>
+                      <Route path="/iser/profile" element={<ProfileView/>}/>
+                      <Route path="/iser/settings" element={<SettingsView/>}/>
                     </Route>
                   </Route>
                   <Route path="/unath" element={<AuthError/>}/>

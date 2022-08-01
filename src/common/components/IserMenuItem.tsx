@@ -1,4 +1,5 @@
 import MenuItem from "@mui/material/MenuItem";
+import { alpha } from '@mui/material/styles';
 import styled from "styled-components";
 
 // ----------------------------------------------------------------------
@@ -18,7 +19,7 @@ const IserMenuItem = styled(MenuItem)(( { theme }) => ({
 
   "&&:focus": {
     color: theme.palette.text.primary,
-    backgroundColor: theme.palette.action.selected,
+    backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
     ":after": {
       opacity: 0,
     }

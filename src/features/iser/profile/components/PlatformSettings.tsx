@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Card, Box, Typography } from "@mui/material";
-import CardLabel from 'common/components/CardLabel';
+import CardLabel from 'common/components/Card/CardLabel';
 import SwitchInput from 'common/components/inputs/SwitchInput';
+import LabeledCard from "common/components/Card/LabeledCard";
 import { useTranslation } from 'react-i18next';
 
 // ----------------------------------------------------------------------
@@ -17,10 +18,7 @@ function PlatformSettings() {
   const { t } = useTranslation('profile');
 
   return (
-    <Card>
-      <CardLabel>
-        { t('platfrom_settings.platform_settings_form.label')}
-      </CardLabel>
+    <LabeledCard label={t('platfrom_settings.platform_settings_form.label')}>
         <Typography variant="caption" fontWeight="bold" color="text" textTransform="uppercase">
           { t('platfrom_settings.platform_settings_form.account_notification_settings.label')}
         </Typography>
@@ -60,7 +58,7 @@ function PlatformSettings() {
           checked={newsletter}
           onChange={() => setNewsletter(!newsletter)}
         />
-    </Card>
+    </LabeledCard>
   );
 }
 
