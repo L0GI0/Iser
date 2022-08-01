@@ -41,7 +41,7 @@ interface SearchIconProps {
 
 const SearchFillIcon = styled(Iconify).attrs({ icon: 'eva:search-fill' })<SearchIconProps>`
   ${SearchIconDimensions}
-  ${({ disabled, theme }) => disabled && 'color: ' + theme.palette.text.disabled }
+  color: ${({theme, disabled}) => ( disabled ? theme.palette.text.disabled : theme.palette.text.primary)}
 `
 
 // ----------------------------------------------------------------------

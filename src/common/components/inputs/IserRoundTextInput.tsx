@@ -32,7 +32,7 @@ const TextInput = styled(TextField)`
     }
     
     .MuiFormLabel-root {
-      color: ${(props) => (props.error ? props.theme.palette.error.main : props.theme.palette.primary.main)};
+      color: ${(props) => (props.error ? props.theme.palette.error.main : props.theme.palette.action.active)};
     }
   }
 
@@ -44,8 +44,9 @@ const TextInput = styled(TextField)`
     
     .MuiFormLabel-root {
       border-color: ${(props) =>
-        props.error ? props.theme.palette.error.main : props.theme.palette.primary.main};
+        props.error ? props.theme.palette.error.main : props.theme.palette.action.active};
       font-weight: bold;
+      color: ${(props) => (props.error ? props.theme.palette.error.main : props.theme.palette.action.active)};
     }
   }
 `

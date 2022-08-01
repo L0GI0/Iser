@@ -58,7 +58,7 @@ export default function NotificationsPopover() {
         sx={{ width: 40, height: 40 }}
       >
         <Badge badgeContent={totalUnRead} color="error">
-          <Iconify icon="eva:bell-fill" />
+          <Iconify icon="eva:bell-fill" sx={{color: 'text.primary'}}/>
         </Badge>
       </IconButton>
 

@@ -36,7 +36,7 @@ export default function Input(theme: Theme) {
         fieldset: {
             transitionPropety: `border-color border-width color font-weight`,
             transitionDuration: `.15s`,
-            borderColor: theme.palette.grey[400],
+            borderColor: theme.palette.divider,
           },
           '&.Mui-focused fieldset': {
             boxShadow: theme.customShadows.action.primary.focus

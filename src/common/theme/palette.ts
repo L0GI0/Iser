@@ -1,11 +1,12 @@
 import { alpha, PaletteColor } from '@mui/material/styles';
-import { Color } from '@mui/material'
+import { Color, PaletteMode } from '@mui/material'
 
 // ----------------------------------------------------------------------
 
 function createGradient(color1: string, color2: string) {
   return `linear-gradient(to bottom, ${color1}, ${color2})`;
 }
+
 
 declare module '@mui/material' {
   interface Color {
@@ -21,7 +22,7 @@ declare module '@mui/material' {
    }    
 }
 
-const GREY: Omit<Color, 50 | 'A200' |'A400' |'A700'> = {
+const GREY: Omit<Color, 50 | 'A200' |'A400' |'A700' | 'A100'> = {
   0: '#FFFFFF',
   100: '#F9FAFB',
   200: '#F4F6F8',
@@ -32,7 +33,6 @@ const GREY: Omit<Color, 50 | 'A200' |'A400' |'A700'> = {
   700: '#454F5B',
   800: '#212B36',
   900: '#161C24',
-  'A100': 'black',
   500_8: alpha('#919EAB', 0.08),
   500_12: alpha('#919EAB', 0.12),
   500_16: alpha('#919EAB', 0.16),
@@ -65,7 +65,7 @@ const SECONDARY: PaletteColor = {
 const INFO: PaletteColor = {
   lighter: '#D0F2FF',
   light: '#74CAFF',
-  main: '#1890FF',
+  main: '#388BFD',
   dark: '#0C53B7',
   darker: '#04297A',
   contrastText: '#fff',
@@ -115,7 +115,7 @@ const CHART_COLORS = {
   red: ['#FF6C40', '#FF8F6D', '#FFBD98', '#FFF2D4'],
 };
 
-const palette = {
+export const paletteLight = {
   common: { black: '#000', white: '#fff' },
   primary: { ...PRIMARY },
   secondary: { ...SECONDARY },
@@ -126,13 +126,13 @@ const palette = {
   grey: GREY,
   gradients: GRADIENTS,
   chart: CHART_COLORS,
-  divider: GREY[500_24],
+  divider: GREY[500_48],
   text: { primary: GREY[900], secondary: GREY[600], disabled: GREY[500] },
   background: { paper: GREY[0], default: GREY[100], neutral: GREY[200] },
   action: {
-    active: GREY[600],
+    active: PRIMARY.main,
     hover: GREY[500_8],
-    selected: GREY[500_16],
+    selected: alpha(INFO.main, .15),
     disabled: GREY[500_80],
     disabledBackground: GREY[500_24],
     focus: GREY[500_24],
@@ -142,4 +142,37 @@ const palette = {
   },
 };
 
-export default palette;
+export const paletteDark = {
+  common: { black: '#000', white: '#fff' },
+  primary: { ...PRIMARY },
+  secondary: { ...SECONDARY },
+  info: { ...INFO },
+  success: { ...SUCCESS },
+  warning: { ...WARNING },
+  error: { ...ERROR },
+  grey: GREY,
+  gradients: GRADIENTS,
+  chart: CHART_COLORS,
+  divider: GREY[500_32],
+  text: { primary: GREY[0], secondary: GREY[100], disabled: GREY[200] },
+  background: { paper: GREY[900], default: GREY[800], neutral: GREY[700] },
+  action: {
+    active: SECONDARY.lighter,
+    hover: GREY[500_8],
+    selected: alpha(INFO.main, .15),
+    disabled: GREY[500_80],
+    disabledBackground: GREY[500_24],
+    focus: GREY[500_24],
+    hoverOpacity: .08,
+    focusOpacity: .2,
+    disabledOpacity: 0.48,
+  },
+};
+
+export const getPallette = (themeMode: PaletteMode) => {
+  return (themeMode === 'light' ? paletteLight : paletteDark)
+}
+
+type PaletteType = typeof paletteLight;
+
+export default PaletteType;

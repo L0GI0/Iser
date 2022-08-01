@@ -25,9 +25,13 @@ import { logIn } from "../store/accountSlice";
 
 // ----------------------------------------------------------------------
 
-const ForgotPasswordTip = styled(Typography).attrs({
-  variant: "subtitle2",
-})`
+interface TypographyType {
+  value: string
+}
+
+const ForgotPasswordTip = styled(Typography).attrs<TypographyType>(({
+  value
+}) => ({value: value, variant: 'subtitle1'}))`
   && {
     margin-top: 2.5em;
   }

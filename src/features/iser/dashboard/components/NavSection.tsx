@@ -20,7 +20,7 @@ const ListItem = styled((props) => <ListItemButton disableGutters {...props} />)
   color: theme.palette.text.secondary,
   borderRadius: theme.shape.borderRadius,
   ...(isOpen && {
-    color: theme.palette.primary.main,
+    color: theme.palette.action.active,
     fontWeight: theme.typography.fontWeightMedium,
     backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
   })

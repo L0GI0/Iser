@@ -53,8 +53,8 @@ export default function Card(theme: Theme) {
         },
     
         track: {
-          backgroundColor: alpha(theme.palette.primary.dark, 0.1),
-          border: `${theme.borders.borderWidth[1]} solid ${theme.palette.grey[300]}`,
+          backgroundColor: theme.palette.background.neutral,
+          border: `${theme.borders.borderWidth[1]} solid ${theme.palette.background.neutral}`,
           borderRadius: theme.functions.pxToRem(160),
           opacity: 1,
           transition: `background-color 250ms ease, border-color 200ms ease`,

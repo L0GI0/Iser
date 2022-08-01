@@ -25,7 +25,6 @@ import InfoContent from "../components/InfoContent";
 import { LineDivider, ResponsiveContainer, SignInWithGoogleButton } from "../components/styledElements";
 import CredentialsFromInput, { CredentialsFormRef } from "../components/CredentialsFormInput";
 
-
 // ----------------------------------------------------------------------
 
 const RegistrationTerms = styled(Typography).attrs({

@@ -1,12 +1,10 @@
-import { Theme } from '@mui/material/styles';
-import palette from './palette';
-import shadows, { customShadows } from './shadows';
-import 'styled-components';
-import {  PaletteColor as PaletteRoot } from '@mui/material/styles';
-import { IserThemeOptions } from './index'
+import { Theme, PaletteColor as PaletteRoot } from '@mui/material/styles';
+import shadows from './shadows';
+import { getIserTheme } from './index'
 
 // ----------------------------------------------------------------------
 
+const IserThemeOptions = getIserTheme('light')
 
 type IserTheme = {
     [Key in keyof typeof IserThemeOptions]: typeof IserThemeOptions[Key]
@@ -40,7 +38,7 @@ declare module '@mui/material/styles' {
     interface SimplePaletteColorOptions {
       lighter: string,
       darker: string,
-    }
+  }
 
     interface TypeBackground {
       neutral: string;

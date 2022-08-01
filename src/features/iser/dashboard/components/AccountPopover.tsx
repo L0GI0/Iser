@@ -34,7 +34,7 @@ const getMenuOptions = (t: TFunction<'dashboard'>): MenuOptions[] => {
     {
       label: t('account_popover.menu_options.settings_option'),
       icon: 'eva:settings-2-fill',
-      linkTo: '#',
+      linkTo: '/iser/settings',
     },
   ];
 }
