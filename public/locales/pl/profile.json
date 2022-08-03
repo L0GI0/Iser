@@ -7,7 +7,9 @@
       "label_gender": "Płeć",
       "label_birth_date": "Data urodzenia",
       "label_location": "Lokalizacja",
-      "label_language": "Język"
+      "label_language": "Język",
+      "label_user_role": "Funkcja",
+      "button_submit_profile_data": "Zaktualizuj profil"
     }
   },
   "platfrom_settings": {

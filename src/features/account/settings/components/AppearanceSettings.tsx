@@ -6,7 +6,8 @@ import { RootState } from 'rootStore/rootReducer';
 import LabeledCard from 'common/components/Card/LabeledCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { setThemeMode } from 'features/account/store/accountSlice'
-import Label from '../components/Label';
+import { useTranslation } from 'react-i18next';
+import Label from '../../../../common/components/Label';
 
 // ----------------------------------------------------------------------
 
@@ -60,13 +61,17 @@ const ThemeOptionImage = styled.img(({ theme }) => ({
 // -----------------------------------------------------------------------
 
 const ThemeOption: React.FC<ThemeOptionProps> = ({ selected, caption, description, onThemeSelect}) => {
+
+
+  const { t } = useTranslation('account');
+
   return (
   <ThemeOptionCard selected={selected} onClick={onThemeSelect}>
     <ThemeOptionHeader selected={selected}>
     <ThemeOptionCaption>
       { caption }
     </ThemeOptionCaption>
-      {selected && <Label color="active" variant="outlined"> Active </Label>}
+      {selected && <Label color="active" variant="outlined"> <Typography variant="label"> {t('settings.appearance.label_theme_active')} </Typography> </Label>}
     </ThemeOptionHeader>
     <ThemeOptionBody>
       { description }
@@ -84,10 +89,12 @@ const AppearanceSettings: React.FC = () => {
 
   const dispatch = useDispatch();
 
+  const { t } = useTranslation('account');
+
   const { themeMode } = useSelector((state: RootState) => state.accountReducer)
 
   return (
-    <LabeledCard label={"Appearance"}>
+    <LabeledCard label={t('settings.appearance.label_appearance_settings')}>
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <ThemeOption
@@ -95,13 +102,15 @@ const AppearanceSettings: React.FC = () => {
           caption={
             <>
               <Iconify icon="carbon:light" sx={{ marginRight: 1}}/>
-              Day theme
+              <Typography variant={'responsiveCaption'}>
+                { t('settings.appearance.text_day_theme') }
+              </Typography>
             </>}
           description={
             <>
               <ThemeOptionImage src="/static/illustrations/iser-light-mode.svg" alt="light-mode"/>
               <Typography variant="subtitle1" style={{ margin: 10 }}>
-                Light hight contrast
+                { t('settings.appearance.text_day_theme_type') }
               </Typography>
             </>}
             onThemeSelect={() => dispatch(setThemeMode('light'))}
@@ -113,13 +122,15 @@ const AppearanceSettings: React.FC = () => {
           caption={
             <>
               <Iconify icon="bytesize:moon" sx={{ marginRight: 1}}/>
-              Nigh theme
+              <Typography variant={'responsiveCaption'}>
+                { t('settings.appearance.text_night_theme') }
+              </Typography>
             </>}
           description={
             <>
               <ThemeOptionImage src="/static/illustrations/iser-dark-mode.svg" alt="light-mode" />
               <Typography variant="subtitle1" style={{ margin: 10 }}>
-                Dark default
+                { t('settings.appearance.text_night_theme_type') }
               </Typography>
             </>}
             onThemeSelect={() => dispatch(setThemeMode('dark'))}

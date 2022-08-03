@@ -1,12 +1,10 @@
 import { Typography, Box, alpha, Card, Grid, Avatar } from '@mui/material';
 import styled from 'styled-components';
-import account from '_mocks/account';
 import ACCOUNT from '_mocks/account';
 
 // ----------------------------------------------------------------------
 
 type ProfileCardVariant = "primary" | "secondary";
-
 
 interface ProfileCardProps {
   profileVariant?: ProfileCardVariant
@@ -24,6 +22,9 @@ const ProfileCardContainer = styled(Card)<ProfileCardProps>(({ theme, profileVar
     position: "relative",
     marginRight: theme.spacing(3)
   }),
+  ...(profileVariant === 'secondary' && {
+    marginBottom: theme.spacing(6),
+  }),
   [theme.breakpoints.only('xs')]: {
     '.MuiGrid-root': {
       justifyContent: 'center',
@@ -31,7 +32,7 @@ const ProfileCardContainer = styled(Card)<ProfileCardProps>(({ theme, profileVar
   }
 }))
 
-const ProfileAvatar = styled(Avatar).attrs({ src: account.photoURL, alt: 'profile-image '})(( { theme }) => ({
+const ProfileAvatar = styled(Avatar).attrs({ src: ACCOUNT.photoURL, alt: 'profile-image '})(( { theme }) => ({
   height: '94px',
   width: '94px',
   boxShadow: theme.shadows[1]
@@ -52,7 +53,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({profileVariant = "primary"}) =
             {ACCOUNT.firstName} {ACCOUNT.lastName}
           </Typography>
           <Typography variant="subtitle2" fontWeight={400}>
-            {ACCOUNT.position}
+            {ACCOUNT.role}
           </Typography>
         </Box>
       </Grid>

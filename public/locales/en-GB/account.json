@@ -41,5 +41,24 @@
       "sign_up_failure": "Sign up failed",
       "sign_up_completed": "Signed up sucessfully"
     }
+  },
+  "settings": {
+    "appearance": {
+      "label_appearance_settings": "Appearance",
+      "text_day_theme": "Day theme",
+      "text_day_theme_type": "Light hight contrast",
+      "text_night_theme": "Night theme",
+      "text_night_theme_type": "Dark default",
+      "label_theme_active": "Active"
+    },
+    "password": {
+      "label_password_settings": "Change password",
+      "label_old_password": "Old password",
+      "label_new_password": "New password",
+      "label_confirm_password": "Confirm new password",
+      "text_password_requirements": "Password requirements",
+      "text_password_requirements_description": "Please follow this guide for a strong password:",
+      "button_change_password": "Change password"
+    }
   }
 }

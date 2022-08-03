@@ -154,7 +154,7 @@ export const paletteDark = {
   gradients: GRADIENTS,
   chart: CHART_COLORS,
   divider: GREY[500_32],
-  text: { primary: GREY[0], secondary: GREY[100], disabled: GREY[200] },
+  text: { primary: GREY[0], secondary: GREY[100], disabled: GREY[500] },
   background: { paper: GREY[900], default: GREY[800], neutral: GREY[700] },
   action: {
     active: SECONDARY.lighter,

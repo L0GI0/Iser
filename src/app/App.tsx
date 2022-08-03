@@ -35,7 +35,7 @@ import "./App.css";
 // ----------------------------------------------------------------------
 
 interface AppRouteProps {
-  authorizedRoles?: string[];
+  authorizedUserTypes?: string[];
 }
 
 const allRoutes = {
@@ -48,13 +48,13 @@ type ValueOf<T> = T[keyof T];
 
 type AllRoutes = ValueOf<typeof allRoutes>
 
-interface UserRoles {
+interface UserTypes {
   admin: {
     landingPage: AllRoutes;
   };
 }
 
-const userRoles: UserRoles = {
+const userTypes: UserTypes = {
   admin: {
     landingPage: allRoutes.dashboard,
   },
@@ -62,19 +62,19 @@ const userRoles: UserRoles = {
 
 
 const PrivateRoute = ({
-  authorizedRoles,
+  authorizedUserTypes,
 }: AppRouteProps): JSX.Element => {
   const { isLoggedIn } = useSelector(
     (state: RootState) => state.accountReducer
   );
 
-  const userRole = useSelector(
+  const userType = useSelector(
     (state: RootState) => state.accountReducer.accountType
   );
 
   const dispatch = useDispatch()
 
-  const isAuthorized = authorizedRoles?.includes(userRole) || !authorizedRoles 
+  const isAuthorized = authorizedUserTypes?.includes(userType) || !authorizedUserTypes 
   const navigate = useNavigate()
 
   useEffect(() => { 

@@ -17,7 +17,7 @@ export default function Card(theme: Theme) {
         border: `${theme.borders.borderWidth[0]} solid ${alpha(theme.palette.common.black, 0.125)}`,
         borderRadius: theme.borders.borderRadius.xl,
         boxShadow: theme.shadows[3],
-        padding: `0 ${theme.spacing(2)} ${theme.spacing(2)} ${theme.spacing(2)}`,
+        padding: `0 ${theme.spacing(3)} ${theme.spacing(3)} ${theme.spacing(3)}`,
         },
       }
     },

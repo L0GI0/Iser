@@ -7,7 +7,9 @@
       "label_gender": "Gender",
       "label_birth_date": "Birth date",
       "label_location": "Location",
-      "label_language": "Language"
+      "label_language": "Language",
+      "label_user_role": "Role",
+      "button_submit_profile_data": "Update profile"
     }
   },
   "platfrom_settings": {
