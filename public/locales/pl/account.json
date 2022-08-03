@@ -41,5 +41,24 @@
       "sign_up_failure": "Rejestracja niepowodła się",
       "sign_up_completed": "Rejestracja zakończona pomyślnie"
     }
+  },
+  "settings": {
+    "appearance": {
+      "label_appearance_settings": "Wygląd",
+      "text_day_theme": "Jasny motyw",
+      "text_day_theme_type": "Jasny wysoki kontrast",
+      "text_night_theme": "Ciemny motyw",
+      "text_night_theme_type": "Ciemny domyślny",
+      "label_theme_active": "Aktywny"
+    },
+    "password": {
+      "label_password_settings": "Zmień hasło",
+      "label_old_password": "Stare hasło",
+      "label_new_password": "Nowe hasło",
+      "label_confirm_password": "Potwierdź nowe hasło",
+      "text_password_requirements": "Wymagania dotyczące hasła",
+      "text_password_requirements_description": "Postępuj zgodnie z tymi wskazówkami, aby uzyskać silne hasło:",
+      "button_change_password": "Change password"
+    }
   }
 }

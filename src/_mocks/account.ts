@@ -6,9 +6,9 @@ interface Account {
   email: string,
   photoURL: string,
   gender: string,
-  position: string,
+  role: string,
   location: string,
-  role: 'user'
+  accountType: 'user'
 }
 
 const ACCOUNT: Account = {
@@ -17,9 +17,9 @@ const ACCOUNT: Account = {
   email: 'demo@minimals.cc',
   photoURL: '/static/avatars/avatar_default.jpg',
   gender: 'Male',
-  position: 'Software Engineer',
+  role: 'Software Engineer',
   location: 'Poland',
-  role: 'user',
+  accountType: 'user',
 };
 
 export default ACCOUNT;

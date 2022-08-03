@@ -1,4 +1,5 @@
-import { Theme, PaletteColor as PaletteRoot } from '@mui/material/styles';
+import { CSSProperties } from 'react'; 
+import { Theme, PaletteColor as PaletteRoot, TypographyVariantsOptions as TypographyVariantsRoot, Variant as VariantRoot } from '@mui/material/styles';
 import shadows from './shadows';
 import { getIserTheme } from './index'
 
@@ -22,6 +23,13 @@ declare module '@mui/material/styles/shadows' {
   type Shadows = IserShadows
 }
 
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    label: true;
+    responsiveCaption: true,
+  }
+}
+
 declare module '@mui/material/styles' {
    interface Theme extends IserTheme {}
    interface ThemeOptions extends IserTheme {}
@@ -29,11 +37,11 @@ declare module '@mui/material/styles' {
    interface PaletteColor extends PaletteRoot {
       lighter: string,
       darker: string,
-    }    
+    }
 
     interface PaletteColor {
       lighter: string,
-      darker: string,
+    darker: string,
     }
     interface SimplePaletteColorOptions {
       lighter: string,
@@ -42,6 +50,11 @@ declare module '@mui/material/styles' {
 
     interface TypeBackground {
       neutral: string;
+    }
+
+    interface TypographyVariantsOptions extends TypographyVariantsRoot {
+      label: CSSProperties,
+      responsiveCaption: CSSProperties,
     }
   
     export function createTheme(options?: ThemeOptions): Theme;

@@ -84,12 +84,21 @@ const typography: TypographyVariantsOptions = {
     lineHeight: 1.5,
     fontSize: pxToRem(14),
   },
+  responsiveCaption: {
+    fontSize: pxToRem(10),
+    ...responsiveFontSizes({ sm: 12, md: 14, lg: 16 }),
+  },
   overline: {
     fontWeight: 700,
     lineHeight: 1.5,
     fontSize: pxToRem(12),
     letterSpacing: 1.1,
     textTransform: 'uppercase',
+  },
+  label: {
+    fontWeight: 600,
+    fontSize: pxToRem(10),
+    ...responsiveFontSizes({ sm: 12, md: 12, lg: 16 }),
   },
   button: {
     fontWeight: 700,

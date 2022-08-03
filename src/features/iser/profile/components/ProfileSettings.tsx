@@ -1,5 +1,5 @@
 import React, { useState, Dispatch, SetStateAction } from "react";
-import { Grid, Card } from "@mui/material";
+import { Grid, Button } from "@mui/material";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import FormInput from 'common/components/inputs/FormInput';
@@ -78,7 +78,17 @@ const ProfileSettings = () => {
               { [LANGS.map((language: Language, i: number) => (<IserMenuItem value={language.label} key={i} > { language.label } </IserMenuItem>))]}
             </IserTextInput>
           </FormInput>
-        </Grid>      
+        </Grid>
+        <Grid xs={12 } sm={6} item>
+          <FormInput label={t('profile_settings.profile_form.label_user_role')}>
+            <IserTextInput placeholder={ACCOUNT.role}/>
+          </FormInput>
+        </Grid>
+        <Grid item display="flex" justifyContent="flex-end" xs={12} sm={6}>
+            <Button variant="contained" sx={{ marginTop: 4, marginBottom: 0}}>
+              { t('profile_settings.profile_form.button_submit_profile_data') }
+            </Button>
+          </Grid>
       </Grid>
     </LabeledCard>
   );

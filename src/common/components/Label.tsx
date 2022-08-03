@@ -26,14 +26,12 @@ const labelStyleOutlined = (theme: Theme, color: LabelContainerProps['color']): 
 
 const LabelContainer = styled(Box)<LabelContainerProps>(({theme, color, variant}) => ({
   height: 22,
-  minWidth: 22,
   lineHeight: 0,
   borderRadius: theme.borders.borderRadius.xxl,
   alignItems: 'center',
   display: 'inline-flex',
   justifyConent: 'center',
   padding: theme.spacing(1, 1),
-  fontSize: theme.typography.pxToRem(14),
   fontFamily: theme.typography.fontFamily,
   fontWeight: theme.typography.fontWeightBold,
 
