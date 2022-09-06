@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useEffect, useState } from "react";
+import React, { useRef, useMemo } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -46,21 +46,21 @@ type SignUpResult = {
 
 const getSignUpResult = (status: RequestStatus, t: TFunction<["account", "notifiers"]>): SignUpResult => {
   if(status === REQUEST_STATUS.success)
-    return { variant: RESULT_VARIANTS.success, message: t("sign_up.notifications.sign_up_completed")}
+    return { variant: RESULT_VARIANTS.success, message: t('sign_up.notifications.sign_up_completed')}
 
   return { variant: RESULT_VARIANTS.error, message: t('sign_up.notifications.sign_up_failure')}
 }
 
 const SignUpForm: React.FC = () => {
 
-  const { requestStatus: { signUp: signUpStatus }, isFetching } = useSelector((state: RootState) => state.accountReducer)
+  const { requestStatus: { signUp: signUpStatus }, accountReactiveState: { isSigningUp } } = useSelector((state: RootState) => state.accountReducer)
 
   const { t } = useTranslation(['account', 'notifiers'])
 
   const inputFormRef = useRef<CredentialsFormRef>(null);
   
   const dispatch = useDispatch();
-  useStateChangeNotifier(signUpStatus, getSignUpStateToSnackbarMap(dispatch, t));
+  useStateChangeNotifier(signUpStatus, getSignUpStateToSnackbarMap(t));
 
   const signUpResult: SignUpResult = useMemo(() => {
     if(signUpStatus)
@@ -85,18 +85,18 @@ const SignUpForm: React.FC = () => {
   return (
       <SignUpFormContainer>
       <Typography variant="h3">{t('sign_up.form.label_sign_up')}</Typography>
-        <LoadingBackdrop open={isFetching}>
+        <LoadingBackdrop open={isSigningUp}>
           <ResultBackdrop
             open={!!signUpStatus}
             variant={signUpResult.variant}
             resultText={signUpResult.message}
-            descriptionText={t("sign_up.result.sign_up_failure_description")}
+            descriptionText={t('sign_up.result.sign_up_failure_description')}
             onClose={() => dispatch(clearSignUpStatus())}>
              <CredentialsFromInput disableAutofocus={!!signUpStatus} ref={inputFormRef} />
             <RoundButton
               text={t('sign_up.form.button_sign_up')}
-              style={{ width: "100%" }}
-              color="primary"
+              style={{ width: '100%' }}
+              color='primary'
               onClick={signUpUser}/>
           </ResultBackdrop>
         </LoadingBackdrop>
@@ -119,7 +119,7 @@ const SignUpRightSection: React.FC = () => {
         <SignInWithGoogleButton sx={{ marginBottom: '2em' }}/>
         <CheckboxInput
           promptText={
-            t("sign_up.form.checkbox_newsletter_agreement")
+            t('sign_up.form.checkbox_newsletter_agreement')
           }
         />
         <RegistrationTerms>
@@ -136,24 +136,24 @@ const SignUpLeftSection: React.FC = () => {
   const navigate = useNavigate();
 
   const redirectToSignInView = () => {
-    navigate("/app/signin");
+    navigate('/app/signin');
   };
 
   const { t } = useTranslation('account')
 
   return (
     <NavyBlueBubbledSectionLeft>
-      <Container maxWidth="sm">
+      <Container maxWidth='sm'>
         <InfoContent
           header={t('sign_up.section_info.header_welcome_to_iser')}
-          description={t("sign_up.section_info.text_description")}
+          description={t('sign_up.section_info.text_description')}
           footer={
             <ResponsiveContainer>
               {t('sign_up.section_info.info_footer.text_already_signed_up')}
               <RoundButton
                 onClick={redirectToSignInView}
                 text={t('sign_up.section_info.info_footer.button_sign_in')}
-                color="secondary"
+                color='secondary'
               />
             </ResponsiveContainer>
           }

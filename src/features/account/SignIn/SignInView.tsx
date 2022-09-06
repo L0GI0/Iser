@@ -48,7 +48,7 @@ const SignInForm: React.FC = () => {
   const { t } = useTranslation(['account', 'notifiers']);
 
   const inputFormRef = useRef<CredentialsFormRef>(null);
-  const { requestStatus: { signIn: signInStatus }, isLoggingIn } = useSelector(
+  const { requestStatus: { signIn: signInStatus }, accountReactiveState: { isLoggingIn } } = useSelector(
     (state: RootState) => state.accountReducer
   );
 
@@ -110,7 +110,7 @@ const SignInRightSection: React.FC = () => {
   const { t } = useTranslation('account');
 
   const redirectToSignUpView = () => {
-    navigate("/app/signup");
+    navigate('/app/signup');
   };
 
   return (

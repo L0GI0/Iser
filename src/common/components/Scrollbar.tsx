@@ -20,6 +20,11 @@ const SimpleBarStyle = styled(SimpleBarReact)(({ theme }) => ({
       opacity: 1,
     },
   },
+
+  '.simplebar-placeholder': {
+    display: 'none'
+  },
+  
   '& .simplebar-track.simplebar-vertical': {
     width: 10,
   },

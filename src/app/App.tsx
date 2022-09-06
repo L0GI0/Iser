@@ -132,7 +132,7 @@ function App() {
                   </Route>              
                   <Route
                     path="/iser"
-                    element={<PrivateRoute />}
+                    element={<PrivateRoute authorizedUserTypes={['admin', 'user']}/>}
                   >
                     <Route path="/iser/" element={<DashboardLayout/>}>
                       <Route path='/iser/dashboard' element={<DashboardView/>}/>

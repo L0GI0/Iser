@@ -11,7 +11,8 @@ export const namespaces = [
   "account",
   "dashboard",
   "notifiers",
-  "profile"
+  "profile",
+  "users"
 ]
 
 export const defaultNS = 'common'
@@ -24,7 +25,7 @@ i18n
   .use(initReactI18next)
   .init({
     debug: true,
-    supportedLngs,
+    supportedLngs: supportedLngs,
     ns: namespaces,
     defaultNS,
     react: {
@@ -32,7 +33,9 @@ i18n
     },
     interpolation: {
       escapeValue: false,
-    }
+    },
+    load: 'currentOnly',
+    fallbackLng: false
   });
 
 

@@ -7,7 +7,6 @@ function createGradient(color1: string, color2: string) {
   return `linear-gradient(to bottom, ${color1}, ${color2})`;
 }
 
-
 declare module '@mui/material' {
   interface Color {
     0: string,
@@ -43,14 +42,13 @@ const GREY: Omit<Color, 50 | 'A200' |'A400' |'A700' | 'A100'> = {
   500_80: alpha('#919EAB', 0.8),
 };
 
-
 const PRIMARY: PaletteColor = {
   lighter: '#D1E9FC',
   light: '#6748FD',
   main: '#5C3AFC',
   dark: '#5537eb',
   darker: '#3C1BDA',
-  contrastText: '#fff',
+  contrastText: GREY[0],
 };
 
 const SECONDARY: PaletteColor = {
@@ -59,7 +57,7 @@ const SECONDARY: PaletteColor = {
   main: '#6E60FF',
   dark: '#6354FD',
   darker: '#091A7A',
-  contrastText: '#fff',
+  contrastText: GREY[0],
 };
 
 const INFO: PaletteColor = {
@@ -68,7 +66,7 @@ const INFO: PaletteColor = {
   main: '#388BFD',
   dark: '#0C53B7',
   darker: '#04297A',
-  contrastText: '#fff',
+  contrastText: GREY[0],
 };
 
 
@@ -78,7 +76,7 @@ const SUCCESS: PaletteColor = {
   main: '#54D62C',
   dark: '#229A16',
   darker: '#08660D',
-  contrastText: GREY[800],
+  contrastText: GREY[0],
 };
 
 const WARNING: PaletteColor = {
@@ -87,16 +85,16 @@ const WARNING: PaletteColor = {
   main: '#FFC107',
   dark: '#B78103',
   darker: '#7A4F01',
-  contrastText: GREY[800],
+  contrastText: GREY[0],
 };
 
 const ERROR: PaletteColor = {
   lighter: '#FFE7D9',
   light: '#FFA48D',
   main: '#FF4842',
-  dark: '#B72136',
-  darker: '#7A0C2E',
-  contrastText: '#fff',
+  dark: '#D13F3B',
+  darker: '#911A16',
+  contrastText: GREY[0],
 };
 
 const GRADIENTS = {
@@ -128,7 +126,7 @@ export const paletteLight = {
   chart: CHART_COLORS,
   divider: GREY[500_48],
   text: { primary: GREY[900], secondary: GREY[600], disabled: GREY[500] },
-  background: { paper: GREY[0], default: GREY[100], neutral: GREY[200] },
+  background: { paper: GREY[0], default: GREY[100], neutral: GREY[300] },
   action: {
     active: PRIMARY.main,
     hover: GREY[500_8],

@@ -1,9 +1,23 @@
-import { Typography } from '@mui/material'
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchUsers } from 'features/iser/store/iserSlice'
+import UsersTable from './components/UsersTable';
+
+// ----------------------------------------------------------------------
 
 const UsersView = () => {
 
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    dispatch(fetchUsers());
+  })
 
-  return <Typography variant="h1">Users</Typography>
+  return (
+    <>
+      <UsersTable/>
+    </>
+  )
 }
 
 export default UsersView
