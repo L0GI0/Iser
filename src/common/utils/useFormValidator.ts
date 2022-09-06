@@ -16,16 +16,16 @@ const getFieldValuesRules = (t: TFunction<'common'>): fieldValuesRulesProps => {
   return {
     email: {
       required: t('forms.fields.email.rule_msg.email_required'),
-      invalid: { noAtFormat: t("forms.fields.email.rule_msg.email_invalid.not_at_format") },
+      invalid: { noAtFormat: t('forms.fields.email.rule_msg.email_invalid.not_at_format') },
     },
     password: {
-      required: t("forms.fields.password.rule_msg.password_required"),
+      required: t('forms.fields.password.rule_msg.password_required'),
       invalid: {
-        atLeastOneDigit: t("forms.fields.password.rule_msg.password_invalid.at_least_one_digit"),
+        atLeastOneDigit: t('forms.fields.password.rule_msg.password_invalid.at_least_one_digit'),
         atLeastOneUpper:
-          t("forms.fields.password.rule_msg.password_invalid.at_least_one_upper_case"),
+          t('forms.fields.password.rule_msg.password_invalid.at_least_one_upper_case'),
         atLeastOneLower:
-          t("forms.fields.password.rule_msg.password_invalid.at_least_one_lower_case"),
+          t('forms.fields.password.rule_msg.password_invalid.at_least_one_lower_case'),
       },
     },
   };

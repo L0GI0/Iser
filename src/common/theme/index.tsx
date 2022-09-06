@@ -5,7 +5,7 @@ import { ThemeProvider as StyledComponentsThemeProvider} from 'styled-components
 import { Shadows } from '@mui/material/styles/shadows';
 import { RootState } from "rootStore/rootReducer";
 import { useSelector } from 'react-redux';
-import palette, { paletteLight, getPallette } from './palette';
+import { getPallette } from './palette';
 import componentsOverride from './overrides';
 import { createShadows, createCustomShadows } from './shadows';
 import { createBorders } from './borders';

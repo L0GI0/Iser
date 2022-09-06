@@ -6,5 +6,9 @@
   "notification_msg_sign_in": {
     "sign_in_failed": "Unable to sign in",
     "sign_in_unauthorized": "Invalid user name or password"
+  },
+  "notification_msg_profile_settings": {
+    "profile_updated": "Profile updated",
+    "profile_update_failed": "Can't update profile data"
   }
 }

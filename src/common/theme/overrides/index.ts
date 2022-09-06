@@ -7,6 +7,7 @@ import Card from './Card';
 import Switch from './Switch';
 import FormLabel from './FormLabel';
 import MenuItem from './MenuItem';
+import Table from './Table';
 import { Theme } from '@mui/material/styles';
 
 // ----------------------------------------------------------------------
@@ -19,6 +20,8 @@ export default function ComponentsOverrides(theme: Theme) {
     Card(theme),
     Switch(theme),
     FormLabel(theme),
+    MenuItem(theme),
+    Table(theme),
     Paper(),
     CssBaseline(),
   );

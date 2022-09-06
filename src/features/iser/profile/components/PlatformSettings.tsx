@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Card, Box, Typography } from "@mui/material";
-import CardLabel from 'common/components/Card/CardLabel';
+import { Box, Typography } from "@mui/material";
 import SwitchInput from 'common/components/inputs/SwitchInput';
 import LabeledCard from "common/components/Card/LabeledCard";
 import { useTranslation } from 'react-i18next';

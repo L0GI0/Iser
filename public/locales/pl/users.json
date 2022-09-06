@@ -1,0 +1,28 @@
+{
+  "label_users_screen": "Użytkownicy",
+  "button_add_user": "Nowy Użytkownik",
+  "table_users": {
+    "table_toolbar": {
+      "input_search_user": "Wyszukaj użytkownika...",
+      "tooltip_filter_list": "Filtruj listę"
+    },
+    "table_head": {
+      "table_column": {
+        "first_name": "Imię",
+        "last_name": "Nazwisko",
+        "role": "Rola",
+        "language": "Język",
+        "location": "Lokalizacja",
+        "type": "Funkcja",
+        "status": "Status"
+      }
+    },
+    "table_cell_menu": {
+      "delete": "Usuń",
+      "edit": "Edytuj"
+    },
+    "table_pagination": {
+      "text_rows_per_page": "Liczba użytkownikow na stronę:"
+    }
+  }
+}

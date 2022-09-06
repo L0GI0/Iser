@@ -3,13 +3,16 @@ import {
   AccountEpicActions,
   accountEpic,
 } from "features/account/store/accountEpic";
+import {
+  IserEpicActions, iserEpic
+} from 'features/iser/store/iserEpic';
 import { RootState } from "./rootReducer";
 
 // ----------------------------------------------------------------------
 
-export const rootEpic = combineEpics(accountEpic);
+export type RootActions = AccountEpicActions | IserEpicActions;
 
-type EpicMiddlewareRoot = AccountEpicActions;
+export const rootEpic = combineEpics<RootActions, RootActions, RootState>(accountEpic, iserEpic);
 
 export const epicMiddleware =
-  createEpicMiddleware<EpicMiddlewareRoot, EpicMiddlewareRoot, RootState>();
+  createEpicMiddleware<RootActions, RootActions, RootState>();

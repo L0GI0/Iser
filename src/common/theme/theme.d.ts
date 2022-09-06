@@ -41,12 +41,13 @@ declare module '@mui/material/styles' {
 
     interface PaletteColor {
       lighter: string,
-    darker: string,
+      darker: string,
     }
+    
     interface SimplePaletteColorOptions {
       lighter: string,
       darker: string,
-  }
+    }
 
     interface TypeBackground {
       neutral: string;

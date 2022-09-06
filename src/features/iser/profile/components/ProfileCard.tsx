@@ -1,4 +1,6 @@
 import { Typography, Box, alpha, Card, Grid, Avatar } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { RootState } from 'rootStore/rootReducer';
 import styled from 'styled-components';
 import ACCOUNT from '_mocks/account';
 
@@ -41,6 +43,9 @@ const ProfileAvatar = styled(Avatar).attrs({ src: ACCOUNT.photoURL, alt: 'profil
 // ----------------------------------------------------------------------
 
 const ProfileCard: React.FC<ProfileCardProps> = ({profileVariant = "primary"}) => {
+
+  const { profile } = useSelector((state: RootState) => state.accountReducer)
+
   return (
   <ProfileCardContainer profileVariant={profileVariant}>
     <Grid container spacing={3} alignItems="center">
@@ -50,10 +55,10 @@ const ProfileCard: React.FC<ProfileCardProps> = ({profileVariant = "primary"}) =
       <Grid item>
         <Box height="100%" mt={0.5} sx={{ height: '100%', marginTop: 0.5, lineHeight: 1}}>
           <Typography variant="h4" fontWeight="medium">
-            {ACCOUNT.firstName} {ACCOUNT.lastName}
+            {profile.firstName} {profile.lastName}
           </Typography>
           <Typography variant="subtitle2" fontWeight={400}>
-            {ACCOUNT.role}
+            {profile.role}
           </Typography>
         </Box>
       </Grid>

@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import styled from 'styled-components'
 import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/material';
-import account from '_mocks/account';
+import ACCOUNT from '_mocks/account';
 import useResponsive from 'common/utils/useResponsive';
 import Scrollbar from 'common/components/Scrollbar';
 import Iconify from "common/components/Iconify";
+import { RootState } from "rootStore/rootReducer";
 import NavSection from './NavSection';
 import getNavConfig from './NavConfig';
 import { useTranslation } from 'react-i18next';
@@ -60,6 +62,8 @@ export default function DashboardSidebar({ isSidebarOpen, onCloseSidebar, onOpen
 
   const isDesktop = useResponsive('up', 'lg');
 
+  const { profile } = useSelector((state: RootState) => state.accountReducer)
+
   const { t } = useTranslation('dashboard');
 
   useEffect(() => {
@@ -82,13 +86,13 @@ export default function DashboardSidebar({ isSidebarOpen, onCloseSidebar, onOpen
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none" component={RouterLink} to="/iser/profile">
           <AccountStyle>
-            <Avatar src={account.photoURL} alt="photoURL" />
+            <Avatar src={ACCOUNT.photoURL} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.firstName} {account.lastName}
+                {profile.firstName} {profile.lastName}
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {account.accountType}
+                {profile.role}
               </Typography>
             </Box>
           </AccountStyle>

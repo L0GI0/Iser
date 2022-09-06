@@ -5,7 +5,7 @@
   },
   "navigation_section": {
     "dashboard_nav_item": "dashboard",
-    "user_nav_item": "user",
+    "user_nav_item": "users",
     "product_nav_item": "product",
     "blog_nav_item": "blog"
   },

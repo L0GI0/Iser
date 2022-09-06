@@ -1,4 +1,4 @@
-import { Box, alpha, Card, Grid } from '@mui/material';
+import { Box, alpha, Grid } from '@mui/material';
 import profile_bg from "common/images/profile_bg.jpg";
 import styled from 'styled-components';
 import PlatformSettings from './components/PlatformSettings'; 

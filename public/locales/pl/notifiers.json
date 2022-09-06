@@ -6,5 +6,9 @@
   "notification_msg_sign_in": {
     "sign_in_failed": "Logowanie nie powodło się",
     "sign_in_unauthorized": "Nieprawidłowa nazwa użytkownika lub haslo"
+  },
+  "notification_msg_profile_settings": {
+    "profile_updated": "Profil zaktualiowany pomyślnie",
+    "profile_update_failed": "Nie udalo się zaktualizowac profilu"
   }
 }

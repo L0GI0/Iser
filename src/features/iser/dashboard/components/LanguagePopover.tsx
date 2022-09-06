@@ -29,7 +29,7 @@ const LanguageMenuPopover = styled(MenuPopover)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
- type Languages = 'en-GB' | 'pl' | 'de' | 'fr';
+ export type Languages = 'en-GB' | 'pl' | 'de' | 'fr';
 
  export interface Language {
   value: Languages,
@@ -37,11 +37,29 @@ const LanguageMenuPopover = styled(MenuPopover)(({ theme }) => ({
   icon: string,
 }
 
+export const languages:  Record<Languages, Omit<Language, 'value'>>  = {
+  "en-GB": {
+    label: 'English',
+    icon: '/static/icons/lng_flag_en.svg',
+  },
+  "pl": {
+    label: 'Polski',
+    icon: '/static/icons/lng_flag_pl.svg',
+  },
+  "de": {
+    label: 'Deutsch',
+    icon: '/static/icons/lng_flag_de.svg',
+  },
+  "fr": {
+    label: 'Français',
+    icon: '/static/icons/lng_flag_fr.svg',
+  }
+}
+
 export const LANGS: Language[] = [
   {
     value: 'en-GB',
-    label: 'English',
-    icon: '/static/icons/lng_flag_en.svg',
+    ...languages['en-GB']
   },
   {
     value: 'pl',

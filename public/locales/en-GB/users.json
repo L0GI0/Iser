@@ -1,0 +1,28 @@
+{
+  "label_users_screen": "Users",
+  "button_add_user": "New User",
+  "table_users": {
+    "table_toolbar": {
+      "input_search_user": "Search user...",
+      "tooltip_filter_list": "Filter list"
+    },
+    "table_head": {
+      "table_column": {
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "role": "Role",
+        "language": "Language",
+        "location": "Location",
+        "type": "Type",
+        "status": "Status"
+      }
+    },
+    "table_cell_menu": {
+        "delete": "Delete",
+        "edit": "Edit"
+      },
+    "table_pagination": {
+      "text_rows_per_page": "Users per page:"
+    }
+  }
+}

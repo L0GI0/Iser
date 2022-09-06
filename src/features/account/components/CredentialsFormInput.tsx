@@ -5,11 +5,10 @@ import React, {
   forwardRef,
   useImperativeHandle,
 } from "react";
-import styled from "styled-components";
-import { Subject, Observable } from "rxjs";
-import { map, debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { Subject } from "rxjs";
 
 import RoundInput from "common/components/inputs/IserRoundTextInput";
+import useObservable, { createDebounceObservable } from "common/utils/useObservable";
 import { useFormValidator } from "common/utils/useFormValidator";
 
 import { ReactComponent as PasswordIcon } from "common/images/pswd_icon.svg";
@@ -17,24 +16,6 @@ import { ReactComponent as MailIcon } from "common/images/mail_icon.svg";
 import { useTranslation } from 'react-i18next'
 
 // ----------------------------------------------------------------------
-
-const FormLabel = styled.h1`
-  font-size: 30px;
-  text-align: start;
-  width: 100%;
-  margin-bottom: 2em;
-`;
-
-// ----------------------------------------------------------------------
-
-const useObservable = (observable: Observable<any>, setter: any) => {
-  useEffect(() => {
-    let subscription = observable.subscribe((result: any) => {
-      setter(result);
-  });
-    return () => subscription.unsubscribe();
-  }, []);
-};
 
 const emptyInputState = {
   value: "testEmail@gmail.com",
@@ -54,14 +35,6 @@ interface CredentialsFormProps {
 
 const validateEmailInput = new Subject();
 const validatePasswordInput = new Subject();
-
-const createDebounceObservable = (observable: any, callbackFunction: any) => {
-  return observable.pipe(
-    debounceTime(750),
-    distinctUntilChanged(),
-    map((value) => callbackFunction(value))
-  );
-};
 
 const CredentialsFormInput = forwardRef(
   (

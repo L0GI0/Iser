@@ -12,8 +12,8 @@ interface LabelContainerProps {
 }
 
 const labelStyleFilled = (theme: Theme, color: LabelContainerProps['color']): CSSObject => ({
-  color: (color === 'active') ? theme.palette.action.active : theme.palette[color].main,
-  backgroundColor: (color === 'active') ? theme.palette.action.active : theme.palette[color].lighter
+  color: (color === 'active') ? theme.palette.action.active : theme.palette[color].darker,
+  backgroundColor: (color === 'active') ? theme.palette.action.active : theme.palette[color].light
 })
 
 const labelStyleOutlined = (theme: Theme, color: LabelContainerProps['color']): CSSObject => ({
@@ -31,7 +31,7 @@ const LabelContainer = styled(Box)<LabelContainerProps>(({theme, color, variant}
   alignItems: 'center',
   display: 'inline-flex',
   justifyConent: 'center',
-  padding: theme.spacing(1, 1),
+  padding: theme.spacing(1.5, 1.5),
   fontFamily: theme.typography.fontFamily,
   fontWeight: theme.typography.fontWeightBold,
 
