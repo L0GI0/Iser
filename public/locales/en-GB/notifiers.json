@@ -5,10 +5,20 @@
   },
   "notification_msg_sign_in": {
     "sign_in_failed": "Unable to sign in",
-    "sign_in_unauthorized": "Invalid user name or password"
+    "sign_in_unauthorised": "Invalid user name or password",
+    "sign_in_forbidden": "Provided account is banned"
   },
   "notification_msg_profile_settings": {
     "profile_updated": "Profile updated",
     "profile_update_failed": "Can't update profile data"
+  },
+  "notification_msg_users": {
+    "users_fetch_failed": "Couldn't fetch users",
+    "user_deleted": "User <bold>{{userEmail}}</bold> deleted",
+    "user_delete_fail": "Couldn't remove the user",
+    "user_delete_unauth": "Insufficient permissions to romove a user",
+    "user_banned": "User <bold>{{userEmail}}</bold> banned",
+    "user_ban_fail": "Couldn't ban the user",
+    "user_ban_unauth": "Insufficient permissions to ban a user"
   }
 }

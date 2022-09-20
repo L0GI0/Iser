@@ -1,35 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AjaxError } from "rxjs/ajax";
 import { PaletteMode } from '@mui/material';
-import { Languages } from 'features/iser/dashboard/components/LanguagePopover';
-import { GENDERS } from 'features/iser/profile/constants';
 
 // ----------------------------------------------------------------------
 
-export type AccountType = 'admin' | 'user'
-
 interface AccountInitialStateParams {
   accessToken: string | null;
-  accountType: AccountType;
+  userType: AccountType;
   themeMode: PaletteMode;
-}
-
-export interface Profile {
-  firstName: string,
-  lastName: string,
-  gender: typeof GENDERS[number],
-  birthDate: Date | null,
-  location: string,
-  language: Languages
-  role: string
-}
-
-export type RequestStatus = 'success' | 'unauthorized' | 'failed';
-
-export const REQUEST_STATUS: Record<RequestStatus, RequestStatus> = {
-  success: 'success',
-  unauthorized: 'unauthorized',
-  failed: 'failed'
 }
 
 interface AccountActionsState {
@@ -49,6 +27,7 @@ interface ReactiveAccountState {
 }
 
 interface SinInPayload {
+  userType: AccountType;
   tokens: {
     accessToken: string;
     refreshToken: string;
@@ -68,7 +47,7 @@ export interface AccountPayloadError {
 
 const accountInitialState: AccountInitialStateParams & AccountActionsState & { accountReactiveState: ReactiveAccountState } & { profile: Profile } = {
   accessToken: null,
-  accountType: 'user',
+  userType: 'user',
   isLoggedIn: false,
   accountReactiveState: {
     isSigningUp: false,
@@ -105,9 +84,8 @@ const accountSlice = createSlice({
 
     logInDone(state, action: PayloadAction<SinInPayload>) {
       state.accessToken = action.payload.tokens.accessToken;
-      state.accountReactiveState.isLoggingIn = false;
-      state.isLoggedIn = true;
-      state.requestStatus.signIn = 'success';
+
+      state.userType = action.payload.userType;
 
       state.profile.firstName = action.payload.profile.firstName;
       state.profile.lastName = action.payload.profile.lastName;
@@ -116,21 +94,18 @@ const accountSlice = createSlice({
       state.profile.location = action.payload.profile.location;
       state.profile.language = action.payload.profile.language;
       state.profile.role = action.payload.profile.role;
-    },
-
-    logInFail(state, action: PayloadAction<AccountPayloadError>){
-
-      const signInError = action.payload.error;
-
-      if(signInError.status === 401)
-        state.requestStatus.signIn = 'unauthorized'
-      else 
-        state.requestStatus.signIn = 'failed';
-
+      
+      state.requestStatus.signIn = null;
+      state.isLoggedIn = true;
       state.accountReactiveState.isLoggingIn = false;
     },
 
-    signUp(state, action: PayloadAction<AccountPayloadIn & { accountType: AccountType } >) {
+    logInFail(state, action: PayloadAction<AccountPayloadError>){
+      state.requestStatus.signIn = action.payload.error.response.requestStatus;
+      state.accountReactiveState.isLoggingIn = false;
+    },
+
+    signUp(state, action: PayloadAction<AccountPayloadIn & { userType: AccountType } >) {
       state.requestStatus.signUp = null;
       state.accountReactiveState.isSigningUp = true;
     },
@@ -162,8 +137,9 @@ const accountSlice = createSlice({
     refreshTokenFailed(state, action: PayloadAction<AccountPayloadError>) {
     },
 
-    refreshTokenDone(state, action: PayloadAction<SinInPayload>) {
+    refreshTokenDone(state, action: PayloadAction<SinInPayload & { user: { userType: AccountType }}>) {
       state.accessToken = action.payload.tokens.accessToken;
+      state.userType = action.payload.user.userType;
     },
 
     clearSignUpStatus(state) {
@@ -234,7 +210,14 @@ const logInActionCreators = { logIn: accountSlice.actions.logIn, logInDone: acco
 const signUpActionCreators = { signUp: accountSlice.actions.signUp, signUpDone: accountSlice.actions.signUpDone, signUpFail: accountSlice.actions.signUpFail }
 const profileActionCreatos = { updateProfile: accountSlice.actions.updateProfile, profileUpdated: accountSlice.actions.profileUpdated, profileUpdateFailed: accountSlice.actions.profileUpdateFailed } 
 
-const asyncActionCreators = { ...logInActionCreators, ...signUpActionCreators, ...profileActionCreatos, authenticate: accountSlice.actions.authenticate, refreshToken: accountSlice.actions.refreshToken}
+const asyncActionCreators = {
+  ...logInActionCreators,
+  ...signUpActionCreators,
+  ...profileActionCreatos,
+  authenticate: accountSlice.actions.authenticate,
+  refreshToken: accountSlice.actions.refreshToken,
+  logOut: accountSlice.actions.logOut
+}
 
 const accountReducer = accountSlice.reducer;
 

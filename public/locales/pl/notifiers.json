@@ -5,10 +5,20 @@
   },
   "notification_msg_sign_in": {
     "sign_in_failed": "Logowanie nie powodło się",
-    "sign_in_unauthorized": "Nieprawidłowa nazwa użytkownika lub haslo"
+    "sign_in_unauthorised": "Nieprawidłowa nazwa użytkownika lub haslo",
+    "sign_in_forbidden": "To konto jest zablokowane"
   },
   "notification_msg_profile_settings": {
     "profile_updated": "Profil zaktualiowany pomyślnie",
-    "profile_update_failed": "Nie udalo się zaktualizowac profilu"
+    "profile_update_failed": "Nie udalo się zaktualizować profilu"
+  },
+  "notification_msg_users": {
+    "users_fetch_failed": "Nie udalo się pobrać użytkowników",
+    "user_deleted": "Użytkownik <bold> {{- userEmail }} </bold> usunięty",
+    "user_delete_fail": "Nie udalo się usunąć użytkownika",
+    "user_delete_unauth": "Brak uprawnien do usuwania uzytkowniów",
+    "user_banned": "Użytkownik <bold> {{- userEmail }} </bold> zablokowany",
+    "user_ban_fail": "Nie udalo się zablokowac użytkownika",
+    "user_ban_unauth": "Brak uprawnien do blokowania uzytkowniów"
   }
 }

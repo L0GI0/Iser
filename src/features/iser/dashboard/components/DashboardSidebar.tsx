@@ -7,10 +7,11 @@ import ACCOUNT from '_mocks/account';
 import useResponsive from 'common/utils/useResponsive';
 import Scrollbar from 'common/components/Scrollbar';
 import Iconify from "common/components/Iconify";
+import Label from "common/components/Label";
 import { RootState } from "rootStore/rootReducer";
+import { useTranslation } from 'react-i18next';
 import NavSection from './NavSection';
 import getNavConfig from './NavConfig';
-import { useTranslation } from 'react-i18next';
 
 // ----------------------------------------------------------------------
 
@@ -62,7 +63,7 @@ export default function DashboardSidebar({ isSidebarOpen, onCloseSidebar, onOpen
 
   const isDesktop = useResponsive('up', 'lg');
 
-  const { profile } = useSelector((state: RootState) => state.accountReducer)
+  const { profile, userType } = useSelector((state: RootState) => state.accountReducer)
 
   const { t } = useTranslation('dashboard');
 
@@ -91,9 +92,11 @@ export default function DashboardSidebar({ isSidebarOpen, onCloseSidebar, onOpen
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
                 {profile.firstName} {profile.lastName}
               </Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {profile.role}
-              </Typography>
+                <Label variant='filled' color={(userType === 'admin' && 'warning') || 'info'}>
+                  <Typography variant='subtitle2' >
+                    { userType }
+                  </Typography>
+                </Label>
             </Box>
           </AccountStyle>
         </Link>

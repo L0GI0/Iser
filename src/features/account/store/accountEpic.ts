@@ -3,7 +3,6 @@ import { ActionCreator } from "@reduxjs/toolkit";
 import { concatMap, catchError, mergeMap, takeUntil, take, mergeWith } from "rxjs/operators";
 import { AjaxError } from "rxjs/ajax";
 import { Epic, ofType, combineEpics, StateObservable } from "redux-observable";
-
 import {
   logIn,
   logInDone,
@@ -25,11 +24,11 @@ import { RootState } from "rootStore/rootReducer";
 import { ajaxApi } from "common/api/ajaxApi";
 import { RootActions } from "rootStore/rootEpic";
 
-
 // ----------------------------------------------------------------------
 
 const authErrorHandler = (action$: Observable<any>, error: AjaxError, source: Observable<any>) => {
-  if(error.status === 401 || error.status === 403) {
+  if(error.response.message !== 'jwt malformed' && (error.status === 401 || error.status === 403)) {
+
     return action$.pipe(
       ofType<AsyncAccountActions, typeof refreshTokenDone.type, RefreshTokenAction>(refreshTokenDone.type),
       takeUntil(action$.pipe(
@@ -101,6 +100,26 @@ export const logInEpic: Epic<RootActions, RootActions, RootState> = (
     })
   );
 
+  export const logOutEpic: Epic<RootActions, RootActions, RootState> = (
+    action$,
+    state$
+  ) =>
+    action$.pipe(
+      ofType<RootActions, typeof logOut.type, LogInAction>(logOut.type),
+      mergeMap(() => {
+        return ajaxApi(state$)
+          .delete(`auth/refresh_token`)
+          .pipe(
+            concatMap(() => {
+              return of();
+            }),
+            catchError(() => {
+              return of();
+            })
+          );
+      })
+    );
+
 export const signUpEpic: Epic<RootActions, RootActions, RootState> = (
   action$: Observable<RootActions>,
   state$: StateObservable<RootState>
@@ -108,9 +127,9 @@ export const signUpEpic: Epic<RootActions, RootActions, RootState> = (
   action$.pipe(
     ofType<RootActions, typeof signUp.type, SignUpAction>(signUp.type),
     mergeMap((action) => {
-      const { accountLogin, accountPassword, accountType } = action?.payload;
+      const { accountLogin, accountPassword, userType } = action?.payload;
       return ajaxApi(state$)
-        .post(`users`, { accountLogin, accountPassword, accountType })
+        .post(`users`, { accountLogin, accountPassword, userType })
         .pipe(
           concatMap(() => {
             return of(signUpDone());
@@ -121,7 +140,6 @@ export const signUpEpic: Epic<RootActions, RootActions, RootState> = (
         );
     })
   );
-    
 
 export const authenticateEpic: Epic<RootActions, RootActions, RootState> = (
   action$: Observable<RootActions>,

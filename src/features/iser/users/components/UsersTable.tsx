@@ -1,5 +1,6 @@
 import { filter } from 'lodash';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
@@ -18,15 +19,18 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
+import { useTranslation, TFunction } from 'react-i18next';
 import Label from 'common/components/Label';
 import Scrollbar from 'common/components/Scrollbar';
 import Iconify from 'common/components/Iconify';
 import SearchNotFound from 'common/components/SearchNotFound';
 import { RootState } from 'rootStore/rootReducer';
 import LoadingBackdrop from 'common/components/backdrops/LoadingBackdrop';
-import { User as IserUser } from 'features/iser/store/iserSlice';
-import { languages } from 'features/iser/dashboard/components/LanguagePopover'
-import { useTranslation, TFunction } from 'react-i18next';
+import { LANGUAGES } from 'common/constants';
+import AuthorisedFeature from 'common/components/AuthorisedFeature';
+import { useStateChangeNotifier } from 'features/notifiers/useStateChangeNotifiers';
+import { getUsersTableStateSnackbarMap } from 'features/notifiers/useStateChangeNotifiers';
+import { fetchUsers } from 'features/iser/store/iserSlice';
 import UserListToolbar from './UserListToolbar';
 import UserMoreMenu from './UserMoreMenu';
 import UserListHead from './UsersListHead';
@@ -35,34 +39,24 @@ import { UserListHeadProps } from './UsersListHead';
 // ----------------------------------------------------------------------
 
 export interface TableHeadType {
-  id: keyof IserUser,
+  id: keyof User | 'name',
   label: string,
   alignRight: boolean
 };
 
-const ISER_USERS_TABLE_HEAD: TableHeadType[] = [
-  { id: 'firstName', label: 'First Name', alignRight: false },
-  { id: 'lastName', label: 'Last Name', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'language', label: 'Language', alignRight: false },
-  { id: 'location', label: 'Location', alignRight: false },
-  { id: 'userType', label: 'Type', alignRight: false },
-  { id: 'userStatus', label: 'Status', alignRight: false },
-];
-
-export const getIserUserTableHead= (t: TFunction<'users'>): TableHeadType[]  => (
+export const getUserTableHead= (t: TFunction<['users', 'notifiers']>): TableHeadType[]  => (
   [
-    { id: 'firstName', label: t('table_users.table_head.table_column.first_name'), alignRight: false },
-    { id: 'lastName', label: t('table_users.table_head.table_column.last_name'), alignRight: false },
+    { id: 'emailAddress', label: t('table_users.table_head.table_column.email'), alignRight: false },
+    { id: 'name', label: t('table_users.table_head.table_column.full_name'), alignRight: false },
     { id: 'role', label: t('table_users.table_head.table_column.role'), alignRight: false },
     { id: 'language', label: t('table_users.table_head.table_column.language'), alignRight: false },
     { id: 'location', label: t('table_users.table_head.table_column.location'), alignRight: false },
-    { id: 'userType', label: t('table_users.table_head.table_column.location'), alignRight: false },
+    { id: 'userType', label: t('table_users.table_head.table_column.type'), alignRight: false },
     { id: 'userStatus', label: t('table_users.table_head.table_column.status'), alignRight: false },
   ]
 )
 
-type Comparator = (a: IserUser, b: IserUser, orderBy?: keyof Omit<IserUser, 'birthDate'>) => number;
+type Comparator = (a: User, b: User, orderBy?: keyof Omit<User, 'birthDate'>) => number;
 
 const descendingComparator: Comparator = (a, b, orderBy = 'firstName') => {
 
@@ -77,23 +71,29 @@ const descendingComparator: Comparator = (a, b, orderBy = 'firstName') => {
   return 0;
 }
 
-function getComparator(order: UserListHeadProps['order'], orderBy: keyof Omit<IserUser, 'birthDate'>) {
+function getComparator(order: UserListHeadProps['order'], orderBy: keyof Omit<User, 'birthDate'>) {
   return order === 'desc'
-    ? (a: IserUser, b: IserUser) => descendingComparator(a, b, orderBy)
-    : (a: IserUser, b: IserUser) => -descendingComparator(a, b, orderBy);
+    ? (a: User, b: User) => descendingComparator(a, b, orderBy)
+    : (a: User, b: User) => -descendingComparator(a, b, orderBy);
 }
 
-function applySortFilter(array: IserUser[], comparator: Comparator, query: string) {
-  const stabilizedThis = array.map((el: IserUser, index: number): [IserUser, number] => [el, index]);
-  stabilizedThis.sort((a: [IserUser, number], b: [IserUser, number]) => {
+function applySortFilter(array: User[], comparator: Comparator, query: string) {
+  const stabilizedThis = array.map((el: User, index: number): [User, number] => [el, index]);
+  stabilizedThis.sort((a: [User, number], b: [User, number]) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) return order;
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.firstName.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user: User) => {
+      if(_user.firstName)
+        return _user.firstName.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+        _user.emailAddress.toLowerCase().indexOf(query.toLowerCase()) !== -1;;
+      
+      return _user.emailAddress.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    })
   }
-  return stabilizedThis.map((el: [IserUser, number]) => el[0]);
+  return stabilizedThis.map((el: [User, number]) => el[0]);
 }
 
 const UsersTable = () => {
@@ -103,15 +103,25 @@ const UsersTable = () => {
 
   const [selected, setSelected] = useState<Array<string>>([]);
 
-  const [orderBy, setOrderBy] = useState<keyof Omit<IserUser, 'birthDate'>>('firstName');
+  const [orderBy, setOrderBy] = useState<keyof Omit<User, 'birthDate'>>('firstName');
 
   const [filterName, setFilterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const { users, iserReactiveState: { areUsersFetching } } = useSelector((state: RootState) => state.iserReducer);
+  const dispatch = useDispatch();
 
-  const { t } = useTranslation('users');
+  const { t } = useTranslation(['users', 'notifiers']);
+
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [])
+
+  const { users, iserReactiveState: { isFetchingUsers }, requestStatus} = useSelector((state: RootState) => state.iserReducer);
+
+  useStateChangeNotifier(requestStatus.fetchUsers, getUsersTableStateSnackbarMap(dispatch, t));
+  
+
 
   const handleRequestSort = (event: any, property: any) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -121,7 +131,7 @@ const UsersTable = () => {
 
   const handleSelectAllClick = (event: any) => {
     if (event.target.checked) {
-      const newSelecteds = users.map((user) => user.userId);
+      const newSelecteds = users.map((user: User) => user.userId);
       setSelected(newSelecteds);
       return;
     }
@@ -163,35 +173,37 @@ const UsersTable = () => {
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-      <Container>
-        <LoadingBackdrop open={areUsersFetching}>
+      <Container maxWidth="xl">
           <Stack direction='row' alignItems='center' justifyContent='space-between' mb={5}>
             <Typography variant='h4' gutterBottom>
               { t('label_users_screen') }
             </Typography>
-            <Button variant='contained' component={RouterLink} to='#' startIcon={<Iconify icon='eva:plus-fill' />}>
-              { t('button_add_user') }
-            </Button>
+            <AuthorisedFeature>
+              <Button variant='contained' component={RouterLink} to='#' startIcon={<Iconify icon='eva:plus-fill' />}>
+                { t('button_add_user') }
+              </Button>
+            </AuthorisedFeature>
           </Stack>
 
           <Card sx={{ padding: 0 }}>
             <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
+          <LoadingBackdrop open={isFetchingUsers}>
             <Scrollbar>
               <TableContainer sx={{ minWidth: 800 }}>
                 <Table>
                   <UserListHead
                     order={order}
                     orderBy={orderBy}
-                    headLabel={getIserUserTableHead(t)}
+                    headLabel={getUserTableHead(t)}
                     rowCount={users.length}
                     numSelected={selected.length}
                     onRequestSort={handleRequestSort}
                     onSelectAllClick={handleSelectAllClick}
                   />
                   <TableBody>
-                    {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: IserUser) => {
-                      const { userId, userType, userStatus, firstName, lastName, role, location, language } = row;
+                    {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: User) => {
+                      const { userId, emailAddress, userType, userStatus, firstName, lastName, role, location, language } = row;
                       const isItemSelected = selected.indexOf(userId) !== -1;
 
                       return (
@@ -210,21 +222,21 @@ const UsersTable = () => {
                             <Stack direction='row' alignItems='center' spacing={2}>
                               <Avatar alt={firstName} src={'/static/mock-images/avatars/avatar_1.jpg'} />
                               <Typography variant='subtitle2' noWrap>
-                                {firstName}
+                                { emailAddress }
                               </Typography>
                             </Stack>
                           </TableCell>
-                          <TableCell align='left'>{ lastName }</TableCell>
+                          <TableCell align='left'>{ (firstName ?? '') + ' ' + (lastName ?? '') }</TableCell>
                           <TableCell align='left'>{ role }</TableCell>
                           <TableCell align='center'>{ 
-                            <Box component='img' alt={languages[language].label} sx={{ width: 24 }} src={languages[language].icon} />}
+                            <Box component='img' alt={language && LANGUAGES[language].label} sx={{ width: 24 }} src={language && LANGUAGES[language].icon} />}
                           </TableCell>
                         <TableCell align='left'>{ location }</TableCell>
                           <TableCell align='left'>
-                             <Label variant='outlined' color={(userType === 'admin' && 'warning') || 'info'}>
+                            <Label variant='outlined' color={(userType === 'admin' && 'warning') || 'info'}>
                               <Typography variant='body2' >
                                 { userType }
-                              </Typography>
+                                </Typography>
                             </Label>
                           </TableCell>
                           <TableCell align='left'>
@@ -236,7 +248,7 @@ const UsersTable = () => {
                           </TableCell>
 
                           <TableCell align='right'>
-                            <UserMoreMenu />
+                            <UserMoreMenu userId={userId} userEmail={emailAddress}/>
                           </TableCell>
                         </TableRow>
                       );
@@ -270,9 +282,9 @@ const UsersTable = () => {
               page={page}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+              />
+              </LoadingBackdrop>
           </Card>
-        </LoadingBackdrop>
       </Container>
   );
 }

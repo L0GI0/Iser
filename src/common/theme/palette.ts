@@ -82,7 +82,7 @@ const SUCCESS: PaletteColor = {
 const WARNING: PaletteColor = {
   lighter: '#FFF7CD',
   light: '#FFE16A',
-  main: '#FFC107',
+  main: '#FFC400',
   dark: '#B78103',
   darker: '#7A4F01',
   contrastText: GREY[0],
