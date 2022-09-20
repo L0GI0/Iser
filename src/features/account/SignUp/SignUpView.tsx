@@ -14,8 +14,8 @@ import LoadingBackdrop from "common/components/backdrops/LoadingBackdrop";
 import ResultBackdrop from "common/components/backdrops/ResultBackdrop";
 import { RootState } from "rootStore/rootReducer";
 import { RESULT_VARIANTS, ResultVariant } from "common/components/backdrops/ResultBackdrop";
+import { REQUEST_STATUS } from "common/constants";
 import { signUp, clearSignUpStatus } from '../store/accountSlice'
-import { REQUEST_STATUS, RequestStatus } from "../store/accountSlice";
 import { useStateChangeNotifier, getSignUpStateToSnackbarMap } from 'features/notifiers/useStateChangeNotifiers'
 import { triggerNotification } from 'features/notifiers/store/notifiersSlice'
 import { ReactiveContainer as SignUpFormContainer } from 'common/components/styledElements'
@@ -76,7 +76,7 @@ const SignUpForm: React.FC = () => {
           signUp({
             accountLogin: inputFormRef.current.inputs.emailInput.value,
             accountPassword: inputFormRef.current.inputs.passwordInput.value,
-            accountType: 'user'
+            userType: 'user'
           })
       );
     }

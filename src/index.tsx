@@ -13,6 +13,7 @@ import styled from 'styled-components'
 const StyledSnackbarProvider = styled(SnackbarProvider)`
   &&.SnackbarItem-contentRoot {
     border-radius: 5em;
+    white-space: pre-wrap;
   }
 `
 

@@ -4,12 +4,14 @@
   "table_users": {
     "table_toolbar": {
       "input_search_user": "Wyszukaj użytkownika...",
-      "tooltip_filter_list": "Filtruj listę"
+      "tooltip_filter_list": "Filtruj listę",
+      "text_selcted_users": "Wybranych użytkowników",
+      "tooltip_delete_selected_users": "Usuń zaznaczonych użytkowników"
     },
     "table_head": {
       "table_column": {
-        "first_name": "Imię",
-        "last_name": "Nazwisko",
+        "email": "Email",
+        "full_name": "Imię i Nazwisko",
         "role": "Rola",
         "language": "Język",
         "location": "Lokalizacja",
@@ -19,7 +21,9 @@
     },
     "table_cell_menu": {
       "delete": "Usuń",
-      "edit": "Edytuj"
+      "ban": "Zablokuj",
+      "edit": "Edytuj",
+      "show": "Pokaż"
     },
     "table_pagination": {
       "text_rows_per_page": "Liczba użytkownikow na stronę:"

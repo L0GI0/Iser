@@ -7,6 +7,10 @@
       "esnext"
     ],
     "baseUrl": "src",
+    "typeRoots": [
+      "node_modules/@types",
+      "@types"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -21,7 +25,5 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src", "types"]
 }

@@ -10,7 +10,7 @@ const visuallyHidden = {
   width: '1px',
   height: '1px',
   overflow: 'hidden',
-  position: 'absolute',
+  position: 'absolute', 
   whiteSpace: 'nowrap',
   clip: 'rect(0 0 0 0)',
 };

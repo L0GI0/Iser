@@ -69,7 +69,7 @@ const PrivateRoute = ({
   );
 
   const userType = useSelector(
-    (state: RootState) => state.accountReducer.accountType
+    (state: RootState) => state.accountReducer.userType
   );
 
   const dispatch = useDispatch()

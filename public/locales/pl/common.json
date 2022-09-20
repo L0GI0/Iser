@@ -22,5 +22,6 @@
         }
       }
     }
-  }
+  },
+  "tooltip_feature_unauthorised": "Niewystarczające uprawnienia"
 }
