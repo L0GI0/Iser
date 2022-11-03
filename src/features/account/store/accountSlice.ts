@@ -1,76 +1,78 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AjaxError } from "rxjs/ajax";
 import { PaletteMode } from '@mui/material';
+import {
+  reactiveStateDefaultValue,
+} from "common/constants";
+import { LANGUAGES } from 'common/constants';
+import { USER_TYPE, USER_STATUS } from '../contants';
+import { GENDER } from 'features/iser/profile/constants';
 
 // ----------------------------------------------------------------------
 
+interface AccountReactiveState {
+   logIn: ReactiveRequestState,
+   signUp: ReactiveRequestState,
+   profileUpdate: ReactiveRequestState
+}
+
 interface AccountInitialStateParams {
-  accessToken: string | null;
-  userType: AccountType;
-  themeMode: PaletteMode;
+  accessToken: string | null,
+  themeMode: PaletteMode,
+  profile: Profile,
+  user: Omit<User, 'userId'>
 }
 
 interface AccountActionsState {
-  isLoggedIn: boolean;
-  accountEpicRequestError: string
-  requestStatus: {
-    signUp: RequestStatus | null,
-    signIn: RequestStatus | null,
-    profileUpdate: RequestStatus | null,
-  },
+  isLoggedIn: boolean,
+  accountReactiveState: AccountReactiveState
 }
 
-interface ReactiveAccountState {
-  isLoggingIn: boolean,
-  isSigningUp: boolean,
-  isUpdating: boolean,
-}
-
-interface SinInPayload {
-  userType: AccountType;
+interface LogInPayload {
   tokens: {
-    accessToken: string;
-    refreshToken: string;
+    accessToken: string,
+    refreshToken: string
   }
-  profile: Profile
+  account: Omit<Account, 'userId'>
 }
 
 export interface AccountPayloadIn {
-  accountLogin: string;
-  accountPassword: string;
+  accountLogin: string,
+  accountPassword: string
 }
 
 
 export interface AccountPayloadError {
-  error: AjaxError;
+  error: AjaxError
 }
 
-const accountInitialState: AccountInitialStateParams & AccountActionsState & { accountReactiveState: ReactiveAccountState } & { profile: Profile } = {
-  accessToken: null,
-  userType: 'user',
-  isLoggedIn: false,
-  accountReactiveState: {
-    isSigningUp: false,
-    isLoggingIn: false,
-    isUpdating: false
-  },
-  accountEpicRequestError: "",
-  requestStatus: {
-    signUp: null,
-    signIn: null,
-    profileUpdate: null,
-  },
-  themeMode: 'light',
-  
-  profile: {
+export const userInitialState = {
+    emailAddress: '',
+    userType: USER_TYPE.user,
+    userStatus: USER_STATUS.active
+}
+
+export const profileInitialState = {
     firstName: "",
     lastName: "",
-    gender: "Other",
+    gender: GENDER.other,
     birthDate: new Date('01/01/1990'),
     location: "",
-    language: "en-GB",
+    language: LANGUAGES["en-GB"].value,
     role: ""
-  }
+}
+
+const accountInitialState: AccountInitialStateParams & AccountActionsState & { accountReactiveState: AccountReactiveState } & { profile: Profile } = {
+  accessToken: null,
+  isLoggedIn: false,
+  accountReactiveState: {
+    logIn: reactiveStateDefaultValue,
+    signUp: reactiveStateDefaultValue,
+    profileUpdate: reactiveStateDefaultValue
+  },
+  themeMode: 'light',
+  profile: profileInitialState,
+  user: userInitialState
 };
 
 const accountSlice = createSlice({
@@ -78,46 +80,48 @@ const accountSlice = createSlice({
   initialState: accountInitialState,
   reducers: {
     logIn(state, action: PayloadAction<AccountPayloadIn>) {
-      state.requestStatus.signIn = null;
-      state.accountReactiveState.isLoggingIn = true;
+      state.accountReactiveState.logIn.reqStatus = null;
+      state.accountReactiveState.logIn.isRequesting = true;
     },
 
-    logInDone(state, action: PayloadAction<SinInPayload>) {
+    logInDone(state, action: PayloadAction<LogInPayload>) {
       state.accessToken = action.payload.tokens.accessToken;
 
-      state.userType = action.payload.userType;
+      state.profile.firstName = action.payload.account.firstName;
+      state.profile.lastName = action.payload.account.lastName;
+      state.profile.gender = action.payload.account.gender;
+      state.profile.birthDate = action.payload.account.birthDate;
+      state.profile.location = action.payload.account.location;
+      state.profile.language = action.payload.account.language;
+      state.profile.role = action.payload.account.role;
 
-      state.profile.firstName = action.payload.profile.firstName;
-      state.profile.lastName = action.payload.profile.lastName;
-      state.profile.gender = action.payload.profile.gender;
-      state.profile.birthDate = action.payload.profile.birthDate;
-      state.profile.location = action.payload.profile.location;
-      state.profile.language = action.payload.profile.language;
-      state.profile.role = action.payload.profile.role;
+      state.user.emailAddress = action.payload.account.emailAddress;
+      state.user.userStatus = action.payload.account.userStatus;
+      state.user.userType = action.payload.account.userType;
       
-      state.requestStatus.signIn = null;
+      state.accountReactiveState.logIn.reqStatus = "success";
       state.isLoggedIn = true;
-      state.accountReactiveState.isLoggingIn = false;
+      state.accountReactiveState.logIn.isRequesting = false;
     },
 
     logInFail(state, action: PayloadAction<AccountPayloadError>){
-      state.requestStatus.signIn = action.payload.error.response.requestStatus;
-      state.accountReactiveState.isLoggingIn = false;
+      state.accountReactiveState.logIn.reqStatus = action.payload.error.response.requestStatus;
+      state.accountReactiveState.logIn.isRequesting = false;
     },
 
     signUp(state, action: PayloadAction<AccountPayloadIn & { userType: AccountType } >) {
-      state.requestStatus.signUp = null;
-      state.accountReactiveState.isSigningUp = true;
+      state.accountReactiveState.signUp.reqStatus = null;
+      state.accountReactiveState.signUp.isRequesting = true;
     },
 
     signUpDone(state) {
-      state.accountReactiveState.isSigningUp = false;
-      state.requestStatus.signUp = 'success';
+      state.accountReactiveState.signUp.isRequesting = false;
+      state.accountReactiveState.signUp.reqStatus = 'success';
     },
 
     signUpFail(state, action: PayloadAction<AccountPayloadError>){
-      state.accountReactiveState.isSigningUp = false;
-      state.requestStatus.signUp = 'failed';
+      state.accountReactiveState.signUp.isRequesting = false;
+      state.accountReactiveState.signUp.reqStatus = 'failed';
     },
 
     authenticate(state){
@@ -137,29 +141,29 @@ const accountSlice = createSlice({
     refreshTokenFailed(state, action: PayloadAction<AccountPayloadError>) {
     },
 
-    refreshTokenDone(state, action: PayloadAction<SinInPayload & { user: { userType: AccountType }}>) {
+    refreshTokenDone(state, action: PayloadAction<LogInPayload & { user: { userType: AccountType }}>) {
       state.accessToken = action.payload.tokens.accessToken;
-      state.userType = action.payload.user.userType;
+      state.user.userType = action.payload.user.userType;
     },
 
     clearSignUpStatus(state) {
-      state.requestStatus.signUp = null;
+      state.accountReactiveState.signUp.reqStatus = null;
     },
 
-    clearSignInStatus(state) {
-      state.requestStatus.signIn = null;
+    clearLogInStatus(state) {
+      state.accountReactiveState.logIn.reqStatus = null;
     },
 
     clearProfileUpdateStatus(state) {
-      state.requestStatus.profileUpdate = null;
+      state.accountReactiveState.profileUpdate.reqStatus = null;
     },
 
     updateProfile(state, action: PayloadAction<Profile>) {
-      state.accountReactiveState.isUpdating = true;
+      state.accountReactiveState.profileUpdate.isRequesting = true;
     },
 
     profileUpdated(state, action: PayloadAction<Profile>) {
-      state.accountReactiveState.isUpdating = false;
+      state.accountReactiveState.profileUpdate.isRequesting = false;
       state.profile.firstName = action.payload.firstName;
       state.profile.lastName = action.payload.lastName;
       state.profile.gender = action.payload.gender;
@@ -168,13 +172,13 @@ const accountSlice = createSlice({
       state.profile.language = action.payload.language;
       state.profile.role = action.payload.role;
 
-      state.requestStatus.profileUpdate = 'success';
+      state.accountReactiveState.profileUpdate.reqStatus = 'success';
 
     },
 
     profileUpdateFailed(state, action: PayloadAction<AccountPayloadError>) {
-      state.accountReactiveState.isUpdating = false;
-      state.requestStatus.profileUpdate = "failed";
+      state.accountReactiveState.profileUpdate.isRequesting= false;
+      state.accountReactiveState.profileUpdate.reqStatus = "failed";
     },
 
     setThemeMode(state, action: PayloadAction<AccountInitialStateParams['themeMode']>) {
@@ -193,7 +197,7 @@ const {
   signUpDone,
   signUpFail,
   clearSignUpStatus,
-  clearSignInStatus,
+  clearLogInStatus,
   clearProfileUpdateStatus,
   authenticate,
   logOut,
@@ -230,7 +234,7 @@ export { logIn,
   signUpDone,
   signUpFail,
   clearSignUpStatus,
-  clearSignInStatus,
+  clearLogInStatus,
   clearProfileUpdateStatus,
   authenticate, 
   logOut,

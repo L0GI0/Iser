@@ -15,7 +15,7 @@ type IserShadows = typeof shadows;
 
 declare module '@mui/material/Button' {
   interface ButtonPropsVariantOverrides {
-    dashed: true;
+    dashed: true
   }
 }
 
@@ -25,8 +25,8 @@ declare module '@mui/material/styles/shadows' {
 
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
-    label: true;
-    responsiveCaption: true,
+    label: true,
+    responsiveCaption: true
   }
 }
 
@@ -36,26 +36,26 @@ declare module '@mui/material/styles' {
 
    interface PaletteColor extends PaletteRoot {
       lighter: string,
-      darker: string,
+      darker: string
     }
 
     interface PaletteColor {
       lighter: string,
-      darker: string,
+      darker: string
     }
     
     interface SimplePaletteColorOptions {
       lighter: string,
-      darker: string,
+      darker: string
     }
 
     interface TypeBackground {
-      neutral: string;
+      neutral: string
     }
 
     interface TypographyVariantsOptions extends TypographyVariantsRoot {
       label: CSSProperties,
-      responsiveCaption: CSSProperties,
+      responsiveCaption: CSSProperties
     }
   
     export function createTheme(options?: ThemeOptions): Theme;

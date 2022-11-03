@@ -1,13 +1,19 @@
+import { SetStateAction } from "react";
+
 export {};
 
 declare global {
+
+  type IserColor = 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'error' | 'active';
   
+  type IserUIVariant = 'text' | 'filled' | 'outlined' | 'contained';
+
   type Languages = 'en-GB' | 'pl' | 'de' | 'fr';
   
   interface Language {
     value: Languages,
     label: string,
-    icon: string,
+    icon: string
   }
 
   type AccountType = 'admin' | 'user'
@@ -20,19 +26,29 @@ declare global {
     gender: Genders,
     birthDate: Date | null,
     location: string,
-    language: Languages
+    language: Languages,
     role: string
   }
 
   type UserStatus = 'active' | 'banned';
 
-  interface User extends Profile {
+  interface User {
     userId: string,
-    emailAddress : string,
+    emailAddress: string,
     userStatus: UserStatus,
-    userType: AccountType,
+    userType: AccountType
   }
-  
-  type RequestStatus = 'success' | 'failed' | 'unauthorised'  | "forbidden";
 
+  interface Account extends Profile, User {}
+  
+  type RequestStatus = 'success' | 'failed' | 'unauthorised' | "forbidden";
+
+  type ReactiveRequestState<ResponseType = undefined> = {
+    isRequesting: boolean,
+    reqStatus: RequestStatus | null,
+  } & (ResponseType extends undefined ? {} : {
+    reqStatusResponse: ResponseType | null,
+  })
+
+  type SetStateCallback<T> = Dispatch<SetStateAction<T>>
 }

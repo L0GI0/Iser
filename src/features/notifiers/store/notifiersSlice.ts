@@ -6,13 +6,13 @@ import { OptionsObject, SnackbarMessage } from 'notistack';
 export type SnackBarType = {
   message: SnackbarMessage, 
   options: OptionsObject,
-  dismissed?: boolean,
+  dismissed?: boolean
 }
 
 export type SnackBarKeyType = SnackBarType['options']['key'];
 
 interface NotifiersState {
-  notifications: Array<SnackBarType>
+  notifications: Array<SnackBarType>,
   viewed: Array<number>,
   notificationId: number
 }

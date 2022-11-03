@@ -1,4 +1,3 @@
-import { useSelector, useDispatch } from 'react-redux';
 import { Grid, Button } from "@mui/material";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
@@ -8,45 +7,30 @@ import IserMenuItem from "common/components/IserMenuItem";
 import useResponsive from "common/utils/useResponsive";
 import LabeledCard from "common/components/Card/LabeledCard";
 import LoadingBackdrop from "common/components/backdrops/LoadingBackdrop";
-import { updateProfile } from 'features/account/store/accountSlice';
 import { LANGS } from "common/constants";
 import { useTranslation } from "react-i18next";
-import { RootState } from "rootStore/rootReducer";
 import { useForm, Controller } from "react-hook-form";
 import { GENDERS } from '../constants';
-import { useStateChangeNotifier, getProfileStateSnackbarMap } from 'features/notifiers/useStateChangeNotifiers'
-import { triggerNotification } from "features/notifiers/store/notifiersSlice";
 
 // ----------------------------------------------------------------------
 
-const ProfileSettings = () => {
+interface ProfileSettingsProps {
+  profile: Profile,
+  onProfileUpdate: (data: Profile) => void,
+  isLoading: boolean
+}
 
-  const { profile, accountReactiveState: { isUpdating }, requestStatus: { profileUpdate } } = useSelector((state: RootState) => state.accountReducer);
+const ProfileSettings: React.FC<ProfileSettingsProps> = ({profile, onProfileUpdate, isLoading}) => {
 
   const isMobile = useResponsive('only', 'xs');
   const { handleSubmit, control } = useForm<Profile>();
 
-  const { t } = useTranslation(['profile', 'notifiers']);
-
-  const dispatch = useDispatch();
-  useStateChangeNotifier(profileUpdate, getProfileStateSnackbarMap(dispatch, t));
-
-
-  const onProfileFormSubmit = (data: Profile) => {
-    dispatch(triggerNotification())
-    dispatch(updateProfile({
-      firstName: data.firstName,
-      lastName: data.lastName,
-      gender: data.gender,
-      birthDate: data.birthDate,
-      location: data.location,
-      language: data.language,
-      role: data.role }))}
+  const { t } = useTranslation('profile');
 
   return (
     <LabeledCard label={t('profile_settings.profile_form.label')}>
-      <LoadingBackdrop open={isUpdating}>
-        <form onSubmit={handleSubmit(onProfileFormSubmit)}>
+      <LoadingBackdrop open={isLoading}>
+        <form onSubmit={handleSubmit(onProfileUpdate)}>
           <Grid container spacing={2}>
             <Controller
               name="firstName"

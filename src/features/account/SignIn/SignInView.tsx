@@ -48,11 +48,11 @@ const SignInForm: React.FC = () => {
   const { t } = useTranslation(['account', 'notifiers']);
 
   const inputFormRef = useRef<CredentialsFormRef>(null);
-  const { requestStatus: { signIn: signInStatus }, accountReactiveState: { isLoggingIn } } = useSelector(
+  const { accountReactiveState: { logIn: logInState} } = useSelector(
     (state: RootState) => state.accountReducer
   );
 
-  useStateChangeNotifier(signInStatus, getSignInStateSnackbarMap(dispatch, t));
+  useStateChangeNotifier(logInState.reqStatus, getSignInStateSnackbarMap(dispatch, t));
 
   const logInUser = () => {
     if (inputFormRef.current?.validateForm()) {
@@ -70,7 +70,7 @@ const SignInForm: React.FC = () => {
   return (
       <SignInFormContainer>
       <Typography variant="h3">{t('sign_in.form.label_sign_in')}</Typography>
-        <LoadingBackdrop open={isLoggingIn}>
+        <LoadingBackdrop open={logInState.isRequesting}>
           <CredentialsFromInput ref={inputFormRef} />
         </LoadingBackdrop>
         <ResponsiveContainer>

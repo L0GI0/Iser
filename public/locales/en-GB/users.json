@@ -23,11 +23,34 @@
     "table_cell_menu": {
         "delete": "Delete",
         "ban": "Ban",
+        "unban": "Unban",
         "edit": "Edit",
         "show": "Show"
       },
     "table_pagination": {
       "text_rows_per_page": "Users per page:"
     }
+  },
+  "user_permissions": {
+    "label_user_permissions": "User Permissions",
+    "text_admin_role_info": "Admin - user type with all supervisor, user management permissions",
+    "text_user_role_info": "User - default type without supervisor authorisation",
+    "text_current_user_type": "Current user type:",
+    "label_user_type_input": "Select new user type",
+    "button_change_user_permissions": "Change user permissions"
+  },
+  "user_ban": {
+    "user_ban_label": "Ban user",
+    "text_user_ban_info": "Once you ban an user, he wont be able to log in using this account.",
+    "text_current_user_status": "User status:",
+    "button_ban_user": "Ban user",
+    "button_unban_user": "Unban user"
+  },
+  "user_delete": {
+    "user_delete_label": "Delete user",
+    "text_user_delete_info": "Once you delete your account, there is no going back. Please be certain.",
+    "switch_confirm_user_delete": "Confirm",
+    "switch_confirm_user_delete_description": "I want to delete this account",
+    "button_unban_user": "Delete user"
   }
 }

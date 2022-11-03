@@ -15,7 +15,13 @@ import {
   deleteUserFail,
   banUser,
   userBanned,
-  banUserFail
+  banUserFail,
+  unbanUser,
+  userUnbanned,
+  unbanUserFail,
+  changeUserPermissions,
+  userPermissionsChanged,
+  userPermissionChangeFailed,
 } from "./iserSlice";
 
 // ----------------------------------------------------------------------
@@ -38,7 +44,15 @@ type BanUserAction = ActionFromCreator<typeof banUser>;
 type BanUserCallbackActions = ActionFromCreator<typeof userBanned | typeof banUserFail>;
 type BanUserActions = BanUserAction | BanUserCallbackActions;
 
-type AsyncIserActions = FetchUsersActions | DeleteUserActions | BanUserActions;
+type UnbanUserAction = ActionFromCreator<typeof unbanUser>;
+type UnbanUserCallbackActions = ActionFromCreator<typeof userUnbanned | typeof unbanUserFail>;
+type UnBanUserActions = UnbanUserAction | UnbanUserCallbackActions;
+
+type ChangeUserPermissionsAction = ActionFromCreator<typeof changeUserPermissions>;
+type ChangeUserPermissionCallbackActions = ActionFromCreator<typeof userPermissionsChanged | typeof userPermissionChangeFailed>;
+type ChangeUserPermissionsActions = ChangeUserPermissionsAction | ChangeUserPermissionCallbackActions;
+
+type AsyncIserActions = FetchUsersActions | DeleteUserActions | BanUserActions | UnBanUserActions | ChangeUserPermissionsActions;
 
 export const fetchUsersEpic: Epic<RootActions, RootActions, RootState> = (
   action$,
@@ -104,6 +118,51 @@ export const fetchUsersEpic: Epic<RootActions, RootActions, RootState> = (
       })
     );
 
+    export const unbanUserEpic: Epic<RootActions, RootActions, RootState> = (
+      action$,
+      state$
+    ) =>
+      action$.pipe(
+        ofType<RootActions, typeof unbanUser.type, UnbanUserAction>(unbanUser.type),
+        mergeMap((action) => {
+          const { userId } = action?.payload;
+          
+          return ajaxApi(state$)
+            .put(`users/unban/${userId}`)
+            .pipe(
+              concatMap((ajaxResponse) => {
+                return of(userUnbanned(ajaxResponse.response), fetchUsers());
+              }),
+              catchError((error: AjaxError) => {
+                return of(unbanUserFail({error}));
+              })
+            );
+        })
+      );
+
+      export const changeUserPermissionsEpic: Epic<RootActions, RootActions, RootState> = (
+        action$,
+        state$
+      ) =>
+        action$.pipe(
+          ofType<RootActions, typeof changeUserPermissions.type, ChangeUserPermissionsAction>(changeUserPermissions.type),
+          mergeMap((action) => {
+            const { userId, userType } = action?.payload;
+            
+            return ajaxApi(state$)
+              .put(`users/permissions/${userId}`, { targetUserType: userType})
+              .pipe(
+                concatMap((ajaxResponse) => {
+                  return of(userPermissionsChanged(ajaxResponse.response), fetchUsers());
+                }),
+                catchError((error: AjaxError) => {
+                  return of(userPermissionChangeFailed({error}));
+                })
+              );
+          })
+        );
+
 export type IserEpicActions = AsyncIserActions
 
-export const iserEpic: Epic<RootActions, RootActions, RootState> = combineEpics(fetchUsersEpic, deleteUserEpic, banUserEpic);
+export const iserEpic: Epic<RootActions, RootActions, RootState> = combineEpics(
+  fetchUsersEpic, deleteUserEpic, banUserEpic, unbanUserEpic, changeUserPermissionsEpic);

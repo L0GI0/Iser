@@ -19,6 +19,12 @@
     "user_delete_unauth": "Insufficient permissions to romove a user",
     "user_banned": "User <bold>{{userEmail}}</bold> banned",
     "user_ban_fail": "Couldn't ban the user",
-    "user_ban_unauth": "Insufficient permissions to ban a user"
+    "user_ban_unauth": "Insufficient permissions to ban a user",
+    "user_unbanned": "User <bold>{{userEmail}}</bold> unbanned",
+    "user_unban_fail": "Couldn't unban the user",
+    "user_unban_unauth": "Insufficient permissions to unban a user",
+    "user_permissions_changed": "User <bold>{{userEmail}}</bold> permissions changed",
+    "user_permissions_change_fail": "Couldn't change user permissions",
+    "user_permissions_change_unauth": "Insufficient permissions to change user permissions"
   }
 }

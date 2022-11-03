@@ -13,10 +13,10 @@ export const StaticFormLabel = styled(FormLabel)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const FormInput: React.FC<TextFieldProps> = ({label, children, ...other}: TextFieldProps) => {
+const FormInput: React.FC<TextFieldProps> = ({label, children, sx, ...other}: TextFieldProps) => {
   
   return (
-      <Box display="flex" flexDirection="column" justifyContent="end" height="100%">
+      <Box display="flex" flexDirection="column" justifyContent="end" height="100%" sx={sx}>
         { label && <StaticFormLabel> { label } </StaticFormLabel> }
         <FormControl> { children ? children : <IserTextInput {...other}/> } </FormControl>
       </Box>)

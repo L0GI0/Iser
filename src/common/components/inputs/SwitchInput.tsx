@@ -18,7 +18,7 @@ export const SwitchBoxText = styled(Typography).attrs({variant: "subtitle1", fon
 // ----------------------------------------------------------------------
 
 interface SwitchInputProps extends SwitchProps {
-  text?: string
+  text?: React.ReactNode
   mt?: number
 }
 

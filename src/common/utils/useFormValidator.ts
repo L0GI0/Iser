@@ -1,13 +1,13 @@
 import { useTranslation, TFunction } from 'react-i18next'
 
 interface fieldErrorRule {
-  required: string;
-  invalid: Record<string, string>;
+  required: string,
+  invalid: Record<string, string>
 }
 
 interface fieldValuesRulesProps {
-  email: fieldErrorRule;
-  password: fieldErrorRule;
+  email: fieldErrorRule,
+  password: fieldErrorRule
 }
 
 export type cfieldsNames = keyof fieldValuesRulesProps;

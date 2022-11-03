@@ -19,10 +19,24 @@ export default function Button(theme: Theme) {
             margin: '1em 0' as Property.Margin,
             boxShadow: 'none' as Property.BoxShadow,
             ":hover": {
-              background: theme.palette.primary.dark,
               boxShadow: 'none' as Property.BoxShadow,
             }
-          }
+          },
+          containedPrimary: {
+            ":hover": {
+              background: theme.palette.primary.dark,
+            }
+          },
+          containedSecondary: {
+            ":hover": {
+              background: theme.palette.primary.dark,
+            }
+          },
+          roundPrimary: {
+            ":hover": {
+              background: theme.palette.primary.dark,
+            }
+          },
         },
         variants: [
           {

@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 const IserMenuItem = styled(MenuItem)(( { theme }) => ({
   transition: "background-color .3s ease, color .3s ease",
-  color: theme.palette.text.secondary,
+  color: theme.palette.text.primary,
   padding: `${theme.functions.pxToRem(1)} ${theme.spacing(2)}`,
 
   "&:hover": {
