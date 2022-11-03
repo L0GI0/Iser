@@ -63,7 +63,7 @@ export default function DashboardSidebar({ isSidebarOpen, onCloseSidebar, onOpen
 
   const isDesktop = useResponsive('up', 'lg');
 
-  const { profile, userType } = useSelector((state: RootState) => state.accountReducer)
+  const { profile, user } = useSelector((state: RootState) => state.accountReducer)
 
   const { t } = useTranslation('dashboard');
 
@@ -92,9 +92,9 @@ export default function DashboardSidebar({ isSidebarOpen, onCloseSidebar, onOpen
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
                 {profile.firstName} {profile.lastName}
               </Typography>
-                <Label variant='filled' color={(userType === 'admin' && 'warning') || 'info'}>
-                  <Typography variant='subtitle2' >
-                    { userType }
+                <Label variant='filled' color={(user.userType === 'admin' && 'warning') || 'info'}>
+                  <Typography variant='label' >
+                    { user.userType }
                   </Typography>
                 </Label>
             </Box>

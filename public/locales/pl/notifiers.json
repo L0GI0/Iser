@@ -14,11 +14,17 @@
   },
   "notification_msg_users": {
     "users_fetch_failed": "Nie udalo się pobrać użytkowników",
-    "user_deleted": "Użytkownik <bold> {{- userEmail }} </bold> usunięty",
+    "user_deleted": "Użytkownik <bold>{{- userEmail }}</bold> usunięty",
     "user_delete_fail": "Nie udalo się usunąć użytkownika",
     "user_delete_unauth": "Brak uprawnien do usuwania uzytkowniów",
-    "user_banned": "Użytkownik <bold> {{- userEmail }} </bold> zablokowany",
+    "user_banned": "Użytkownik <bold>{{- userEmail }}</bold> zablokowany",
     "user_ban_fail": "Nie udalo się zablokowac użytkownika",
-    "user_ban_unauth": "Brak uprawnien do blokowania uzytkowniów"
+    "user_ban_unauth": "Brak uprawnien do blokowania uzytkowniów",
+    "user_unbanned": "Użytkownik <bold>{{- userEmail }}</bold> odblokowany",
+    "user_unban_fail": "Nie udalo się odblokowac użytkownika",
+    "user_unban_unauth": "Brak uprawnień do odblokowywania uzytkowniów",
+    "user_permissions_changed": "Uprawnienia użytkownika <bold>{{- userEmail }}</bold> zmienione",
+    "user_permissions_change_fail": "Nie udalo się zmienic uprawnień użytkownika",
+    "user_permissions_change_unauth": "Brak uprawnień do odblokowywania uzytkowniów"
   }
 }

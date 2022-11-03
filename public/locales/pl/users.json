@@ -22,11 +22,34 @@
     "table_cell_menu": {
       "delete": "Usuń",
       "ban": "Zablokuj",
+      "unban": "Odblokuj",
       "edit": "Edytuj",
       "show": "Pokaż"
     },
     "table_pagination": {
       "text_rows_per_page": "Liczba użytkownikow na stronę:"
     }
+  },
+  "user_permissions": {
+    "label_user_permissions": "Uprawnienia użytkownika",
+  "text_admin_role_info": "Admin - typ użytkownika z uprawnieniami nadzorcy, pozwalajacymi na zazadząnie innymi użytkownikami",
+    "text_user_role_info": "User - domyślny typ użytkownika, bez uprawnien nadzorczych",
+    "text_current_user_type": "Obecny typ użytkownika:",
+    "label_user_type_input": "Wybierz typ użytkownika",
+    "button_change_user_permissions": "Zmień uprawnienia uźytkownika"
+  },
+  "user_ban": {
+    "user_ban_label": "Blokowanie użytkownika",
+    "text_user_ban_info": "Zablokowanie tego konta, spowoduje brak możliwości logowania poprzez jego uźycie",
+    "text_current_user_status": "Status użytkownika:",
+    "button_ban_user": "Zablokuj użytkownika",
+    "button_unban_user": "Odblokuj użytkownika"
+  },
+  "user_delete": {
+    "user_delete_label": "Usuwanie użytkownika",
+    "text_user_delete_info": "Po usunięciu konta nie ma odwrotu. Upewnij się co do jego usuniecia",
+    "switch_confirm_user_delete": "Potwierdź",
+    "switch_confirm_user_delete_description": "Chcę usunąć to konto",
+    "button_unban_user": "Usuń użytkownika"
   }
 }

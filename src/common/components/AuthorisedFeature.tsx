@@ -33,7 +33,7 @@ const AuthorisedFeature: React.FC<PropsWithChildren<AuthorisedProps>> = ({ as="d
 
   const { t } = useTranslation('common');
 
-  const { userType } = useSelector((state: RootState) => state.accountReducer);
+  const { userType } = useSelector((state: RootState) => state.accountReducer.user);
 
   const featureUnauthorised: boolean = !authorisedUserTypes.includes(userType);
 

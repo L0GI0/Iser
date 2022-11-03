@@ -53,20 +53,20 @@ const getSignUpResult = (status: RequestStatus, t: TFunction<["account", "notifi
 
 const SignUpForm: React.FC = () => {
 
-  const { requestStatus: { signUp: signUpStatus }, accountReactiveState: { isSigningUp } } = useSelector((state: RootState) => state.accountReducer)
+  const { accountReactiveState: { signUp: signUpState } } = useSelector((state: RootState) => state.accountReducer)
 
   const { t } = useTranslation(['account', 'notifiers'])
 
   const inputFormRef = useRef<CredentialsFormRef>(null);
   
   const dispatch = useDispatch();
-  useStateChangeNotifier(signUpStatus, getSignUpStateToSnackbarMap(t));
+  useStateChangeNotifier(signUpState.reqStatus, getSignUpStateToSnackbarMap(t));
 
   const signUpResult: SignUpResult = useMemo(() => {
-    if(signUpStatus)
-      return getSignUpResult(signUpStatus, t)
+    if(signUpState.reqStatus)
+      return getSignUpResult(signUpState.reqStatus, t)
     return { variant: RESULT_VARIANTS.error, message: 'Internal Application Error' }
-  }, [signUpStatus])
+  }, [signUpState.reqStatus])
 
   const signUpUser = (): void => {
     if (inputFormRef.current?.validateForm()) {
@@ -85,14 +85,14 @@ const SignUpForm: React.FC = () => {
   return (
       <SignUpFormContainer>
       <Typography variant="h3">{t('sign_up.form.label_sign_up')}</Typography>
-        <LoadingBackdrop open={isSigningUp}>
+        <LoadingBackdrop open={signUpState.isRequesting}>
           <ResultBackdrop
-            open={!!signUpStatus}
+            open={!!signUpState.reqStatus}
             variant={signUpResult.variant}
             resultText={signUpResult.message}
             descriptionText={t('sign_up.result.sign_up_failure_description')}
             onClose={() => dispatch(clearSignUpStatus())}>
-             <CredentialsFromInput disableAutofocus={!!signUpStatus} ref={inputFormRef} />
+             <CredentialsFromInput disableAutofocus={!!signUpState.reqStatus} ref={inputFormRef} />
             <RoundButton
               text={t('sign_up.form.button_sign_up')}
               style={{ width: '100%' }}

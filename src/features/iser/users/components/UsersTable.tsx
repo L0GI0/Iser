@@ -28,8 +28,6 @@ import { RootState } from 'rootStore/rootReducer';
 import LoadingBackdrop from 'common/components/backdrops/LoadingBackdrop';
 import { LANGUAGES } from 'common/constants';
 import AuthorisedFeature from 'common/components/AuthorisedFeature';
-import { useStateChangeNotifier } from 'features/notifiers/useStateChangeNotifiers';
-import { getUsersTableStateSnackbarMap } from 'features/notifiers/useStateChangeNotifiers';
 import { fetchUsers } from 'features/iser/store/iserSlice';
 import UserListToolbar from './UserListToolbar';
 import UserMoreMenu from './UserMoreMenu';
@@ -39,7 +37,7 @@ import { UserListHeadProps } from './UsersListHead';
 // ----------------------------------------------------------------------
 
 export interface TableHeadType {
-  id: keyof User | 'name',
+  id: keyof Account | 'name',
   label: string,
   alignRight: boolean
 };
@@ -56,7 +54,7 @@ export const getUserTableHead= (t: TFunction<['users', 'notifiers']>): TableHead
   ]
 )
 
-type Comparator = (a: User, b: User, orderBy?: keyof Omit<User, 'birthDate'>) => number;
+type Comparator = (a: Account, b: Account, orderBy?: keyof Omit<Account, 'birthDate'>) => number;
 
 const descendingComparator: Comparator = (a, b, orderBy = 'firstName') => {
 
@@ -71,21 +69,21 @@ const descendingComparator: Comparator = (a, b, orderBy = 'firstName') => {
   return 0;
 }
 
-function getComparator(order: UserListHeadProps['order'], orderBy: keyof Omit<User, 'birthDate'>) {
+function getComparator(order: UserListHeadProps['order'], orderBy: keyof Omit<Account, 'birthDate'>) {
   return order === 'desc'
-    ? (a: User, b: User) => descendingComparator(a, b, orderBy)
-    : (a: User, b: User) => -descendingComparator(a, b, orderBy);
+    ? (a: Account, b: Account) => descendingComparator(a, b, orderBy)
+    : (a: Account, b: Account) => -descendingComparator(a, b, orderBy);
 }
 
-function applySortFilter(array: User[], comparator: Comparator, query: string) {
-  const stabilizedThis = array.map((el: User, index: number): [User, number] => [el, index]);
-  stabilizedThis.sort((a: [User, number], b: [User, number]) => {
+function applySortFilter(array: Account[], comparator: Comparator, query: string) {
+  const stabilizedThis = array.map((el: Account, index: number): [Account, number] => [el, index]);
+  stabilizedThis.sort((a: [Account, number], b: [Account, number]) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) return order;
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user: User) => {
+    return filter(array, (_user: Account) => {
       if(_user.firstName)
         return _user.firstName.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
         _user.emailAddress.toLowerCase().indexOf(query.toLowerCase()) !== -1;;
@@ -93,7 +91,7 @@ function applySortFilter(array: User[], comparator: Comparator, query: string) {
       return _user.emailAddress.toLowerCase().indexOf(query.toLowerCase()) !== -1;
     })
   }
-  return stabilizedThis.map((el: [User, number]) => el[0]);
+  return stabilizedThis.map((el: [Account, number]) => el[0]);
 }
 
 const UsersTable = () => {
@@ -103,7 +101,7 @@ const UsersTable = () => {
 
   const [selected, setSelected] = useState<Array<string>>([]);
 
-  const [orderBy, setOrderBy] = useState<keyof Omit<User, 'birthDate'>>('firstName');
+  const [orderBy, setOrderBy] = useState<keyof Omit<Account, 'birthDate'>>('firstName');
 
   const [filterName, setFilterName] = useState('');
 
@@ -117,11 +115,7 @@ const UsersTable = () => {
     dispatch(fetchUsers());
   }, [])
 
-  const { users, iserReactiveState: { isFetchingUsers }, requestStatus} = useSelector((state: RootState) => state.iserReducer);
-
-  useStateChangeNotifier(requestStatus.fetchUsers, getUsersTableStateSnackbarMap(dispatch, t));
-  
-
+  const { users, iserReactiveState } = useSelector((state: RootState) => state.iserReducer);
 
   const handleRequestSort = (event: any, property: any) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -131,7 +125,7 @@ const UsersTable = () => {
 
   const handleSelectAllClick = (event: any) => {
     if (event.target.checked) {
-      const newSelecteds = users.map((user: User) => user.userId);
+      const newSelecteds = users.map((user: Account) => user.userId);
       setSelected(newSelecteds);
       return;
     }
@@ -179,7 +173,7 @@ const UsersTable = () => {
               { t('label_users_screen') }
             </Typography>
             <AuthorisedFeature>
-              <Button variant='contained' component={RouterLink} to='#' startIcon={<Iconify icon='eva:plus-fill' />}>
+              <Button variant='contained' component={RouterLink} to='#' startIcon={<Iconify icon='ri:user-add-line' />}>
                 { t('button_add_user') }
               </Button>
             </AuthorisedFeature>
@@ -188,9 +182,9 @@ const UsersTable = () => {
           <Card sx={{ padding: 0 }}>
             <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
-          <LoadingBackdrop open={isFetchingUsers}>
+          <LoadingBackdrop open={iserReactiveState.fetchUsers.isRequesting}>
             <Scrollbar>
-              <TableContainer sx={{ minWidth: 800 }}>
+              <TableContainer>
                 <Table>
                   <UserListHead
                     order={order}
@@ -202,10 +196,9 @@ const UsersTable = () => {
                     onSelectAllClick={handleSelectAllClick}
                   />
                   <TableBody>
-                    {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: User) => {
+                    {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: Account) => {
                       const { userId, emailAddress, userType, userStatus, firstName, lastName, role, location, language } = row;
                       const isItemSelected = selected.indexOf(userId) !== -1;
-
                       return (
                         <TableRow
                           hover
@@ -218,7 +211,7 @@ const UsersTable = () => {
                           <TableCell padding='checkbox' >
                             <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, userId)} />
                           </TableCell>
-                          <TableCell component='th' scope='row'>
+                          <TableCell component='th' scope='row' sx={{maxWidth: '600px'}} >
                             <Stack direction='row' alignItems='center' spacing={2}>
                               <Avatar alt={firstName} src={'/static/mock-images/avatars/avatar_1.jpg'} />
                               <Typography variant='subtitle2' noWrap>
@@ -234,28 +227,27 @@ const UsersTable = () => {
                         <TableCell align='left'>{ location }</TableCell>
                           <TableCell align='left'>
                             <Label variant='outlined' color={(userType === 'admin' && 'warning') || 'info'}>
-                              <Typography variant='body2' >
+                              <Typography variant='label' >
                                 { userType }
                                 </Typography>
                             </Label>
                           </TableCell>
                           <TableCell align='left'>
                             <Label variant='filled' color={(userStatus === 'banned' && 'error') || 'success'}>
-                              <Typography variant='button' >
+                              <Typography variant='label' >
                                 { userStatus }
                               </Typography>
                             </Label>
                           </TableCell>
-
                           <TableCell align='right'>
-                            <UserMoreMenu userId={userId} userEmail={emailAddress}/>
+                            <UserMoreMenu userId={userId} userStatus={userStatus}/>
                           </TableCell>
                         </TableRow>
                       );
                     })}
                     {emptyRows > 0 && (
                       <TableRow style={{ height: 53 * emptyRows }}>
-                        <TableCell colSpan={6} />
+                        <TableCell colSpan={9} />
                       </TableRow>
                     )}
                   </TableBody>

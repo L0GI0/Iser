@@ -26,9 +26,9 @@ const InfoFooter = styled.div`
 `;
 
 interface InfoContentProps {
-  header: string;
-  description: string;
-  footer: React.ReactNode;
+  header: string,
+  description: string,
+  footer: React.ReactNode
 }
 
 const InfoContent = ({ header, description, footer }: InfoContentProps) => {

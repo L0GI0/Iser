@@ -7,20 +7,24 @@ export const REQUEST_STATUS: Record<RequestStatus, RequestStatus> = {
   forbidden: 'forbidden'
 }
 
-export const LANGUAGES:  Record<Languages, Omit<Language, 'value'>>  = {
+export const LANGUAGES:  Record<Languages, Language>  = {
   "en-GB": {
+    value: 'en-GB',
     label: 'English',
     icon: '/static/icons/lng_flag_en.svg',
   },
   "pl": {
+    value: 'pl',
     label: 'Polski',
     icon: '/static/icons/lng_flag_pl.svg',
   },
   "de": {
+    value: 'de',
     label: 'Deutsch',
     icon: '/static/icons/lng_flag_de.svg',
   },
   "fr": {
+    value: 'fr',
     label: 'Français',
     icon: '/static/icons/lng_flag_fr.svg',
   }
@@ -28,19 +32,20 @@ export const LANGUAGES:  Record<Languages, Omit<Language, 'value'>>  = {
 
 export const LANGS: Language[] = [
   {
-    value: 'en-GB',
     ...LANGUAGES['en-GB']
   },
   {
-    value: 'pl',
     ...LANGUAGES['pl']
   },
   {
-    value: 'de',
     ...LANGUAGES['de']
   },
   {
-    value: 'fr',
     ...LANGUAGES['fr']
   },
 ];
+
+export const reactiveStateDefaultValue: ReactiveRequestState = { 
+  isRequesting: false,
+  reqStatus:  null,
+}

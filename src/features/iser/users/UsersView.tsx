@@ -11,4 +11,4 @@ const UsersView = () => {
   )
 }
 
-export default UsersView
+export default UsersView;

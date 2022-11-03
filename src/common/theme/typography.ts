@@ -60,7 +60,7 @@ const typography: TypographyVariantsOptions = {
     fontWeight: 700,
     lineHeight: 28 / 18,
     fontSize: pxToRem(17),
-    ...responsiveFontSizes({ sm: 18, md: 18, lg: 18 }),
+    ...responsiveFontSizes({ sm: 17, md: 18, lg: 19 }),
   },
   subtitle1: {
     fontWeight: 600,
@@ -85,8 +85,8 @@ const typography: TypographyVariantsOptions = {
     fontSize: pxToRem(14),
   },
   responsiveCaption: {
-    fontSize: pxToRem(10),
-    ...responsiveFontSizes({ sm: 12, md: 14, lg: 16 }),
+    fontSize: pxToRem(12),
+    ...responsiveFontSizes({ sm: 13, md: 14, lg: 16 }),
   },
   overline: {
     fontWeight: 700,
@@ -95,8 +95,9 @@ const typography: TypographyVariantsOptions = {
   },
   label: {
     fontWeight: 600,
-    fontSize: pxToRem(10),
-    ...responsiveFontSizes({ sm: 12, md: 12, lg: 16 }),
+    fontSize: pxToRem(11),
+    textTransform: 'capitalize',
+    ...responsiveFontSizes({ sm: 12, md: 12, lg: 14 }),
   },
   button: {
     fontWeight: 700,

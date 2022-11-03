@@ -1,38 +1,44 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  reactiveStateDefaultValue,
+} from "common/constants";
 import { AjaxError } from "rxjs/ajax";
 
 // ----------------------------------------------------------------------
 
-interface ReactiveIserState {
-  isFetchingUsers: boolean,
-  isRemovingUser: boolean,
+interface IserReactiveState {
+  fetchUsers: ReactiveRequestState
+  deleteUser: ReactiveRequestState<Pick<User, 'emailAddress'>>,
+  banUser: ReactiveRequestState<Pick<User, 'emailAddress'>>,
+  unbanUser: ReactiveRequestState<Pick<User, 'emailAddress'>>
+  changePermissions: ReactiveRequestState<Pick<User, 'emailAddress'>>
 }
 
 interface IserState {
-  users: User[],
-  iserReactiveState: ReactiveIserState,
-  requestStatus: {
-    fetchUsers: RequestStatus | null,
-    deleteUser: RequestStatus | null,
-    banUser: RequestStatus | null,
-  },
+  users: Account[],
+  iserReactiveState: IserReactiveState
 }
 
 export interface RequestError {
-  error: AjaxError;
+  error: AjaxError
 }
+
+export const userRequestsDefaultState: ReactiveRequestState<Pick<User, 'emailAddress'>> = {
+  ...reactiveStateDefaultValue,
+  reqStatusResponse: {
+    'emailAddress': ''
+  }
+}  
 
 const accountInitialState: IserState = {
   users: [],
   iserReactiveState: {
-    isFetchingUsers: false,
-    isRemovingUser: false,
-  },
-  requestStatus: {
-    fetchUsers:  null,
-    deleteUser: null,
-    banUser: null,
-  },
+    fetchUsers: reactiveStateDefaultValue,
+    deleteUser: userRequestsDefaultState,
+    banUser: userRequestsDefaultState,
+    unbanUser: userRequestsDefaultState,
+    changePermissions: userRequestsDefaultState
+  }
 };
 
 const iserSlice = createSlice({
@@ -40,54 +46,89 @@ const iserSlice = createSlice({
   initialState: accountInitialState,
   reducers: {
     fetchUsers(state) {
-      state.iserReactiveState.isFetchingUsers = true;
+      state.iserReactiveState.fetchUsers.isRequesting = true;
     },
 
-    fetchUsersDone(state, action: PayloadAction<{ users: User[]}>) {
-      state.iserReactiveState.isFetchingUsers = false;
+    fetchUsersDone(state, action: PayloadAction<{ users: Account[]}>) {
+      state.iserReactiveState.fetchUsers.isRequesting = false;
       state.users = action.payload.users
     },
 
     fetchUsersFail(state, action: PayloadAction<RequestError>){
-      state.iserReactiveState.isFetchingUsers = false;
+      state.iserReactiveState.fetchUsers.isRequesting = false;
+      state.iserReactiveState.fetchUsers.reqStatus = 'failed';
+
     },
 
     clearFetchUsersStatus(state) {
-      state.requestStatus.fetchUsers = null;
+      state.iserReactiveState.fetchUsers.reqStatus = null;
     },
 
-    deleteUser(state, action: PayloadAction<Pick<User, 'userId'>>){
-    },
+    deleteUser(state, action: PayloadAction<Pick<User, 'userId'>>){},
 
-    userDeleted(state, action: PayloadAction<any>) {
-      state.requestStatus.deleteUser = 'success';
+    userDeleted(state, action: PayloadAction<{ user: Pick<User, 'emailAddress'>}>) {
+      state.iserReactiveState.deleteUser.reqStatusResponse = action.payload.user;
+      state.iserReactiveState.deleteUser.reqStatus = 'success';
     },
 
     deleteUserFail(state, action: PayloadAction<RequestError>){
-      state.requestStatus.deleteUser = action.payload.error.response?.requestStatus ?? 'failed';
-
+      state.iserReactiveState.deleteUser = action.payload.error.response?.requestStatus ?? 'failed';
     },
 
     clearDeleteUserStatus(state) {
-      state.requestStatus.deleteUser = null;
+      state.iserReactiveState.deleteUser.reqStatus = null;
+      state.iserReactiveState.deleteUser.reqStatusResponse = null;
     },
 
-    banUser(state, action: PayloadAction<Pick<User, 'userId'>>){
-    },
+    banUser(state, action: PayloadAction<Pick<User, 'userId'>>){},
 
-    userBanned(state, action: PayloadAction<any>) {
-      state.requestStatus.banUser = 'success';
+    userBanned(state, action: PayloadAction<{ user: Pick<User, 'emailAddress'>}>) {
+      state.iserReactiveState.banUser.reqStatusResponse = action.payload.user;
+      state.iserReactiveState.banUser.reqStatus = 'success';
     },
 
     banUserFail(state, action: PayloadAction<RequestError>){
-      state.requestStatus.banUser = action.payload.error.response?.requestStatus ?? 'failed';
-
+      state.iserReactiveState.banUser.reqStatus = action.payload.error.response?.requestStatus ?? 'failed';
     },
 
     clearBanUserStatus(state) {
-      state.requestStatus.banUser = null;
+      state.iserReactiveState.banUser.reqStatus = null;
+      state.iserReactiveState.banUser.reqStatusResponse = null;
     },
 
+    unbanUser(state, action: PayloadAction<Pick<User, 'userId'>>){},
+
+    userUnbanned(state, action: PayloadAction<{ user: Pick<User, 'emailAddress'>}>) {
+      state.iserReactiveState.unbanUser.reqStatusResponse = action.payload.user;
+      state.iserReactiveState.unbanUser.reqStatus = 'success';
+    },
+
+    unbanUserFail(state, action: PayloadAction<RequestError>){
+      state.iserReactiveState.unbanUser.reqStatus = action.payload.error.response?.requestStatus ?? 'failed';
+
+    },
+
+    clearUnbanUserStatus(state) {
+      state.iserReactiveState.changePermissions.reqStatus = null;
+      state.iserReactiveState.changePermissions.reqStatusResponse = null;
+    },
+
+    changeUserPermissions(state, action: PayloadAction<Pick<User, 'userId' | 'userType'>>){},
+
+    userPermissionsChanged(state, action: PayloadAction<{ user: Pick<User, 'emailAddress'>}>) {
+      state.iserReactiveState.changePermissions.reqStatusResponse = action.payload.user;
+      state.iserReactiveState.changePermissions.reqStatus = 'success';
+    },
+
+    userPermissionChangeFailed(state, action: PayloadAction<RequestError>){
+      state.iserReactiveState.changePermissions.reqStatus = action.payload.error.response?.requestStatus ?? 'failed';
+
+    },
+
+    clearChangeUserPermissionsStatus(state) {
+      state.iserReactiveState.changePermissions.reqStatus = null;
+      state.iserReactiveState.changePermissions.reqStatusResponse = null;
+    },
   },
 });                                         
 
@@ -104,7 +145,17 @@ const {
   clearDeleteUserStatus,
   banUser,
   userBanned,
-  banUserFail } = iserActionCreators;
+  banUserFail,
+  clearBanUserStatus,
+  unbanUser,
+  userUnbanned,
+  unbanUserFail,
+  clearUnbanUserStatus,
+  changeUserPermissions,
+  userPermissionsChanged,
+  userPermissionChangeFailed,
+  clearChangeUserPermissionsStatus
+} = iserActionCreators;
 
 const fetchUsersActionCreators = {
   fetchUsers: iserSlice.actions.fetchUsers,
@@ -131,8 +182,17 @@ export {
   clearDeleteUserStatus,
   banUser,
   userBanned,
+  clearBanUserStatus,
   banUserFail,
   clearFetchUsersStatus,
+  unbanUser,
+  userUnbanned,
+  unbanUserFail,
+  clearUnbanUserStatus,
+  changeUserPermissions,
+  userPermissionsChanged,
+  userPermissionChangeFailed,
+  clearChangeUserPermissionsStatus
   };
 export type iserState = ReturnType<typeof iserReducer>;
 export default iserReducer;

@@ -11,18 +11,22 @@ const SpinBlur = styled.div<BackdropProps>`
 `
 // ----------------------------------------------------------------------
 
-const LoadingBackdrop: React.FC<BackdropProps> = ({open, children, ...props}) => {
+const LoadingBackdrop: React.FC<BackdropProps & { Skeleton?: React.ReactElement}> = ({open, children, Skeleton, ...props}) => {
   return (
-    <React.Fragment>
-        <LimitedBackdrop open={open} {...props}>
-            <CircularProgress />
-        </LimitedBackdrop>
-        <SpinBlur open={open}>
-            {children}
-        </SpinBlur>
-    </React.Fragment>
+    <>
+      {Skeleton && open ?
+        Skeleton : 
+        (<>
+          <LimitedBackdrop open={open} {...props}>
+              <CircularProgress />
+          </LimitedBackdrop>
+          <SpinBlur open={open}>
+              {children}
+          </SpinBlur>
+        </>)
+      }
+    </>
   );
 };
 
 export default LoadingBackdrop;
- 

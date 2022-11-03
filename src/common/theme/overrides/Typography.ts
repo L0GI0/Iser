@@ -6,6 +6,9 @@ export default function Typography(theme: Theme) {
     return {
       MuiTypography: {
         styleOverrides: {
+          root: {
+            justifyContent: 'center'
+          },
           paragraph: {
             marginBottom: theme.spacing(2)
           },

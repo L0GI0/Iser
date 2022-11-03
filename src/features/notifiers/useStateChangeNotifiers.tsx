@@ -4,8 +4,12 @@ import { VariantType } from 'notistack';
 import { TFunction } from 'react-i18next'
 import { Trans } from 'react-i18next';
 import { AppDispatch } from "rootStore/store";
-import { clearSignInStatus, clearProfileUpdateStatus } from "features/account/store/accountSlice";
-import { clearFetchUsersStatus, clearDeleteUserStatus } from "features/iser/store/iserSlice";
+import { clearLogInStatus, clearProfileUpdateStatus } from "features/account/store/accountSlice";
+import {
+  clearFetchUsersStatus,
+  clearDeleteUserStatus,
+  clearBanUserStatus,
+  clearUnbanUserStatus } from "features/iser/store/iserSlice";
 import { REQUEST_STATUS } from "common/constants";
 import { enqueueSnackbar } from "./store/notifiersSlice";
 
@@ -14,7 +18,7 @@ import { enqueueSnackbar } from "./store/notifiersSlice";
 interface StatetoSnackBarMap {
     triggerValue: any,
     snackBarMessage: React.ReactNode,
-    variant: VariantType
+    variant: VariantType,
     onExit?: () => void
 }
 
@@ -37,7 +41,7 @@ export const getSignInStateSnackbarMap = (dispatch: AppDispatch, t: TFunction<['
         snackBarMessage: t('notification_msg_sign_in.sign_in_failed', { ns: 'notifiers'}),
         variant: 'error',
         onExit: () => {
-            dispatch(clearSignInStatus());
+            dispatch(clearLogInStatus());
         }
     },
     {
@@ -45,7 +49,7 @@ export const getSignInStateSnackbarMap = (dispatch: AppDispatch, t: TFunction<['
         snackBarMessage: t('notification_msg_sign_in.sign_in_unauthorised', { ns: 'notifiers'}),
         variant: 'error',
         onExit: () => {
-            dispatch(clearSignInStatus());
+            dispatch(clearLogInStatus());
         }
     },
     {
@@ -53,12 +57,12 @@ export const getSignInStateSnackbarMap = (dispatch: AppDispatch, t: TFunction<['
       snackBarMessage: t('notification_msg_sign_in.sign_in_forbidden', { ns: 'notifiers'}),
       variant: 'error',
       onExit: () => {
-          dispatch(clearSignInStatus());
+          dispatch(clearLogInStatus());
       }
   },
 ]
 
-export const getProfileStateSnackbarMap = (dispatch: AppDispatch, t: TFunction<['notifiers']>): Array<StatetoSnackBarMap> => [
+export const getProfileStateSnackbarMap = (dispatch: AppDispatch, t: TFunction<'notifiers'>): Array<StatetoSnackBarMap> => [
   {
       triggerValue: REQUEST_STATUS.success,
       snackBarMessage: t('notification_msg_profile_settings.profile_updated', { ns: 'notifiers'}),
@@ -87,7 +91,7 @@ export const getDeleteUserStateSnackbarMap = (dispatch: AppDispatch, t: TFunctio
         values={{ userEmail: userEmail}}
         components={{ bold: <strong/>}}
         />),
-      variant: 'success',
+      variant: 'warning',
       onExit: () => {
           dispatch(clearDeleteUserStatus());
       }
@@ -120,9 +124,9 @@ export const getBanUserStateSnackbarMap = (dispatch: AppDispatch, t: TFunction<[
         values={{ userEmail: userEmail}}
         components={{ bold: <strong/>}}
         />),
-      variant: 'success',
+      variant: 'warning',
       onExit: () => {
-          dispatch(clearDeleteUserStatus());
+          dispatch(clearBanUserStatus());
       }
   },
     {
@@ -130,7 +134,7 @@ export const getBanUserStateSnackbarMap = (dispatch: AppDispatch, t: TFunction<[
       snackBarMessage: t('notification_msg_users.user_ban_fail', { ns: 'notifiers'}),
       variant: 'error',
       onExit: () => {
-          dispatch(clearDeleteUserStatus());
+          dispatch(clearBanUserStatus());
       }
   },
   {
@@ -138,7 +142,74 @@ export const getBanUserStateSnackbarMap = (dispatch: AppDispatch, t: TFunction<[
     snackBarMessage: t('notification_msg_users.user_ban_unauth', { ns: 'notifiers'}),
     variant: 'error',
     onExit: () => {
-        dispatch(clearDeleteUserStatus());
+        dispatch(clearBanUserStatus());
+    }
+  },
+]
+
+export const getUnbanUserStateSnackbarMap = (dispatch: AppDispatch, t: TFunction<['notifiers', 'users']>, userEmail: User['emailAddress']): Array<StatetoSnackBarMap> => [
+  {
+      triggerValue: REQUEST_STATUS.success,
+      snackBarMessage: (<Trans
+        t={t}
+        ns={['notifiers', 'users']}
+        i18nKey={"notification_msg_users.user_unbanned"}
+        values={{ userEmail: userEmail}}
+        components={{ bold: <strong/>}}
+        />),
+      variant: 'success',
+      onExit: () => {
+          dispatch(clearUnbanUserStatus());
+      }
+  },
+    {
+      triggerValue: REQUEST_STATUS.failed,
+      snackBarMessage: t('notification_msg_users.user_unban_fail', { ns: 'notifiers'}),
+      variant: 'error',
+      onExit: () => {
+          dispatch(clearUnbanUserStatus());
+      }
+  },
+  {
+    triggerValue: REQUEST_STATUS.unauthorised,
+    snackBarMessage: t('notification_msg_users.user_unban_unauth', { ns: 'notifiers'}),
+    variant: 'error',
+    onExit: () => {
+        dispatch(clearUnbanUserStatus());
+    }
+  },
+]
+
+export const getChangeUserPermissionsStateSnackbarMap = (dispatch: AppDispatch, t: TFunction<['notifiers', 'users']>, userEmail: User['emailAddress']): Array<StatetoSnackBarMap> => [
+  {
+      triggerValue: REQUEST_STATUS.success,
+      snackBarMessage: (<Trans
+        t={t}
+        ns={['notifiers', 'users']}
+        i18nKey={"notification_msg_users.user_permissions_changed"}
+        values={{ userEmail: userEmail}}
+        components={{ bold: <strong/>}}
+        />),
+      variant: 'success',
+      onExit: () => {
+          dispatch(clearUnbanUserStatus());
+
+      }
+  },
+    {
+    triggerValue: REQUEST_STATUS.failed,
+      snackBarMessage: t('notification_msg_users.user_permissions_change_fail', { ns: 'notifiers'}),
+      variant: 'error',
+      onExit: () => {
+        dispatch(clearUnbanUserStatus());
+      }
+  },
+  {
+    triggerValue: REQUEST_STATUS.unauthorised,
+    snackBarMessage: t('notification_msg_users.user_permissions_change_unauth', { ns: 'notifiers'}),
+    variant: 'error',
+    onExit: () => {
+      dispatch(clearUnbanUserStatus());
     }
   },
 ]

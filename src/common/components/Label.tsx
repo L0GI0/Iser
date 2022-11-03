@@ -6,8 +6,8 @@ import styled, { CSSObject } from 'styled-components';
 // ----------------------------------------------------------------------
 
 interface LabelContainerProps {
-  color: 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'error' | 'active'
-  variant: 'filled' | 'outlined',
+  color: IserColor,
+  variant: Extract<IserUIVariant, 'filled' | 'outlined'>,
   sx?: SxProps<Theme>
 }
 
@@ -33,8 +33,10 @@ const LabelContainer = styled(Box)<LabelContainerProps>(({theme, color, variant}
   justifyConent: 'center',
   padding: theme.spacing(1.5, 1.5),
   fontFamily: theme.typography.fontFamily,
+  '&&.MuiBox-root': {
+    justifyContent: 'center',
+  },
   fontWeight: theme.typography.fontWeightBold,
-
   ...(variant === 'filled' ? {
     ...labelStyleFilled(theme, color)
   } : {

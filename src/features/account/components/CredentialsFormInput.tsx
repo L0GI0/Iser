@@ -25,7 +25,7 @@ const emptyInputState = {
 type InputState = typeof emptyInputState;
 
 export interface CredentialsFormRef {
-  inputs: { [key: string]: InputState };
+  inputs: { [key: string]: InputState },
   validateForm: () => boolean;
 }
 

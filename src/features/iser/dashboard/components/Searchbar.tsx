@@ -36,7 +36,7 @@ const SearchIconDimensions = css`
 `
 
 interface SearchIconProps {
-  disabled?: boolean;
+  disabled?: boolean
 }
 
 const SearchFillIcon = styled(Iconify).attrs({ icon: 'eva:search-fill' })<SearchIconProps>`
