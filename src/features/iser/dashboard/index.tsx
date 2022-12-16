@@ -36,13 +36,23 @@ const MainStyle = styled('div')(({ theme }) => ({
 export default function DashboardLayout() {
   const [open, setOpen] = useState<boolean>(true);
 
+  const onOpenSidebar = () => {
+    setOpen(true)
+  }
+
+  const onCloseSidebar = () => {
+    setOpen(false)
+  }
+
   return (
     <RootStyle>
       <IserAppBar onTriggerSidebar={() => setOpen((open) => !open)} isSidebarOpen={open}/>
-      <DashboardSidebar isSidebarOpen={open} onCloseSidebar={() => setOpen(false)} onOpenSidebar={() => setOpen(true)}/>
+      <DashboardSidebar isSidebarOpen={open} onCloseSidebar={onCloseSidebar} onOpenSidebar={onOpenSidebar}/>
       <MainStyle>
         <Outlet />
       </MainStyle>
     </RootStyle>
   );
 }
+
+DashboardLayout.whyDidYouRender = true;

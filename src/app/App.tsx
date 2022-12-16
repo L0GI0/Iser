@@ -14,7 +14,6 @@ import DashboardView from "features/iser/dashboard/DashboardView";
 import UsersView from 'features/iser/users/UsersView';
 import SettingsView from "features/account/settings/SettingsView";
 import ProfileView from 'features/iser/profile/ProfileView';
-import useSnackbarNotifier from "features/notifiers/useSnackbarNotifier";
 import DashboardLayout from 'features/iser/dashboard'
 import AuthError from 'features/account/components/AuthError'
 import AppError from "features/account/components/AppError";
@@ -41,10 +40,9 @@ const ErrorFallback: React.FC<FallbackProps> = ({ resetErrorBoundary }) => {
   return <Navigate to="/error" />;
 };
 
-
 function App() {
 
-  useSnackbarNotifier();
+
   const { ready: areTranslationsLoaded } = useTranslation(namespaces);
   return (
   <ThemeProvider>
@@ -85,5 +83,7 @@ function App() {
   </ThemeProvider>
   );
 }
+
+App.whyDidYouRender = true;
 
 export default App;

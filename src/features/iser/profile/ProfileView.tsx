@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import styled from 'styled-components';
 import { Box, Grid } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
@@ -34,6 +35,17 @@ const ProfileView = () => {
 
   useStateChangeNotifier(profileUpdateState.reqStatus, getProfileStateSnackbarMap(dispatch, t));
 
+  const currentProfile = useMemo(() => (
+    {
+    firstName: profile.firstName,
+    lastName: profile.lastName,
+    emailAddress: user.emailAddress,
+    role: profile.role,
+    location: profile.location,
+    userStatus: user.userStatus,
+    userType: user.userType})
+    , [profile, user])
+
   const onProfileFormSubmit = (data: Profile) => {
     dispatch(triggerNotification())
     dispatch(updateProfile({
@@ -48,15 +60,7 @@ const ProfileView = () => {
   return (
     <ProfileContent>
       <ProfileBackground/>
-      <MainProfileCard profile={{
-          firstName: profile.firstName,
-          lastName: profile.lastName,
-          emailAddress: user.emailAddress,
-          role: profile.role,
-          location: profile.location,
-          userStatus: user.userStatus,
-          userType: user.userType
-        }}/>
+      <MainProfileCard profile={currentProfile}/>
       <Box sx={{ mt: 3, mb: 3 }}>
         <Grid container spacing={3}> 
           <Grid item xs={12} md={5}>
@@ -70,5 +74,7 @@ const ProfileView = () => {
     </ProfileContent>
   )
 }
+
+ProfileView.whyDidYouRender = true;
 
 export default ProfileView;

@@ -20,7 +20,7 @@ const DeleteUser: React.FC<DeleteUserProps> = ({user, updateAccount}) => {
 
   const { t } = useTranslation('users');
 
-   const [isDeletetionUserConfirmed, setIsUserDeletetionConfirmed] = useState(false);
+   const [isUserDeletetionConfirmed, setIsUserDeletetionConfirmed] = useState(false);
 
   const onDeleteUser = async () => {
     dispatch(triggerNotification())
@@ -43,9 +43,9 @@ const DeleteUser: React.FC<DeleteUserProps> = ({user, updateAccount}) => {
       <Stack direction="row" alignItems="center" justifyContent="space-between" width={'100%'} spacing={2}>
         <SwitchInput
             text={confirmSwitchLabel}
-            checked={isDeletetionUserConfirmed}
-            onChange={() => setIsUserDeletetionConfirmed(!isDeletetionUserConfirmed)}/>
-        <Button variant="outlined" color="error" disabled={!isDeletetionUserConfirmed} onClick={onDeleteUser}>
+            checked={isUserDeletetionConfirmed}
+            onChange={() => setIsUserDeletetionConfirmed(!isUserDeletetionConfirmed)}/>
+        <Button variant="outlined" color="error" disabled={!isUserDeletetionConfirmed} onClick={onDeleteUser}>
           {t('user_delete.button_unban_user')}
         </Button>
       </Stack>

@@ -144,4 +144,6 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({profile, onProfileUpda
   );
 }
 
+ProfileSettings.whyDidYouRender = true;
+
 export default ProfileSettings;

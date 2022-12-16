@@ -9,7 +9,8 @@ import {
   clearFetchUsersStatus,
   clearDeleteUserStatus,
   clearBanUserStatus,
-  clearUnbanUserStatus } from "features/iser/store/iserSlice";
+  clearUnbanUserStatus,
+  clearChangeUserPermissionsStatus } from "features/iser/store/iserSlice";
 import { REQUEST_STATUS } from "common/constants";
 import { enqueueSnackbar } from "./store/notifiersSlice";
 
@@ -78,6 +79,27 @@ export const getProfileStateSnackbarMap = (dispatch: AppDispatch, t: TFunction<'
       onExit: () => {
           dispatch(clearProfileUpdateStatus());
       }
+  },
+]
+
+export const getUsersProfileStateSnackbarMap = (t: TFunction<'notifiers'>, userEmail: User['emailAddress'], onExit: StatetoSnackBarMap['onExit']): Array<StatetoSnackBarMap> => [
+  {
+      triggerValue: REQUEST_STATUS.success,
+      snackBarMessage: (<Trans
+        t={t}
+        ns='notifiers'
+        i18nKey={"notification_msg_users.users_profile_updated"}
+        values={{ userEmail: userEmail}}
+        components={{ bold: <strong/>}}
+        />),
+      variant: 'success',
+      onExit: onExit
+  },
+  {
+      triggerValue: REQUEST_STATUS.unauthorised,
+      snackBarMessage: t('notification_msg_profile_settings.users_profile_update_failed', {ns: 'notifiers'}),
+      variant: 'error',
+      onExit: onExit
   },
 ]
 
@@ -192,7 +214,7 @@ export const getChangeUserPermissionsStateSnackbarMap = (dispatch: AppDispatch, 
         />),
       variant: 'success',
       onExit: () => {
-          dispatch(clearUnbanUserStatus());
+          dispatch(clearChangeUserPermissionsStatus());
 
       }
   },
@@ -201,7 +223,7 @@ export const getChangeUserPermissionsStateSnackbarMap = (dispatch: AppDispatch, 
       snackBarMessage: t('notification_msg_users.user_permissions_change_fail', { ns: 'notifiers'}),
       variant: 'error',
       onExit: () => {
-        dispatch(clearUnbanUserStatus());
+        dispatch(clearChangeUserPermissionsStatus());
       }
   },
   {
@@ -209,7 +231,7 @@ export const getChangeUserPermissionsStateSnackbarMap = (dispatch: AppDispatch, 
     snackBarMessage: t('notification_msg_users.user_permissions_change_unauth', { ns: 'notifiers'}),
     variant: 'error',
     onExit: () => {
-      dispatch(clearUnbanUserStatus());
+      dispatch(clearChangeUserPermissionsStatus());
     }
   },
 ]

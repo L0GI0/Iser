@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Typography, Box, Stack } from '@mui/material';
 import Iconify from 'common/components/Iconify';
 import Label from 'common/components/Label';
@@ -14,14 +15,14 @@ export interface ProfileCardProps {
   direction?: ResponsiveStyleValue<'row' | 'row-reverse' | 'column' | 'column-reverse'>
 }
 
-const ProfileCard: React.FC<ProfileCardProps> = ({profile, profileVariant = "primary", direction={xs: "column", sm: "row"}}) => {
+const ProfileCard: React.FC<ProfileCardProps> = memo(({profile, profileVariant = "primary", direction}) => {
 
   return (
   <ProfileCardContainer profileVariant={profileVariant}>
-    <Stack direction={direction} alignItems='center'spacing={3}>
+    <Stack direction={direction ?? {xs: "column", sm: "row"}} alignItems='center'spacing={3}>
         <ProfileAvatar />
         <Box height="100%" width="100%" mt={0.5} sx={{ height: '100%', marginTop: .5, lineHeight: 1}}>
-          <Stack direction={direction} justifyContent="space-between" alignItems="center" spacing={2}>
+          <Stack direction={direction ?? {xs: "column", sm: "row"}} justifyContent="space-between" alignItems="center" spacing={2}>
             <Box sx={{display: 'flex', flexDirection: 'column', alignItems: { xs: 'center', sm: 'start'}}}>
               <Typography variant="h4">
                 {profile.firstName} {profile.lastName}
@@ -61,6 +62,8 @@ const ProfileCard: React.FC<ProfileCardProps> = ({profile, profileVariant = "pri
       </Stack>
   </ProfileCardContainer>
   )
-}
+});
+
+ProfileCard.whyDidYouRender = true;
 
 export default ProfileCard;

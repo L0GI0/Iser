@@ -11,4 +11,6 @@ const UsersView = () => {
   )
 }
 
+UsersView.whyDidYouRender = true;
+
 export default UsersView;

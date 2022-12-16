@@ -115,7 +115,7 @@ const UsersTable = () => {
     dispatch(fetchUsers());
   }, [])
 
-  const { users, iserReactiveState } = useSelector((state: RootState) => state.iserReducer);
+  const { users, iserReactiveState: { fetchUsers: { isRequesting } } } = useSelector((state: RootState) => state.iserReducer);
 
   const handleRequestSort = (event: any, property: any) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -182,7 +182,7 @@ const UsersTable = () => {
           <Card sx={{ padding: 0 }}>
             <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
-          <LoadingBackdrop open={iserReactiveState.fetchUsers.isRequesting}>
+          <LoadingBackdrop open={isRequesting}>
             <Scrollbar>
               <TableContainer>
                 <Table>
@@ -280,5 +280,7 @@ const UsersTable = () => {
       </Container>
   );
 }
+
+UsersTable.whyDidYouRender = true;
 
 export default UsersTable;

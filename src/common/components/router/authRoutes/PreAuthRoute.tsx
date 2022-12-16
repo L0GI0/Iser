@@ -8,8 +8,8 @@ import { RootState } from "rootStore/rootReducer";
 // ----------------------------------------------------------------------
 
 const PreAuthRoute = () => {
-  const { isLoggedIn } = useSelector(
-    (state: RootState) => state.accountReducer
+  const isLoggedIn = useSelector(
+    (state: RootState) => state.accountReducer.isLoggedIn
   );
 
   return (
