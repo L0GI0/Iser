@@ -42,8 +42,7 @@ export const getIserTheme = (themeMode: PaletteMode) => {
 
 export default function ThemeProvider({ children }: Props) {
 
-  const { themeMode } = useSelector((state: RootState) => state.accountReducer)
-
+  const themeMode = useSelector((state: RootState) => state.accountReducer.themeMode)
 
   const themeOptions = useMemo(
     () => (getIserTheme(themeMode)),

@@ -12,14 +12,15 @@ import { RootState } from 'rootStore/rootReducer';
 import { Observable } from "rxjs";
 import LoadingBackdrop from 'common/components/backdrops/LoadingBackdrop';
 import { triggerNotification } from 'features/notifiers/store/notifiersSlice';
+import { useTranslation } from 'react-i18next';
 import { userInitialState, profileInitialState } from 'features/account/store/accountSlice';
 import { userRequestsDefaultState } from 'features/iser/store/iserSlice';
+import { useStateChangeNotifier, getUsersProfileStateSnackbarMap } from 'features/notifiers/useStateChangeNotifiers'
 
 import ProfileSettings from '../profile/components/ProfileSettings';
 import ProfileCard  from '../profile/components/ProfileCard';
 import UserEditViewSkeleton from './components/skeletons/UserEditViewSkeleton';
 import UserSettings from './components/UserSettings/UserSettings';
-import { useTranslation } from 'react-i18next'
 
 // ----------------------------------------------------------------------
 
@@ -33,40 +34,42 @@ const accountDataInitialState = {
   profile: profileInitialState
 }
 
-
 const UserEditView = () => {
 
-  const [editProfileReqState, setEditProfileReqState] = useState<ReactiveRequestState<Pick<User, 'emailAddress'>>>(userRequestsDefaultState);
+  const [editProfileReqState, setEditProfileReqState] = useState<ReactiveRequestState>(userRequestsDefaultState);
   const [accountData, setAccountData] = useState<AccountDataState>(accountDataInitialState);
   const [isAccountOutdated, setIsAccountOutdated] = useState<boolean>(true);
 
+  
   const dispatch = useDispatch();
   const navigate = useNavigate()
 
+  const { t } = useTranslation('notifiers');
+
+  const updateProfileReqState = (status: RequestStatus | null | undefined, isRequesting: boolean | undefined) => {
+    setEditProfileReqState((prevUserReqState) => ({
+      isRequesting: isRequesting ?? prevUserReqState.isRequesting, 
+      reqStatus: status === undefined ? prevUserReqState.reqStatus : status,
+    }))
+  }
+
+  useStateChangeNotifier(
+    editProfileReqState.reqStatus,
+    getUsersProfileStateSnackbarMap(
+      t,
+      accountData.user.emailAddress || 'unknown',
+      () => updateProfileReqState(null, undefined)));
+ 
   const params = useParams();
 
-  const state = useSelector((state: RootState) => state);
+  const accessToken = useSelector((state: RootState) => state.accountReducer.accessToken);
   
-  const ajax = ajaxApi(state);
+  const ajax = ajaxApi(undefined, accessToken);
 
-  const { t } = useTranslation(['notifiers', 'users']);
 
-  const setIsUserRequestOngoing = (status: boolean) => {
-    setEditProfileReqState((prevUserReqState) => ({
-      ...prevUserReqState,
-      isRequesting: status
-    }))
-  }
-  
-  const setUserRequestStatus = (status: RequestStatus | null) => {
-    setEditProfileReqState((prevUserReqState) => ({
-      ...prevUserReqState,
-      reqStatus: status
-    }))
-  }
   
   const fetchUser = (): Observable<Account> => {
-    setIsUserRequestOngoing(true);
+    updateProfileReqState(null, true);
     return ajax.get(`users/${params.id}`).pipe(
       map((ajaxResponse: AjaxResponse<{ user: Account }>): Account => {
         return ajaxResponse.response.user;
@@ -99,12 +102,11 @@ const UserEditView = () => {
           if(error.status === 404)
             navigate('/iser/users/not_found')
           setIsAccountOutdated(false);
-          setIsUserRequestOngoing(false);
-          setUserRequestStatus('failed');
+          updateProfileReqState(undefined, false);
         },
         complete: () => { 
           setIsAccountOutdated(false);
-          setIsUserRequestOngoing(false);
+          updateProfileReqState(undefined, false);
          }
       }
       )  
@@ -112,8 +114,8 @@ const UserEditView = () => {
   }, [isAccountOutdated])
 
 const onProfileFormSubmit = (data: Profile) => {
+    updateProfileReqState(undefined, true);
     dispatch(triggerNotification())
-    setIsUserRequestOngoing(true);
     updateProfile(data).subscribe({
       next: (profileUpdateResponse: Profile) => {
         setAccountData((prevAccountData) => {
@@ -121,12 +123,10 @@ const onProfileFormSubmit = (data: Profile) => {
         })
       },
       error: (error: AjaxError) => {
-        setIsUserRequestOngoing(false)
-        setUserRequestStatus('failed');
+        updateProfileReqState('failed', false);
       },
       complete: () => {
-        setIsUserRequestOngoing(false);
-        setUserRequestStatus('success');
+        updateProfileReqState('success', false);
       }
     })
   }
@@ -150,7 +150,7 @@ const onProfileFormSubmit = (data: Profile) => {
           <ProfileSettings
             profile={accountData.profile}
             onProfileUpdate={onProfileFormSubmit}
-            isLoading={state.accountReducer.accountReactiveState.profileUpdate.isRequesting}/>
+            isLoading={false}/>
         </Grid>
         <Grid item xs={12} sm={12}>
           <UserSettings updateAccount={setIsAccountOutdated} user={accountData.user}/>
@@ -159,5 +159,8 @@ const onProfileFormSubmit = (data: Profile) => {
     </LoadingBackdrop>
   )
 }
+
+
+UserEditView.whyDidYouRender = true;
 
 export default UserEditView;

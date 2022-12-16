@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 
 // ----------------------------------------------------------------------
 
-const PrivateRoute = (): JSX.Element => {
+const UsersRoute = (): JSX.Element => {
 
   const { iserReactiveState } = useSelector((state: RootState) => state.iserReducer);
   const dispatch = useDispatch()
@@ -41,8 +41,11 @@ const PrivateRoute = (): JSX.Element => {
   useStateChangeNotifier(iserReactiveState.changePermissions.reqStatus,
     getChangeUserPermissionsStateSnackbarMap(dispatch, t, iserReactiveState.changePermissions.reqStatusResponse?.emailAddress ?? 'unknown')
     );
+    
 
   return <Outlet />
 };
 
-export default PrivateRoute;
+UsersRoute.whyDidYouRender = true;
+
+export default UsersRoute;

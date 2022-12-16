@@ -17,12 +17,12 @@ interface AppRouteProps {
 const PrivateRoute = ({
   authorizedUserTypes,
 }: AppRouteProps): JSX.Element => {
-  const { isLoggedIn } = useSelector(
-    (state: RootState) => state.accountReducer
+  const isLoggedIn = useSelector(
+    (state: RootState) => state.accountReducer.isLoggedIn
   );
 
-  const { userType } = useSelector(
-    (state: RootState) => state.accountReducer.user
+  const userType = useSelector(
+    (state: RootState) => state.accountReducer.user.userType
   );
 
   const dispatch = useDispatch()

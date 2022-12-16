@@ -109,8 +109,8 @@ const iserSlice = createSlice({
     },
 
     clearUnbanUserStatus(state) {
-      state.iserReactiveState.changePermissions.reqStatus = null;
-      state.iserReactiveState.changePermissions.reqStatusResponse = null;
+      state.iserReactiveState.unbanUser.reqStatus = null;
+      state.iserReactiveState.unbanUser.reqStatusResponse = null;
     },
 
     changeUserPermissions(state, action: PayloadAction<Pick<User, 'userId' | 'userType'>>){},
@@ -129,7 +129,7 @@ const iserSlice = createSlice({
       state.iserReactiveState.changePermissions.reqStatus = null;
       state.iserReactiveState.changePermissions.reqStatusResponse = null;
     },
-  },
+},
 });                                         
 
 const iserActionCreators = iserSlice.actions;

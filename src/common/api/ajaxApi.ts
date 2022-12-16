@@ -41,12 +41,13 @@ export interface ApiAjaxCreationMethod {
 export const ajaxApi = <
   T extends StateObservable<RootState> | RootState = StateObservable<RootState>
 >(
-  state$?: T
+  state$?: T,
+  directAccessToken?: string | null
 ): ApiAjaxCreationMethod => {
-  const accessToken = (state$ as RootState)?.accountReducer?.accessToken ||
+  const accessToken = directAccessToken || (state$ as RootState)?.accountReducer?.accessToken ||
     (state$ as StateObservable<RootState>)?.value?.accountReducer?.accessToken;
   
-  const mainHeader = state$
+  const mainHeader = accessToken
     ? {
         accept: "application/json",
         authorization: `Bearer ${accessToken}`,

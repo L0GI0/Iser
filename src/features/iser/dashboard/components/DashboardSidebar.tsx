@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, memo } from 'react';
 import { useSelector } from 'react-redux';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import styled from 'styled-components'
@@ -58,12 +58,13 @@ interface DashboardSidebarProps {
   onOpenSidebar: () => void
 }
 
-export default function DashboardSidebar({ isSidebarOpen, onCloseSidebar, onOpenSidebar }: DashboardSidebarProps) {
+const  DashboardSidebar = memo(({ isSidebarOpen, onCloseSidebar, onOpenSidebar }: DashboardSidebarProps) => {
   const { pathname } = useLocation();
 
   const isDesktop = useResponsive('up', 'lg');
 
-  const { profile, user } = useSelector((state: RootState) => state.accountReducer)
+  const profile = useSelector((state: RootState) => state.accountReducer.profile)
+  const user = useSelector((state: RootState) => state.accountReducer.user)
 
   const { t } = useTranslation('dashboard');
 
@@ -171,4 +172,8 @@ export default function DashboardSidebar({ isSidebarOpen, onCloseSidebar, onOpen
       )}
     </RootStyle>
   );
-}
+});
+
+DashboardSidebar.whyDidYouRender = true;
+
+export default DashboardSidebar;
