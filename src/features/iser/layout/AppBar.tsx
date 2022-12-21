@@ -2,10 +2,10 @@ import styled from "styled-components";
 import { alpha } from '@mui/material/styles';
 import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
 import Iconify from "common/components/Iconify";
-import Searchbar from "./Searchbar";
-import LanguagePopover from "./LanguagePopover";
-import AccountPopover from './AccountPopover'
-import NotificationsPopover from './NotificationsPopover';
+import Searchbar from "./components/Searchbar";
+import LanguagePopover from "./components/LanguagePopover";
+import AccountPopover from './components/AccountPopover'
+import NotificationsPopover from './components/NotificationsPopover';
 
 // ----------------------------------------------------------------------
 

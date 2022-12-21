@@ -1,10 +1,13 @@
 import { SetStateAction } from "react";
+import { PaletteColor } from '@mui/material/styles';
 
 export {};
 
 declare global {
 
-  type IserColor = 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'error' | 'active';
+  type IserColor = 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'error';
+
+  type IserSkin = keyof PaletteColor;
   
   type IserUIVariant = 'text' | 'filled' | 'outlined' | 'contained';
 

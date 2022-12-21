@@ -52,13 +52,13 @@ const Logo = styled(Box).attrs({ component: 'img', src: "/static/iser-logo.png"}
 
 // ----------------------------------------------------------------------
 
-interface DashboardSidebarProps {
+interface SidebarProps {
   isSidebarOpen: boolean,
   onCloseSidebar: () => void,
   onOpenSidebar: () => void
 }
 
-const  DashboardSidebar = memo(({ isSidebarOpen, onCloseSidebar, onOpenSidebar }: DashboardSidebarProps) => {
+const  Sidebar = memo(({ isSidebarOpen, onCloseSidebar, onOpenSidebar }: SidebarProps) => {
   const { pathname } = useLocation();
 
   const isDesktop = useResponsive('up', 'lg');
@@ -93,7 +93,7 @@ const  DashboardSidebar = memo(({ isSidebarOpen, onCloseSidebar, onOpenSidebar }
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
                 {profile.firstName} {profile.lastName}
               </Typography>
-                <Label variant='filled' color={(user.userType === 'admin' && 'warning') || 'info'}>
+                <Label skinVariant="outlined" color={(user.userType === 'admin' && 'warning') || 'info'}>
                   <Typography variant='label' >
                     { user.userType }
                   </Typography>
@@ -174,6 +174,6 @@ const  DashboardSidebar = memo(({ isSidebarOpen, onCloseSidebar, onOpenSidebar }
   );
 });
 
-DashboardSidebar.whyDidYouRender = true;
+Sidebar.whyDidYouRender = true;
 
-export default DashboardSidebar;
+export default Sidebar;

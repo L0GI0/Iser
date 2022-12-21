@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Typography, Container, Box } from "@mui/material";
 import { useTranslation } from 'react-i18next'
-import TwoSectionsLayout from "common/components/TwoSectionsLayout";
+import TwoSectionsLayout from "common/components/layouts/TwoSectionsLayout";
 import {
   WhiteSection,
   NavyBlueBubbledSectionRight,

@@ -46,12 +46,12 @@ const ProfileCard: React.FC<ProfileCardProps> = memo(({profile, profileVariant =
               </Stack> 
             </Stack>
             <Stack direction={{xs: "row", sm: "column"}} spacing={1}>
-              <Label variant='filled' color={(profile.userStatus === 'banned' && 'error') || 'success'}>
+              <Label skin="main" color={(profile.userStatus === 'banned' && 'error') || 'success'}>
                 <Typography variant='button' >
                   { profile.userStatus }
                 </Typography>
               </Label>
-              <Label variant='outlined' color={(profile.userType === 'admin' && 'warning') || 'info'}>
+              <Label skin="main" skinVariant="outlined" color={(profile.userType === 'admin' && 'warning') || 'info'}>
                 <Typography variant='label'>
                   { profile.userType }
                 </Typography>

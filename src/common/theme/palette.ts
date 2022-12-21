@@ -113,7 +113,7 @@ const CHART_COLORS = {
   red: ['#FF6C40', '#FF8F6D', '#FFBD98', '#FFF2D4'],
 };
 
-export const paletteLight = {
+const palette = {
   common: { black: '#000', white: '#fff' },
   primary: { ...PRIMARY },
   secondary: { ...SECONDARY },
@@ -124,6 +124,10 @@ export const paletteLight = {
   grey: GREY,
   gradients: GRADIENTS,
   chart: CHART_COLORS,
+}
+
+export const paletteLight = {
+  ...palette,
   divider: GREY[500_48],
   text: { primary: GREY[900], secondary: GREY[600], disabled: GREY[500] },
   background: { paper: GREY[0], default: GREY[100], neutral: GREY[300] },
@@ -141,16 +145,7 @@ export const paletteLight = {
 };
 
 export const paletteDark = {
-  common: { black: '#000', white: '#fff' },
-  primary: { ...PRIMARY },
-  secondary: { ...SECONDARY },
-  info: { ...INFO },
-  success: { ...SUCCESS },
-  warning: { ...WARNING },
-  error: { ...ERROR },
-  grey: GREY,
-  gradients: GRADIENTS,
-  chart: CHART_COLORS,
+  ...palette,
   divider: GREY[500_32],
   text: { primary: GREY[0], secondary: GREY[500], disabled: GREY[600] },
   background: { paper: GREY[900], default: GREY[800], neutral: GREY[700] },

@@ -9,11 +9,7 @@ import "./index.css";
 import App from "./app/App";
 import store, { persistor } from "./rootStore/store";
 
-
-
 // ----------------------------------------------------------------------
-
-
 
 ReactDOM.render(
   <React.StrictMode>

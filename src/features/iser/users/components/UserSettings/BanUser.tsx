@@ -38,7 +38,7 @@ const BanUser: React.FC<BanUserProps> = ({user, updateAccount}) => {
       <Stack direction="row" alignItems="center" justifyContent="space-between" width={'100%'} spacing={2}>
         <Typography variant="subtitle1">  
         {t('user_ban.text_current_user_status') + ' '}  
-        <Label variant='filled' color={(user.userStatus === 'banned' && 'error') || 'success'}>
+        <Label skinVariant='filled' color={(user.userStatus === 'banned' && 'error') || 'success'}>
           <Typography variant='button' >
             { user.userStatus }
           </Typography>
