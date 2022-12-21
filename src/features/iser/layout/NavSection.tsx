@@ -4,7 +4,7 @@ import { alpha } from '@mui/material/styles';
 import { Box, List, Collapse, ListItemText, ListItemIcon, ListItemButton } from '@mui/material';
 import styled from 'styled-components'
 import Iconify from 'common/components/Iconify';
-import { NavigationItem } from 'features/iser/dashboard/components/NavConfig'
+import { NavigationItem } from 'features/iser/layout/NavConfig'
 
 // ----------------------------------------------------------------------
 

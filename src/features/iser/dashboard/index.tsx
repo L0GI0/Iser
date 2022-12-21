@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import IserAppBar from './components/AppBar';
-import DashboardSidebar from './components/DashboardSidebar';
+import IserAppBar from '../layout/AppBar';
+import DashboardSidebar from '../layout/Sidebar';
 
 // ----------------------------------------------------------------------
 

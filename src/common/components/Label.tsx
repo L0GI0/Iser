@@ -1,30 +1,18 @@
 import React, { PropsWithChildren } from 'react';
 import { Box, } from '@mui/material';
 import { SxProps, Theme } from '@mui/material/styles';
-import styled, { CSSObject } from 'styled-components';
+import styled from 'styled-components';
+import { getSkinVariantStyleObject, SkinStyleType } from 'common/styles/SkinStyle';
 
 // ----------------------------------------------------------------------
 
-interface LabelContainerProps {
-  color: IserColor,
-  variant: Extract<IserUIVariant, 'filled' | 'outlined'>,
+type LabelPropsProps = {
   sx?: SxProps<Theme>
-}
-
-const labelStyleFilled = (theme: Theme, color: LabelContainerProps['color']): CSSObject => ({
-  color: (color === 'active') ? theme.palette.action.active : theme.palette[color].darker,
-  backgroundColor: (color === 'active') ? theme.palette.action.active : theme.palette[color].light
-})
-
-const labelStyleOutlined = (theme: Theme, color: LabelContainerProps['color']): CSSObject => ({
-  backgroundColor: 'transparent',
-  color: (color === 'active') ? theme.palette.action.active : theme.palette[color].main,
-  border: `1px solid ${(color === 'active') ? theme.palette.action.active : theme.palette[color].main}`
-})
+} & SkinStyleType
 
 // ----------------------------------------------------------------------
 
-const LabelContainer = styled(Box)<LabelContainerProps>(({theme, color, variant}) => ({
+const LabelContainer = styled(Box)<LabelPropsProps>(({theme, color, skin, skinVariant}) => ({
   height: 22,
   lineHeight: 0,
   borderRadius: theme.borders.borderRadius.xxl,
@@ -34,23 +22,19 @@ const LabelContainer = styled(Box)<LabelContainerProps>(({theme, color, variant}
   padding: theme.spacing(1.5, 1.5),
   fontFamily: theme.typography.fontFamily,
   '&&.MuiBox-root': {
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   fontWeight: theme.typography.fontWeightBold,
-  ...(variant === 'filled' ? {
-    ...labelStyleFilled(theme, color)
-  } : {
-    ...labelStyleOutlined(theme, color)
-  })
+  ...getSkinVariantStyleObject(theme, color, skin, skinVariant)
 }));
 
 // ----------------------------------------------------------------------
 
-type LabelProps = PropsWithChildren<Partial<LabelContainerProps>> 
+type LabelProps = PropsWithChildren<Partial<LabelPropsProps>> 
 
-const Label: React.FC<LabelProps> = ({ children, color = "primary", variant = "outlined", sx = {} }) => {
+const Label: React.FC<LabelProps> = ({ children, ...rest }) => {
   return (
-    <LabelContainer color={color} variant={variant} sx={sx}>
+    <LabelContainer {...rest} >
       {children}
     </LabelContainer>
   );

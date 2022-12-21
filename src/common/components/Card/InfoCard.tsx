@@ -4,8 +4,8 @@ import Card from "@mui/material/Card";
 import Divider from "@mui/material/Divider";
 import Tooltip from "@mui/material/Tooltip";
 import { Box, Typography } from '@mui/material';
-import Iconify from "./Iconify";
-import AuthorisedFeature from "./AuthorisedFeature";
+import Iconify from "../Iconify";
+import AuthorisedFeature from "../AuthorisedFeature";
 
 // ----------------------------------------------------------------------
 

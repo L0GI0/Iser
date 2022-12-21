@@ -226,14 +226,14 @@ const UsersTable = () => {
                           </TableCell>
                         <TableCell align='left'>{ location }</TableCell>
                           <TableCell align='left'>
-                            <Label variant='outlined' color={(userType === 'admin' && 'warning') || 'info'}>
+                            <Label skinVariant='outlined' color={(userType === 'admin' && 'warning') || 'info'}>
                               <Typography variant='label' >
                                 { userType }
                                 </Typography>
                             </Label>
-                          </TableCell>
+                        </TableCell>
                           <TableCell align='left'>
-                            <Label variant='filled' color={(userStatus === 'banned' && 'error') || 'success'}>
+                            <Label color={(userStatus === 'banned' && 'error') || 'success'}>
                               <Typography variant='label' >
                                 { userStatus }
                               </Typography>

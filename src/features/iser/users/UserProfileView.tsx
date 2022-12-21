@@ -12,7 +12,7 @@ import { ajaxApi } from 'common/api/ajaxApi';
 import { RootState } from 'rootStore/rootReducer';
 import LoadingBackdrop from 'common/components/backdrops/LoadingBackdrop';
 import { ProfileContent, ProfileBackground } from '../profile/components/styledElements';
-import InfoCard from 'common/components/InfoCard';
+import InfoCard from 'common/components/Card/InfoCard';
 import ProfileCard  from '../profile/components/ProfileCard';
 
 // ----------------------------------------------------------------------

@@ -62,7 +62,6 @@ const ThemeOptionImage = styled.img(({ theme }) => ({
 
 const ThemeOption: React.FC<ThemeOptionProps> = ({ selected, caption, description, onThemeSelect}) => {
 
-
   const { t } = useTranslation('account');
 
   return (
@@ -71,7 +70,7 @@ const ThemeOption: React.FC<ThemeOptionProps> = ({ selected, caption, descriptio
     <ThemeOptionCaption>
       { caption }
     </ThemeOptionCaption>
-      {selected && <Label color="active" variant="outlined"> <Typography variant="label"> {t('settings.appearance.label_theme_active')} </Typography> </Label>}
+      {selected && <Label skin="light" skinVariant="filled"> <Typography variant="label"> {t('settings.appearance.label_theme_active')} </Typography> </Label>}
     </ThemeOptionHeader>
     <ThemeOptionBody>
       { description }

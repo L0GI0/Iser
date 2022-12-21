@@ -40,10 +40,6 @@ export const ReactiveContainer = styled(Container)`
   padding: 0;
 `
 
-interface SectionProps {
-  children: React.ReactNode
-}
-
 const TopRightCircle = styled(PinkCircle)`
   position: absolute;
   top: -750px;
@@ -62,6 +58,9 @@ const BottomLeftCircle = styled(GreenCircle)`
   right: -650px;
 `;
 
+interface SectionProps {
+  children: React.ReactNode
+}
 
 export const NavyBlueBubbledSectionRight = ( { children }: SectionProps) => {
   return (

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Typography, Container } from "@mui/material";
-import TwoSectionsLayout from "common/components/TwoSectionsLayout";
+import TwoSectionsLayout from "common/components/layouts/TwoSectionsLayout";
 import {
   WhiteSection,
   NavyBlueBubbledSectionLeft,
