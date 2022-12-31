@@ -14,7 +14,7 @@ import DashboardView from "features/iser/dashboard/DashboardView";
 import UsersView from 'features/iser/users/UsersView';
 import SettingsView from "features/account/settings/SettingsView";
 import ProfileView from 'features/iser/profile/ProfileView';
-import DashboardLayout from 'features/iser/dashboard'
+import IserLayout from 'features/iser/layout/IserLayout'
 import AuthError from 'features/account/components/AuthError'
 import AppError from "features/account/components/AppError";
 import PageLoadingWrapper from "common/components/PageLoadingWrapper";
@@ -28,6 +28,7 @@ import UserNotFound from 'features/iser/users/components/UserNotFound';
 import PreAuthRoute from "common/components/router/authRoutes/PreAuthRoute";
 import PrivateRoute from "common/components/router/authRoutes/PrivateRoute";
 import UsersRoute from 'common/components/router/notifierRoutes/UsersRoute';
+import { CollapseDrawerProvider } from 'features/iser/layout/CollapseDrawerContext';
 import "./App.css";
 
 // ----------------------------------------------------------------------
@@ -47,16 +48,16 @@ function App() {
   return (
   <ThemeProvider>
     <LocalizationProvider dateAdapter={AdapterDateFns} >
-      <PageLoadingWrapper loading={!areTranslationsLoaded}> 
+      <PageLoadingWrapper loading={!areTranslationsLoaded}>
+      <CollapseDrawerProvider>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Router basename="/">
-            <div className="App">
                 <Routes>
                   <Route path="/app" element={<PreAuthRoute/>}>
                     <Route path="/app/signin" element={<SignInView/>} />
                     <Route path="/app/signup" element={<SignUpView/>} />
                   </Route>              
-                    <Route path="/iser/" element={<DashboardLayout/>}>
+                    <Route path="/iser/" element={<IserLayout/>}>
                       <Route path="/iser/" element={<PrivateRoute/>}>
                         <Route path='/iser/dashboard' element={<DashboardView/>}/>
                         <Route path="/iser/profile" element={<ProfileView/>}/>
@@ -75,9 +76,9 @@ function App() {
                   <Route path="/error" element={<AppError/>}/>
                   <Route path="/" element={<Navigate to={"/app/signin"}/>}/>
                 </Routes>
-              </div>
           </Router>
         </ErrorBoundary>
+        </CollapseDrawerProvider>
       </PageLoadingWrapper>
     </LocalizationProvider>
   </ThemeProvider>

@@ -34,7 +34,7 @@ const BanUser: React.FC<BanUserProps> = ({user, updateAccount}) => {
   }
 
   return (
-    <LabeledCard label={t('user_ban.user_ban_label')} description={t('user_ban.text_user_ban_info')}>
+    <LabeledCard title={t('user_ban.user_ban_label')} subheader={t('user_ban.text_user_ban_info')}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" width={'100%'} spacing={2}>
         <Typography variant="subtitle1">  
         {t('user_ban.text_current_user_status') + ' '}  

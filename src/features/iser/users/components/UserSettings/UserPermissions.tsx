@@ -49,7 +49,7 @@ const UserPermissions: React.FC<UserPermissionsProps> = ({user, updateAccount}) 
   </UsersTypesExplenation>
 
   return (
-    <LabeledCard label={t('user_permissions.label_user_permissions')} description={permissionsDescription}>
+    <LabeledCard title={t('user_permissions.label_user_permissions')} subheader={permissionsDescription}>
         <Typography variant="subtitle1">  
         {t('user_permissions.text_current_user_type') + ' '}  
         <Label skinVariant='outlined' color={(user.userType === 'admin' && 'warning') || 'info'}>

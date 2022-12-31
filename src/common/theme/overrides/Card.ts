@@ -12,11 +12,10 @@ export default function Card(theme: Theme) {
         position: "relative",
         minWidth: 0,
         wordWrap: "break-word",
-        backgroundColor: theme.palette.background.default,
+        boxShadow: theme.customShadows.card,
         backgroundClip: "border-box",
         border: `${theme.borders.borderWidth[0]} solid ${alpha(theme.palette.common.black, 0.125)}`,
         borderRadius: theme.borders.borderRadius.xl,
-        boxShadow: theme.shadows[3],
         padding: `0 ${theme.spacing(3)} ${theme.spacing(3)} ${theme.spacing(3)}`,
         },
       }

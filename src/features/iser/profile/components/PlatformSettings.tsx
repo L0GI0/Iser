@@ -17,7 +17,7 @@ function PlatformSettings() {
   const { t } = useTranslation('profile');
 
   return (
-    <LabeledCard label={t('platfrom_settings.platform_settings_form.label')}>
+    <LabeledCard title={t('platfrom_settings.platform_settings_form.label')}>
         <Typography variant="caption" fontWeight="bold" color="text" textTransform="uppercase">
           { t('platfrom_settings.platform_settings_form.account_notification_settings.label')}
         </Typography>
