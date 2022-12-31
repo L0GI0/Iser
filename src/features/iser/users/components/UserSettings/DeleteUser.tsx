@@ -39,7 +39,7 @@ const DeleteUser: React.FC<DeleteUserProps> = ({user, updateAccount}) => {
     </>
 
   return (
-    <LabeledCard label={t('user_delete.user_delete_label')} description={t('user_delete.text_user_delete_info')}>
+    <LabeledCard title={t('user_delete.user_delete_label')} subheader={t('user_delete.text_user_delete_info')}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" width={'100%'} spacing={2}>
         <SwitchInput
             text={confirmSwitchLabel}

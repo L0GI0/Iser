@@ -1,39 +1,28 @@
 import { useEffect, memo } from 'react';
-import { useSelector } from 'react-redux';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { Box, Drawer, Stack } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components'
-import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/material';
-import ACCOUNT from '_mocks/account';
 import useResponsive from 'common/utils/useResponsive';
 import Scrollbar from 'common/components/Scrollbar';
-import Iconify from "common/components/Iconify";
-import Label from "common/components/Label";
-import { RootState } from "rootStore/rootReducer";
-import { useTranslation } from 'react-i18next';
+import { SIDEBAR } from 'common/theme/config';
+import stylesUtils from 'common/styles/stylesUtils';
 import NavSection from './NavSection';
 import getNavConfig from './NavConfig';
+import useCollapseDrawer from './useColapseDrawer';
+import CollapseButton from './components/CollapseButton';
+import SidebarAccount from './components/SidebarAccount';
+import SidebarFooter from './components/SidebarFooter';
 
 // ----------------------------------------------------------------------
 
-const DRAWER_WIDTH = 280;
-
-interface RootStyleProps {
-  isSidebarOpen: boolean
-} 
-
-const RootStyle = styled('div')<RootStyleProps>(({ isSidebarOpen }) => ({
-  ...(isSidebarOpen && {
+const SidebarContainer = styled(Box)(({ theme }) => ({
+  [theme.breakpoints.up('lg')]: {
     flexShrink: 0,
-    width: DRAWER_WIDTH,
-  }),
-}));
-
-const AccountStyle = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(2, 2.5),
-  borderRadius: Number(theme.shape.borderRadius) * 1.5,
-  backgroundColor: theme.palette.grey[500_12],
+    transition: theme.transitions.create('width', {
+      duration: theme.transitions.duration.shorter,
+    }),
+  },
 }));
 
 const SidebarScrollbar = styled(Scrollbar)`
@@ -48,130 +37,107 @@ const SidebarScrollbar = styled(Scrollbar)`
 const Logo = styled(Box).attrs({ component: 'img', src: "/static/iser-logo.png"})`
   width: 40px;
   height: 40px
-` 
+`
 
 // ----------------------------------------------------------------------
 
 interface SidebarProps {
   isSidebarOpen: boolean,
+  isCollapse: boolean,
   onCloseSidebar: () => void,
-  onOpenSidebar: () => void
 }
 
-const  Sidebar = memo(({ isSidebarOpen, onCloseSidebar, onOpenSidebar }: SidebarProps) => {
+const  Sidebar = memo(({ isSidebarOpen, onCloseSidebar }: SidebarProps) => {
   const { pathname } = useLocation();
 
   const isDesktop = useResponsive('up', 'lg');
 
-  const profile = useSelector((state: RootState) => state.accountReducer.profile)
-  const user = useSelector((state: RootState) => state.accountReducer.user)
+  const { isCollapse, collapseClick, collapseHover, onToggleCollapse, onHoverEnter, onHoverLeave } =
+    useCollapseDrawer();
 
   const { t } = useTranslation('dashboard');
 
   useEffect(() => {
-    if (isSidebarOpen && !isDesktop) {
+    if (isSidebarOpen) {
       onCloseSidebar();
     }
-
-    if(!isSidebarOpen && isDesktop){
-      onOpenSidebar();
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname, isDesktop]);
+  }, [pathname, ]);
 
   const renderContent = (
     <SidebarScrollbar>
-      <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
-       < Logo />
-      </Box>
+      <Stack
+        spacing={3}
+        sx={{
+          pt: 3,
+          pb: 2,
+          px: 2.5,
+          flexShrink: 0,
+          ...(isCollapse && { alignItems: 'center' }),
+        }}
+      >
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Logo />
+          {isDesktop && !isCollapse && (
+            <CollapseButton onToggleCollapse={onToggleCollapse} collapseClick={collapseClick} />
+          )}
+        </Stack>
+      </Stack>
 
-      <Box sx={{ mb: 5, mx: 2.5 }}>
-        <Link underline="none" component={RouterLink} to="/iser/profile">
-          <AccountStyle>
-            <Avatar src={ACCOUNT.photoURL} alt="photoURL" />
-            <Box sx={{ ml: 2 }}>
-              <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {profile.firstName} {profile.lastName}
-              </Typography>
-                <Label skinVariant="outlined" color={(user.userType === 'admin' && 'warning') || 'info'}>
-                  <Typography variant='label' >
-                    { user.userType }
-                  </Typography>
-                </Label>
-            </Box>
-          </AccountStyle>
-        </Link>
-      </Box>
+      <SidebarAccount isCollapse={isCollapse}/>
 
-      <NavSection navConfig={getNavConfig(t)} />
+      <NavSection navConfig={getNavConfig(t)} isCollapse={isCollapse}/>
 
       <Box sx={{ flexGrow: 1 }} />
 
-      <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
-        <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
-          <Box
-            component="img"
-            src="/static/illustrations/illustration_logio_av.png"
-            sx={{ width: 100, position: 'absolute', top: -50 }}
-          />
-
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography gutterBottom variant="h6">
-              {t('contact_section.text_contact_me')}
-            </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              Michal Pabjan
-            </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              048 721 546 994
-            </Typography>
-          </Box>
-          <Box sx={{ textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
-          <Button sx={{ margin: 0 }}startIcon={<Iconify icon={'akar-icons:github-fill'} />} href="https://github.com/L0GI0" target="_blank" variant="contained">
-            Github
-          </Button>
-          <Button startIcon={<Iconify icon={'akar-icons:linkedin-box-fill'}/>}href="" target="_blank" variant="contained">
-            Linkedin
-          </Button>
-          </Box>
-
-        </Stack>
-      </Box>
-
+      {!isCollapse && <SidebarFooter t={t}/>}
+        
     </SidebarScrollbar>
   );
 
   return (
-    <RootStyle isSidebarOpen={isSidebarOpen && !!isDesktop}>
-      {!isDesktop && (
-        <Drawer
-          open={isSidebarOpen}
-          onClose={onCloseSidebar}
-          PaperProps={{
-            sx: { width: DRAWER_WIDTH },
-          }}
-        >
-          {renderContent}
-        </Drawer>
-      )}
+    <SidebarContainer
+    sx={{
+      width: {
+        lg: isCollapse ? SIDEBAR.COLLAPSE_WIDTH : SIDEBAR.WIDTH,
+      },
+      ...(collapseClick && {
+        position: 'absolute',
+      }),
+    }}
+  >
+    {!isDesktop && (
+      <Drawer open={isSidebarOpen} onClose={onCloseSidebar} PaperProps={{ sx: { width: SIDEBAR.WIDTH } }}>
+        {renderContent}
+      </Drawer>
+    )}
 
-      {isDesktop && (
-        <Drawer
-          open={isSidebarOpen}
-          variant="persistent"
-          PaperProps={{
-            sx: {
-              width: DRAWER_WIDTH,
-              bgcolor: 'background.default',
-              borderRightStyle: 'dashed',
-            },
-          }}
-        >
-          {renderContent}
-        </Drawer>
-      )}
-    </RootStyle>
-  );
+    {isDesktop && (
+      <Drawer
+        open
+        variant="persistent"
+        onMouseEnter={onHoverEnter}
+        onMouseLeave={onHoverLeave}
+        PaperProps={{sx: (theme) => ({
+          width: SIDEBAR.WIDTH,
+          borderRightStyle: 'dashed',
+          bgcolor: 'background.default',
+          transition: theme.transitions.create('width', {
+              duration: theme.transitions.duration.standard,
+            }),
+          ...(isCollapse && {
+            width: SIDEBAR.COLLAPSE_WIDTH,
+          }),
+          ...(collapseHover && {
+            ...stylesUtils(theme).bgBlur(),
+            boxShadow: theme.customShadows.z24,
+          }),
+        })}}
+      >
+        {renderContent}
+      </Drawer>
+    )}
+  </SidebarContainer>);
 });
 
 Sidebar.whyDidYouRender = true;

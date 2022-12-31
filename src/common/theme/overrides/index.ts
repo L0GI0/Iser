@@ -24,7 +24,7 @@ export default function ComponentsOverrides(theme: Theme) {
     MenuItem(theme),
     Table(theme),
     Avatar(theme),
-    Paper(),
+    Paper(theme),
     CssBaseline(),
   );
 }

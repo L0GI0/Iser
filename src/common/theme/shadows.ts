@@ -69,6 +69,7 @@ export const createCustomShadows = (themePalette: PaletteType) => {
         hover:  `0 0 0 1px ${alpha(themePalette.error.main, themePalette.action.hoverOpacity)}`,
         focus:  `0 0 2px 2px ${alpha(themePalette.error.main, themePalette.action.focusOpacity)}`    
       }
-    }
+    },
+    card: `0 0 2px 0 ${alpha(themePalette.background.contrast, 0.2)}, 0 12px 24px -4px ${alpha(themePalette.background.contrast, 0.12)}`,
   };
 };

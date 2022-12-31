@@ -18,7 +18,7 @@ const PasswordSettings: React.FC = () => {
   const { t } = useTranslation(['account', 'common'])
 
   return (
-  <LabeledCard label={t('settings.password.label_password_settings')}>
+  <LabeledCard title={t('settings.password.label_password_settings')}>
       <Stack spacing={2}>
           <FormInput label={t('settings.password.label_old_password')} >
             <IserTextInput type={"password"}/>

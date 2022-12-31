@@ -1,16 +1,17 @@
 import SimpleBarReact from 'simplebar-react';
 import { alpha, styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
+import 'simplebar-react/dist/simplebar.min.css';
 
 // ----------------------------------------------------------------------
 
-const RootStyle = styled('div')(() => ({
+const SimpleBarWrapper = styled('div')(() => ({
   flexGrow: 1,
   height: '100%',
   overflow: 'hidden',
 }));
 
-const SimpleBarStyle = styled(SimpleBarReact)(({ theme }) => ({
+const IserSimpleBar = styled(SimpleBarReact)(({ theme }) => ({
   maxHeight: '100%',
   '& .simplebar-scrollbar': {
     '&:before': {
@@ -20,11 +21,6 @@ const SimpleBarStyle = styled(SimpleBarReact)(({ theme }) => ({
       opacity: 1,
     },
   },
-
-  '.simplebar-placeholder': {
-    display: 'none'
-  },
-  
   '& .simplebar-track.simplebar-vertical': {
     width: 10,
   },
@@ -38,9 +34,8 @@ const SimpleBarStyle = styled(SimpleBarReact)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-interface ScrollbarProps {
+interface ScrollbarProps extends SimpleBarReact.Props {
   sx?: any,
-  children: React.ReactNode
 }
 
 export default function Scrollbar({ children, sx, ...other }: ScrollbarProps) {
@@ -55,12 +50,12 @@ export default function Scrollbar({ children, sx, ...other }: ScrollbarProps) {
       </Box>
     );
   }
-
+  
   return (
-    <RootStyle>
-      <SimpleBarStyle timeout={500} clickOnTrack={false} {...other}>
+    <SimpleBarWrapper>
+      <IserSimpleBar timeout={500} clickOnTrack={false} sx={sx} {...other}>
         {children}
-      </SimpleBarStyle>
-    </RootStyle>
+      </IserSimpleBar>
+    </SimpleBarWrapper>
   );
 }

@@ -1,11 +1,8 @@
 import { alpha, PaletteColor } from '@mui/material/styles';
-import { Color, PaletteMode } from '@mui/material'
+import { Color, PaletteMode } from '@mui/material';
+import { createGradient } from 'common/styles/stylesUtils';
 
 // ----------------------------------------------------------------------
-
-function createGradient(color1: string, color2: string) {
-  return `linear-gradient(to bottom, ${color1}, ${color2})`;
-}
 
 declare module '@mui/material' {
   interface Color {
@@ -113,8 +110,8 @@ const CHART_COLORS = {
   red: ['#FF6C40', '#FF8F6D', '#FFBD98', '#FFF2D4'],
 };
 
-const palette = {
-  common: { black: '#000', white: '#fff' },
+const basePalette = {
+  common: { black: '#000000', white: '#fff' },
   primary: { ...PRIMARY },
   secondary: { ...SECONDARY },
   info: { ...INFO },
@@ -127,10 +124,10 @@ const palette = {
 }
 
 export const paletteLight = {
-  ...palette,
+  ...basePalette,
   divider: GREY[500_48],
   text: { primary: GREY[900], secondary: GREY[600], disabled: GREY[500] },
-  background: { paper: GREY[0], default: GREY[100], neutral: GREY[300] },
+  background: { paper: GREY[0], default: GREY[200], neutral: GREY[500_8], contrast: GREY[500_16] },
   action: {
     active: PRIMARY.main,
     hover: GREY[500_8],
@@ -145,10 +142,10 @@ export const paletteLight = {
 };
 
 export const paletteDark = {
-  ...palette,
+  ...basePalette,
   divider: GREY[500_32],
   text: { primary: GREY[0], secondary: GREY[500], disabled: GREY[600] },
-  background: { paper: GREY[900], default: GREY[800], neutral: GREY[700] },
+  background: { paper: GREY[800], default: GREY[800], neutral: GREY[900], contrast: basePalette.common.black },
   action: {
     active: SECONDARY.lighter,
     hover: GREY[500_8],
