@@ -22,7 +22,7 @@ export const getIserTheme = (themeMode: PaletteMode) => {
 
   const palette = getPallette(themeMode);
   const customShadows = createCustomShadows(palette);
-  const shadows = createShadows(palette.grey[500]);
+  const shadows = createShadows(themeMode === 'light' ? palette.grey[500]: palette.common.black);
   const borders = createBorders(palette);  
 
   return {
@@ -36,7 +36,7 @@ export const getIserTheme = (themeMode: PaletteMode) => {
       linearGradient,
       pxToRem
     },
-    sidebarWidth: 240,
+    sidebarWidth: 280,
   } 
 }
 

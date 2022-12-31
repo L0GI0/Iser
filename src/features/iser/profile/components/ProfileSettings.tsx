@@ -28,7 +28,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({profile, onProfileUpda
   const { t } = useTranslation('profile');
 
   return (
-    <LabeledCard label={t('profile_settings.profile_form.label')}>
+    <LabeledCard title={t('profile_settings.profile_form.label')}>
       <LoadingBackdrop open={isLoading}>
         <form onSubmit={handleSubmit(onProfileUpdate)}>
           <Grid container spacing={2}>
@@ -37,7 +37,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({profile, onProfileUpda
               control={control}
               defaultValue={profile.firstName}
               render={({ field: { onChange, value } }) => (
-                <Grid xs={12 } sm={6} item>
+                <Grid xs={12} sm={6} item>
                 <FormInput label={t('profile_settings.profile_form.label_first_name')} >
                   <IserTextInput placeholder={profile.firstName} value={value} onChange={onChange}/>
                 </FormInput>

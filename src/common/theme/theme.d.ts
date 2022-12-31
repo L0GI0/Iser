@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react'; 
-import { Theme, PaletteColor as PaletteRoot, TypographyVariantsOptions as TypographyVariantsRoot, Variant as VariantRoot } from '@mui/material/styles';
+import { Theme, PaletteColor as PaletteColorRoot, TypographyVariantsOptions as TypographyVariantsRoot, Palette as PaletteRoot} from '@mui/material/styles';
 import shadows from './shadows';
 import { getIserTheme } from './index'
 
@@ -34,10 +34,14 @@ declare module '@mui/material/styles' {
    interface Theme extends IserTheme {}
    interface ThemeOptions extends IserTheme {}
 
-   interface PaletteColor extends PaletteRoot {
+   interface PaletteColor extends PaletteColorRoot {
       lighter: string,
       darker: string
     }
+
+    interface Palette extends PaletteRoot {
+      chart: Reacord<'violet' | 'blue' | 'green' | 'yellow' | 'red', Array<string>[4]>
+    } 
 
     interface PaletteColor {
       lighter: string,
@@ -50,7 +54,8 @@ declare module '@mui/material/styles' {
     }
 
     interface TypeBackground {
-      neutral: string
+      neutral: string,
+      contrast: string
     }
 
     interface TypographyVariantsOptions extends TypographyVariantsRoot {

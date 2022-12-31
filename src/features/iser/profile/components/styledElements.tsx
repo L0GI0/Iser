@@ -29,7 +29,7 @@ export const ProfileBackground = styled(Box)(( { theme: { functions: { linearGra
 
 export const ProfileCardContainer = styled(Card)<Pick<ProfileCardProps, 'profileVariant'>>(({ theme, profileVariant }) => ({
   borderRadius: theme.borders.borderRadius.section,
-  boxShadow: theme.shadows[3],
+  boxShadow: theme.customShadows.card,
   padding: theme.spacing(3),
   ...(profileVariant === 'primary' && {
   backgroundColor:  alpha(theme.palette.background.default, 0.8),

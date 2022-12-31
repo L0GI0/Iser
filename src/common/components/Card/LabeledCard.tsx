@@ -1,25 +1,19 @@
 
 import React from "react";
-import { Card, Typography } from "@mui/material";
+import { Card, Typography, CardHeader, CardHeaderProps } from "@mui/material";
+import CardContent from '@mui/material/CardContent';
 import CardLabel from "./CardLabel";
 
 // ----------------------------------------------------------------------
 
-interface CardLabelProps {
-  label: React.ReactNode;
-  description?: React.ReactNode
-}
 
-const LabeledCard: React.FC<React.PropsWithChildren<CardLabelProps>>  = ({ label, description, children })  => {
-
+const LabeledCard: React.FC<React.PropsWithChildren<CardHeaderProps>>  = ({ children, ...props })  => {
   return (
   <Card>
-    <CardLabel description={description}>
-      { label }
-    </CardLabel>
-    <Typography>
-    </Typography>
+    <CardHeader sx={{ px: 0}} {...props}/>
+    <CardContent>
       { children }
+    </CardContent>
   </Card>
   );
 }

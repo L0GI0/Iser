@@ -93,7 +93,7 @@ const AppearanceSettings: React.FC = () => {
   const { themeMode } = useSelector((state: RootState) => state.accountReducer)
 
   return (
-    <LabeledCard label={t('settings.appearance.label_appearance_settings')}>
+    <LabeledCard title={t('settings.appearance.label_appearance_settings')}>
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <ThemeOption
