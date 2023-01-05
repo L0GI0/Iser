@@ -73,7 +73,7 @@ export const getProfileStateSnackbarMap = (dispatch: AppDispatch, t: TFunction<'
       }
   },
   {
-      triggerValue: REQUEST_STATUS.unauthorised,
+      triggerValue: REQUEST_STATUS.failed,
       snackBarMessage: t('notification_msg_profile_settings.profile_update_failed', {ns: 'notifiers'}),
       variant: 'error',
       onExit: () => {

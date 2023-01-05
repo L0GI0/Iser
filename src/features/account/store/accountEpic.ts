@@ -1,5 +1,5 @@
 import { of, Observable, switchMap, defer } from "rxjs";
-import { ActionCreator } from "@reduxjs/toolkit";
+import { ActionCreator, ActionCreatorWithPayload } from "@reduxjs/toolkit";
 import { concatMap, catchError, mergeMap, takeUntil, take, mergeWith } from "rxjs/operators";
 import { AjaxError } from "rxjs/ajax";
 import { Epic, ofType, combineEpics, StateObservable } from "redux-observable";
@@ -26,25 +26,38 @@ import { RootActions } from "rootStore/rootEpic";
 
 // ----------------------------------------------------------------------
 
-const authErrorHandler = (action$: Observable<any>, error: AjaxError, source: Observable<any>) => {
-  if(error.response.message !== 'jwt malformed' && (error.status === 401 || error.status === 403)) {
-
+export const authErrorHandler = (
+  action$: Observable<any>,
+  error: AjaxError,
+  source: Observable<any>,
+  failAction?: ActionCreatorWithPayload<any, any>
+) => {
+  if (
+    error.response.message !== "jwt malformed" &&
+    (error.status === 401 || error.status === 403)
+  ) {
     return action$.pipe(
-      ofType<AsyncAccountActions, typeof refreshTokenDone.type, RefreshTokenAction>(refreshTokenDone.type),
-      takeUntil(action$.pipe(
-        ofType((logOut.type))
-      )),
+      ofType<AsyncAccountActions, typeof refreshTokenDone.type, RefreshTokenAction>(
+        refreshTokenDone.type
+      ),
+      takeUntil(
+        action$.pipe(
+          ofType((logOut.type))
+        )
+      ),
       take(1),
-      mergeMap(() => source),
-      mergeWith(
-        of(refreshToken())
-      )
-    )
+      mergeMap(() =>
+        source.pipe(catchError(() => of(failAction ? failAction({error}): () => {})))
+      ),
+      mergeWith(of(refreshToken()))
+    );
   }
-  else {
-    return of(logOut());
+  if(failAction) {
+    return of(failAction({error}));
   }
-}
+
+  return of(logOut())
+};
 
 type ActionFromCreator<C extends ActionCreator<unknown>> = ReturnType<C>;
 
@@ -131,6 +144,11 @@ export const signUpEpic: Epic<RootActions, RootActions, RootState> = (
       return ajaxApi(state$)
         .post(`users`, { accountLogin, accountPassword, userType })
         .pipe(
+          takeUntil(
+            action$.pipe(
+              ofType((signUpDone.type))
+            )
+          ),
           concatMap(() => {
             return of(signUpDone());
           }),
@@ -153,7 +171,7 @@ export const authenticateEpic: Epic<RootActions, RootActions, RootState> = (
               return of(authenticated(ajaxResponse));
             }),
             catchError((error: AjaxError, source: Observable<any>) => {
-              return authErrorHandler(action$, error, source)
+              return authErrorHandler(action$, error, source);
             }),
           );     
       }),
@@ -166,14 +184,14 @@ export const profileEpic: Epic<RootActions, RootActions, RootState> = (
   action$.pipe(
     ofType<RootActions, typeof updateProfile.type, ProfileUpdateAction>(updateProfile.type),
     mergeMap((action) => {
-      return ajaxApi(state$)
-        .post(`profile`, {  ...action?.payload })
+      return defer(() => ajaxApi(state$)
+        .post(`profile`, {  ...action?.payload }))
         .pipe(
           concatMap(() => {
             return of(profileUpdated(action.payload));
           }),
-          catchError((error: AjaxError) => {
-            return of(profileUpdateFailed({error}));
+          catchError((error: AjaxError, source: Observable<any>) => {
+            return authErrorHandler(action$, error, source, profileUpdateFailed);
           })
         );
     })
@@ -188,7 +206,7 @@ action$.pipe(
           return of(refreshTokenDone(ajaxResponse.response));
         }),
         catchError((error: AjaxError) => {
-          return of(logOut())
+          return of(logOut());
         }),
       );      
   }),

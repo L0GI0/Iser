@@ -62,14 +62,18 @@ export const profileInitialState = {
     role: ""
 }
 
-const accountInitialState: AccountInitialStateParams & AccountActionsState & { accountReactiveState: AccountReactiveState } & { profile: Profile } = {
+const accountInitialReactiveState = {
+  logIn: reactiveStateDefaultValue,
+  signUp: reactiveStateDefaultValue,
+  profileUpdate: reactiveStateDefaultValue
+}
+
+type AccountState = AccountInitialStateParams & AccountActionsState & { accountReactiveState: AccountReactiveState } & { profile: Profile }
+
+const accountInitialState: AccountState = {
   accessToken: null,
   isLoggedIn: false,
-  accountReactiveState: {
-    logIn: reactiveStateDefaultValue,
-    signUp: reactiveStateDefaultValue,
-    profileUpdate: reactiveStateDefaultValue
-  },
+  accountReactiveState: accountInitialReactiveState,
   themeMode: 'light',
   profile: profileInitialState,
   user: userInitialState
@@ -79,12 +83,12 @@ const accountSlice = createSlice({
   name: "accountSlice",
   initialState: accountInitialState,
   reducers: {
-    logIn(state, action: PayloadAction<AccountPayloadIn>) {
+    logIn(state: AccountState, action: PayloadAction<AccountPayloadIn>) {
       state.accountReactiveState.logIn.reqStatus = null;
       state.accountReactiveState.logIn.isRequesting = true;
     },
 
-    logInDone(state, action: PayloadAction<LogInPayload>) {
+    logInDone(state: AccountState, action: PayloadAction<LogInPayload>) {
       state.accessToken = action.payload.tokens.accessToken;
 
       state.profile.firstName = action.payload.account.firstName;
@@ -104,41 +108,46 @@ const accountSlice = createSlice({
       state.accountReactiveState.logIn.isRequesting = false;
     },
 
-    logInFail(state, action: PayloadAction<AccountPayloadError>){
+    logInFail(state: AccountState, action: PayloadAction<AccountPayloadError>){
       state.accountReactiveState.logIn.reqStatus = action.payload.error.response.requestStatus;
       state.accountReactiveState.logIn.isRequesting = false;
     },
 
-    signUp(state, action: PayloadAction<AccountPayloadIn & { userType: AccountType } >) {
+    signUp(state: AccountState, action: PayloadAction<AccountPayloadIn & { userType: AccountType } >) {
       state.accountReactiveState.signUp.reqStatus = null;
       state.accountReactiveState.signUp.isRequesting = true;
     },
 
-    signUpDone(state) {
+    signUpDone(state: AccountState) {
       state.accountReactiveState.signUp.isRequesting = false;
       state.accountReactiveState.signUp.reqStatus = 'success';
     },
 
-    signUpFail(state, action: PayloadAction<AccountPayloadError>){
+    signUpFail(state: AccountState, action: PayloadAction<AccountPayloadError>){
       state.accountReactiveState.signUp.isRequesting = false;
       state.accountReactiveState.signUp.reqStatus = 'failed';
     },
 
-    authenticate(state){
+    signUpCancel(){
+
     },
 
-    authenticated(state, action: PayloadAction<any>) {
+    authenticate(){
+    },
+
+    authenticated(state: AccountState, action: PayloadAction<any>) {
     },
 
     logOut(state){
       state.isLoggedIn = false;
       state.accessToken = null;
+      state.accountReactiveState = accountInitialReactiveState;
     },
 
-    refreshToken(state){
+    refreshToken(){
     },
 
-    refreshTokenFailed(state, action: PayloadAction<AccountPayloadError>) {
+    refreshTokenFailed(state: AccountState, action: PayloadAction<AccountPayloadError>) {
     },
 
     refreshTokenDone(state, action: PayloadAction<LogInPayload & { user: { userType: AccountType }}>) {
@@ -146,23 +155,23 @@ const accountSlice = createSlice({
       state.user.userType = action.payload.user.userType;
     },
 
-    clearSignUpStatus(state) {
+    clearSignUpStatus(state: AccountState) {
       state.accountReactiveState.signUp.reqStatus = null;
     },
 
-    clearLogInStatus(state) {
+    clearLogInStatus(state: AccountState) {
       state.accountReactiveState.logIn.reqStatus = null;
     },
 
-    clearProfileUpdateStatus(state) {
+    clearProfileUpdateStatus(state: AccountState) {
       state.accountReactiveState.profileUpdate.reqStatus = null;
     },
 
-    updateProfile(state, action: PayloadAction<Profile>) {
+    updateProfile(state: AccountState, action: PayloadAction<Profile>) {
       state.accountReactiveState.profileUpdate.isRequesting = true;
     },
 
-    profileUpdated(state, action: PayloadAction<Profile>) {
+    profileUpdated(state: AccountState, action: PayloadAction<Profile>) {
       state.accountReactiveState.profileUpdate.isRequesting = false;
       state.profile.firstName = action.payload.firstName;
       state.profile.lastName = action.payload.lastName;
@@ -176,9 +185,14 @@ const accountSlice = createSlice({
 
     },
 
-    profileUpdateFailed(state, action: PayloadAction<AccountPayloadError>) {
+    profileUpdateFailed(state: AccountState, action: PayloadAction<AccountPayloadError>) {
       state.accountReactiveState.profileUpdate.isRequesting= false;
       state.accountReactiveState.profileUpdate.reqStatus = "failed";
+    },
+
+    profileUpdateCancel(state: AccountState){
+      state.accountReactiveState.profileUpdate.isRequesting = false;
+      state.accountReactiveState.profileUpdate.reqStatus = null;
     },
 
     setThemeMode(state, action: PayloadAction<AccountInitialStateParams['themeMode']>) {
@@ -196,6 +210,7 @@ const {
   signUp,
   signUpDone,
   signUpFail,
+  signUpCancel,
   clearSignUpStatus,
   clearLogInStatus,
   clearProfileUpdateStatus,
@@ -208,6 +223,7 @@ const {
   updateProfile,
   profileUpdated,
   profileUpdateFailed,
+  profileUpdateCancel,
   setThemeMode } = accountActionCreators;
 
 const logInActionCreators = { logIn: accountSlice.actions.logIn, logInDone: accountSlice.actions.logInDone, logInFail: accountSlice.actions.logInFail }
@@ -233,9 +249,11 @@ export { logIn,
   signUp,
   signUpDone,
   signUpFail,
+  signUpCancel,
   clearSignUpStatus,
   clearLogInStatus,
   clearProfileUpdateStatus,
+  profileUpdateCancel,
   authenticate, 
   logOut,
   refreshToken,

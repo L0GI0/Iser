@@ -45,87 +45,87 @@ const iserSlice = createSlice({
   name: "iserSlice",
   initialState: accountInitialState,
   reducers: {
-    fetchUsers(state) {
+    fetchUsers(state: IserState) {
       state.iserReactiveState.fetchUsers.isRequesting = true;
     },
 
-    fetchUsersDone(state, action: PayloadAction<{ users: Account[]}>) {
+    fetchUsersDone(state: IserState, action: PayloadAction<{ users: Account[]}>) {
       state.iserReactiveState.fetchUsers.isRequesting = false;
       state.users = action.payload.users
     },
 
-    fetchUsersFail(state, action: PayloadAction<RequestError>){
+    fetchUsersFail(state: IserState) {
       state.iserReactiveState.fetchUsers.isRequesting = false;
       state.iserReactiveState.fetchUsers.reqStatus = 'failed';
 
     },
 
-    clearFetchUsersStatus(state) {
+    clearFetchUsersStatus(state: IserState) {
       state.iserReactiveState.fetchUsers.reqStatus = null;
     },
 
-    deleteUser(state, action: PayloadAction<Pick<User, 'userId'>>){},
+    deleteUser(state: IserState, action: PayloadAction<Pick<User, 'userId'>>){},
 
-    userDeleted(state, action: PayloadAction<{ user: Pick<User, 'emailAddress'>}>) {
+    userDeleted(state: IserState, action: PayloadAction<{ user: Pick<User, 'emailAddress'>}>) {
       state.iserReactiveState.deleteUser.reqStatusResponse = action.payload.user;
       state.iserReactiveState.deleteUser.reqStatus = 'success';
     },
 
-    deleteUserFail(state, action: PayloadAction<RequestError>){
+    deleteUserFail(state: IserState, action: PayloadAction<RequestError>){
       state.iserReactiveState.deleteUser = action.payload.error.response?.requestStatus ?? 'failed';
     },
 
-    clearDeleteUserStatus(state) {
+    clearDeleteUserStatus(state: IserState) {
       state.iserReactiveState.deleteUser.reqStatus = null;
       state.iserReactiveState.deleteUser.reqStatusResponse = null;
     },
 
-    banUser(state, action: PayloadAction<Pick<User, 'userId'>>){},
+    banUser(state: IserState, action: PayloadAction<Pick<User, 'userId'>>){},
 
     userBanned(state, action: PayloadAction<{ user: Pick<User, 'emailAddress'>}>) {
       state.iserReactiveState.banUser.reqStatusResponse = action.payload.user;
       state.iserReactiveState.banUser.reqStatus = 'success';
     },
 
-    banUserFail(state, action: PayloadAction<RequestError>){
+    banUserFail(state: IserState, action: PayloadAction<RequestError>){
       state.iserReactiveState.banUser.reqStatus = action.payload.error.response?.requestStatus ?? 'failed';
     },
 
-    clearBanUserStatus(state) {
+    clearBanUserStatus(state: IserState) {
       state.iserReactiveState.banUser.reqStatus = null;
       state.iserReactiveState.banUser.reqStatusResponse = null;
     },
 
-    unbanUser(state, action: PayloadAction<Pick<User, 'userId'>>){},
+    unbanUser(state: IserState, action: PayloadAction<Pick<User, 'userId'>>){},
 
-    userUnbanned(state, action: PayloadAction<{ user: Pick<User, 'emailAddress'>}>) {
+    userUnbanned(state: IserState, action: PayloadAction<{ user: Pick<User, 'emailAddress'>}>) {
       state.iserReactiveState.unbanUser.reqStatusResponse = action.payload.user;
       state.iserReactiveState.unbanUser.reqStatus = 'success';
     },
 
-    unbanUserFail(state, action: PayloadAction<RequestError>){
+    unbanUserFail(state: IserState, action: PayloadAction<RequestError>){
       state.iserReactiveState.unbanUser.reqStatus = action.payload.error.response?.requestStatus ?? 'failed';
 
     },
 
-    clearUnbanUserStatus(state) {
+    clearUnbanUserStatus(state: IserState) {
       state.iserReactiveState.unbanUser.reqStatus = null;
       state.iserReactiveState.unbanUser.reqStatusResponse = null;
     },
 
-    changeUserPermissions(state, action: PayloadAction<Pick<User, 'userId' | 'userType'>>){},
+    changeUserPermissions(state: IserState, action: PayloadAction<Pick<User, 'userId' | 'userType'>>){},
 
-    userPermissionsChanged(state, action: PayloadAction<{ user: Pick<User, 'emailAddress'>}>) {
+    userPermissionsChanged(state: IserState, action: PayloadAction<{ user: Pick<User, 'emailAddress'>}>) {
       state.iserReactiveState.changePermissions.reqStatusResponse = action.payload.user;
       state.iserReactiveState.changePermissions.reqStatus = 'success';
     },
 
-    userPermissionChangeFailed(state, action: PayloadAction<RequestError>){
+    userPermissionChangeFailed(state: IserState, action: PayloadAction<RequestError>){
       state.iserReactiveState.changePermissions.reqStatus = action.payload.error.response?.requestStatus ?? 'failed';
 
     },
 
-    clearChangeUserPermissionsStatus(state) {
+    clearChangeUserPermissionsStatus(state: IserState) {
       state.iserReactiveState.changePermissions.reqStatus = null;
       state.iserReactiveState.changePermissions.reqStatusResponse = null;
     },

@@ -10,6 +10,8 @@ import LoadingBackdrop from "common/components/backdrops/LoadingBackdrop";
 import { LANGS } from "common/constants";
 import { useTranslation } from "react-i18next";
 import { useForm, Controller } from "react-hook-form";
+import { useDispatch } from 'react-redux';
+import { profileUpdateCancel } from 'features/account/store/accountSlice';
 import { GENDERS } from '../constants';
 
 // ----------------------------------------------------------------------
@@ -27,9 +29,11 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({profile, onProfileUpda
 
   const { t } = useTranslation('profile');
 
+  const dispatch = useDispatch();
+
   return (
     <LabeledCard title={t('profile_settings.profile_form.label')}>
-      <LoadingBackdrop open={isLoading}>
+      <LoadingBackdrop open={isLoading} onCancel={() => dispatch(profileUpdateCancel())}>
         <form onSubmit={handleSubmit(onProfileUpdate)}>
           <Grid container spacing={2}>
             <Controller
