@@ -1,4 +1,4 @@
-import { of} from "rxjs";
+import { of, Observable, defer } from "rxjs";
 import { ActionCreator } from "@reduxjs/toolkit";
 import { concatMap, catchError, mergeMap} from "rxjs/operators";
 import { AjaxError } from "rxjs/ajax";
@@ -23,6 +23,7 @@ import {
   userPermissionsChanged,
   userPermissionChangeFailed,
 } from "./iserSlice";
+import { authErrorHandler } from 'features/account/store/accountEpic';
 
 // ----------------------------------------------------------------------
 
@@ -61,15 +62,15 @@ export const fetchUsersEpic: Epic<RootActions, RootActions, RootState> = (
   action$.pipe(
     ofType<RootActions, typeof fetchUsers.type, FetchUsersAction>(fetchUsers.type),
     mergeMap((action) => {
-      return ajaxApi(state$)
-        .get(`profile/all`)
+      return defer(() => ajaxApi(state$)
+        .get(`profile/all`))
         .pipe(
           concatMap((ajaxResponse) => {
             return of(fetchUsersDone(ajaxResponse.response));
           }),
-          catchError((error: AjaxError) => {
-            return of(fetchUsersFail({error}));
-          })
+          catchError((error: AjaxError, source: Observable<any>) => {
+            return authErrorHandler(action$, error, source);
+          }),
         );
     })
   );
