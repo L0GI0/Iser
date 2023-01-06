@@ -18,6 +18,7 @@ import {
   updateProfile,
   profileUpdated,
   profileUpdateFailed,
+  profileUpdateCancel,
   authenticated,
 } from "./accountSlice";
 import { RootState } from "rootStore/rootReducer";
@@ -98,7 +99,7 @@ export const logInEpic: Epic<RootActions, RootActions, RootState> = (
   action$.pipe(
     /* All possible actions your app can dispatch, The types you want to filter for, The resulting action that match the above types*/
     ofType<RootActions, typeof logIn.type, LogInAction>(logIn.type),
-    mergeMap((action) => {
+    mergeMap((action: LogInAction) => {
       const { accountLogin, accountPassword } = action?.payload;
       return ajaxApi(state$)
         .post(`auth/login`, { accountLogin, accountPassword })
@@ -139,7 +140,7 @@ export const signUpEpic: Epic<RootActions, RootActions, RootState> = (
 ) =>
   action$.pipe(
     ofType<RootActions, typeof signUp.type, SignUpAction>(signUp.type),
-    mergeMap((action) => {
+    mergeMap((action: SignUpAction) => {
       const { accountLogin, accountPassword, userType } = action?.payload;
       return ajaxApi(state$)
         .post(`users`, { accountLogin, accountPassword, userType })
@@ -165,7 +166,7 @@ export const authenticateEpic: Epic<RootActions, RootActions, RootState> = (
   ) =>
     action$.pipe(
       ofType<RootActions, typeof authenticate.type, AuthenticateAction>(authenticate.type),
-      switchMap((action) => {
+      switchMap((action: AuthenticateAction) => {
           return defer(() => ajaxApi(state$).get(`auth/authenticate`)).pipe(
             concatMap((ajaxResponse) => {
               return of(authenticated(ajaxResponse));
@@ -183,10 +184,11 @@ export const profileEpic: Epic<RootActions, RootActions, RootState> = (
 ) =>
   action$.pipe(
     ofType<RootActions, typeof updateProfile.type, ProfileUpdateAction>(updateProfile.type),
-    mergeMap((action) => {
+    mergeMap((action: ProfileUpdateAction) => {
       return defer(() => ajaxApi(state$)
         .post(`profile`, {  ...action?.payload }))
         .pipe(
+          takeUntil(action$.pipe(ofType(profileUpdateCancel.type))),
           concatMap(() => {
             return of(profileUpdated(action.payload));
           }),
@@ -200,7 +202,7 @@ export const profileEpic: Epic<RootActions, RootActions, RootState> = (
 export const refreshTokenEpic: Epic<RootActions, RootActions, RootState> = (action$: any, state$) =>
 action$.pipe(
   ofType<RootActions, typeof refreshToken.type, RefreshTokenAction>(refreshToken.type),
-  mergeMap((action) => {
+  mergeMap((action: RefreshTokenAction) => {
       return ajaxApi(state$).get(`auth/refresh_token`).pipe(
         mergeMap((ajaxResponse) => {
           return of(refreshTokenDone(ajaxResponse.response));
