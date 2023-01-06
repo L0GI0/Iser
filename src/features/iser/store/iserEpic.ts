@@ -61,7 +61,7 @@ export const fetchUsersEpic: Epic<RootActions, RootActions, RootState> = (
 ) =>
   action$.pipe(
     ofType<RootActions, typeof fetchUsers.type, FetchUsersAction>(fetchUsers.type),
-    mergeMap((action) => {
+    mergeMap(() => {
       return defer(() => ajaxApi(state$)
         .get(`profile/all`))
         .pipe(
@@ -69,7 +69,7 @@ export const fetchUsersEpic: Epic<RootActions, RootActions, RootState> = (
             return of(fetchUsersDone(ajaxResponse.response));
           }),
           catchError((error: AjaxError, source: Observable<any>) => {
-            return authErrorHandler(action$, error, source);
+            return authErrorHandler(action$, error, source, fetchUsersFail);
           }),
         );
     })
@@ -84,14 +84,14 @@ export const fetchUsersEpic: Epic<RootActions, RootActions, RootState> = (
       mergeMap((action) => {
         const { userId } = action?.payload;
         
-        return ajaxApi(state$)
-          .delete(`users/${userId}`)
+        return defer(() => ajaxApi(state$)
+          .delete(`users/${userId}`))
           .pipe(
             concatMap((ajaxResponse) => {
               return of(userDeleted(ajaxResponse.response), fetchUsers());
             }),
-            catchError((error: AjaxError) => {
-              return of(deleteUserFail({error}));
+            catchError((error: AjaxError, source: Observable<any>) => {
+              return authErrorHandler(action$, error, source, deleteUserFail)
             })
           );
       })
@@ -103,17 +103,17 @@ export const fetchUsersEpic: Epic<RootActions, RootActions, RootState> = (
   ) =>
     action$.pipe(
       ofType<RootActions, typeof banUser.type, BanUserAction>(banUser.type),
-      mergeMap((action) => {
+      mergeMap((action: BanUserAction) => {
         const { userId } = action?.payload;
         
-        return ajaxApi(state$)
-          .put(`users/ban/${userId}`)
+        return defer(() => ajaxApi(state$)
+          .put(`users/ban/${userId}`))
           .pipe(
             concatMap((ajaxResponse) => {
               return of(userBanned(ajaxResponse.response), fetchUsers());
             }),
-            catchError((error: AjaxError) => {
-              return of(banUserFail({error}));
+            catchError((error: AjaxError, source: Observable<any>) => {
+              return authErrorHandler(action$, error, source, banUserFail)
             })
           );
       })
@@ -125,17 +125,17 @@ export const fetchUsersEpic: Epic<RootActions, RootActions, RootState> = (
     ) =>
       action$.pipe(
         ofType<RootActions, typeof unbanUser.type, UnbanUserAction>(unbanUser.type),
-        mergeMap((action) => {
+        mergeMap((action: UnbanUserAction) => {
           const { userId } = action?.payload;
           
-          return ajaxApi(state$)
-            .put(`users/unban/${userId}`)
+          return defer(() => ajaxApi(state$)
+            .put(`users/unban/${userId}`))
             .pipe(
               concatMap((ajaxResponse) => {
                 return of(userUnbanned(ajaxResponse.response), fetchUsers());
               }),
-              catchError((error: AjaxError) => {
-                return of(unbanUserFail({error}));
+              catchError((error: AjaxError, source: Observable<any>) => {
+                return authErrorHandler(action$, error, source, unbanUserFail)
               })
             );
         })
@@ -147,17 +147,17 @@ export const fetchUsersEpic: Epic<RootActions, RootActions, RootState> = (
       ) =>
         action$.pipe(
           ofType<RootActions, typeof changeUserPermissions.type, ChangeUserPermissionsAction>(changeUserPermissions.type),
-          mergeMap((action) => {
+          mergeMap((action: ChangeUserPermissionsAction) => {
             const { userId, userType } = action?.payload;
             
-            return ajaxApi(state$)
-              .put(`users/permissions/${userId}`, { targetUserType: userType})
+            return defer(() => ajaxApi(state$)
+              .put(`users/permissions/${userId}`, { targetUserType: userType}))
               .pipe(
                 concatMap((ajaxResponse) => {
                   return of(userPermissionsChanged(ajaxResponse.response), fetchUsers());
                 }),
-                catchError((error: AjaxError) => {
-                  return of(userPermissionChangeFailed({error}));
+                catchError((error: AjaxError, source: Observable<any>) => {
+                  return authErrorHandler(action$, error, source, userPermissionChangeFailed)
                 })
               );
           })
