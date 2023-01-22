@@ -72,7 +72,7 @@ const iserSlice = createSlice({
     },
 
     deleteUserFail(state: IserState, action: PayloadAction<RequestError>){
-      state.iserReactiveState.deleteUser = action.payload.error.response?.requestStatus ?? 'failed';
+      state.iserReactiveState.deleteUser.reqStatus = action.payload.error.response?.requestStatus ?? 'failed';
     },
 
     clearDeleteUserStatus(state: IserState) {

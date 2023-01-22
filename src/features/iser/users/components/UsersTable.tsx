@@ -4,13 +4,10 @@ import { useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
-  Box,
   Card,
   Table,
   Stack,
-  Avatar,
   Button,
-  Checkbox,
   TableRow,
   TableBody,
   TableCell,
@@ -20,19 +17,17 @@ import {
   TablePagination,
 } from '@mui/material';
 import { useTranslation, TFunction } from 'react-i18next';
-import Label from 'common/components/Label';
 import Scrollbar from 'common/components/Scrollbar';
 import Iconify from 'common/components/Iconify';
 import SearchNotFound from 'common/components/SearchNotFound';
 import { RootState } from 'rootStore/rootReducer';
 import LoadingBackdrop from 'common/components/backdrops/LoadingBackdrop';
-import { LANGUAGES } from 'common/constants';
 import AuthorisedFeature from 'common/components/AuthorisedFeature';
 import { fetchUsers } from 'features/iser/store/iserSlice';
 import UserListToolbar from './UserListToolbar';
-import UserMoreMenu from './UserMoreMenu';
 import UserListHead from './UsersListHead';
 import { UserListHeadProps } from './UsersListHead';
+import UserTableRow from './UserTableRow';
 
 // ----------------------------------------------------------------------
 
@@ -132,7 +127,7 @@ const UsersTable = () => {
     setSelected([]);
   };
 
-  const handleClick = (event: any, userId: string) => {
+  const handleRowSelect = (event: any, userId: string) => {
     const selectedIndex = selected.indexOf(userId);
     let newSelected: Array<string> = [];
     if (selectedIndex === -1) {
@@ -197,52 +192,10 @@ const UsersTable = () => {
                   />
                   <TableBody>
                     {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: Account) => {
-                      const { userId, emailAddress, userType, userStatus, firstName, lastName, role, location, language } = row;
+                      const { userId } = row;
                       const isItemSelected = selected.indexOf(userId) !== -1;
                       return (
-                        <TableRow
-                          hover
-                          key={userId}
-                          tabIndex={-1}
-                          role='checkbox'
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}
-                        >
-                          <TableCell padding='checkbox' >
-                            <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, userId)} />
-                          </TableCell>
-                          <TableCell component='th' scope='row' sx={{maxWidth: '600px'}} >
-                            <Stack direction='row' alignItems='center' spacing={2}>
-                              <Avatar alt={firstName} src={'/static/mock-images/avatars/avatar_1.jpg'} />
-                              <Typography variant='subtitle2' noWrap>
-                                { emailAddress }
-                              </Typography>
-                            </Stack>
-                          </TableCell>
-                          <TableCell align='left'>{ (firstName ?? '') + ' ' + (lastName ?? '') }</TableCell>
-                          <TableCell align='left'>{ role }</TableCell>
-                          <TableCell align='center'>{ 
-                            <Box component='img' alt={language && LANGUAGES[language].label} sx={{ width: 24 }} src={language && LANGUAGES[language].icon} />}
-                          </TableCell>
-                        <TableCell align='left'>{ location }</TableCell>
-                          <TableCell align='left'>
-                            <Label skinVariant='outlined' color={(userType === 'admin' && 'warning') || 'info'}>
-                              <Typography variant='label' >
-                                { userType }
-                                </Typography>
-                            </Label>
-                        </TableCell>
-                          <TableCell align='left'>
-                            <Label color={(userStatus === 'banned' && 'error') || 'success'}>
-                              <Typography variant='label' >
-                                { userStatus }
-                              </Typography>
-                            </Label>
-                          </TableCell>
-                          <TableCell align='right'>
-                            <UserMoreMenu userId={userId} userStatus={userStatus}/>
-                          </TableCell>
-                        </TableRow>
+                        <UserTableRow user={row} isItemSelected={isItemSelected} handleRowSelect={handleRowSelect}/>
                       );
                     })}
                     {emptyRows > 0 && (

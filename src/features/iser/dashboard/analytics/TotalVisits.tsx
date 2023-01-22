@@ -7,6 +7,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Avatar from 'common/components/Avatar';
 import Iconify from 'common/components/Iconify';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 // ----------------------------------------------------------------------
 
@@ -23,12 +24,15 @@ const TotalVisitsLinearProgresss = styled(LinearProgress)(({theme}) => ({
 // ----------------------------------------------------------------------
 
 const TotalVisits = () => {
+
+  const { t } = useTranslation('analytics');
+
   return (
     <Card>
       <CardContent>
         <Box sx={{ mb: 6.5, display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
           <Box>
-            <Typography variant='body2'>Total Visits</Typography>
+            <Typography variant='body2'>{t('chart_total_visits.label_total_visits')}</Typography>
             <Typography variant='h6'>42.5k</Typography>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { color: 'success.main' } }}>
@@ -49,7 +53,9 @@ const TotalVisits = () => {
               >
                 <Iconify icon='mdi:cellphone' sx={{width: '20px'}}/>
               </Avatar>
-              <Typography variant='body2'>Mobile</Typography>
+              <Typography variant='body2'>
+                {t('chart_total_visits.label_mobile')}
+              </Typography>
             </Box>
             <Typography variant='h6'>23.5%</Typography>
             <Typography variant='caption' sx={{ color: 'text.disabled' }}>
@@ -68,7 +74,7 @@ const TotalVisits = () => {
           <Box sx={{ display: 'flex', alignItems: 'flex-end', flexDirection: 'column' }}>
             <Box sx={{ mb: 2.5, display: 'flex', alignItems: 'center' }}>
               <Typography sx={{ mr: 1.5 }} variant='body2'>
-                Desktop
+                {t('chart_total_visits.label_desktop')}
               </Typography>
               <Avatar skin='dark' variant='rounded' sx={{ height: 24, width: 24, borderRadius: '6px' }}>
                 <Iconify icon='mdi:monitor' sx={{width: '16px'}} />

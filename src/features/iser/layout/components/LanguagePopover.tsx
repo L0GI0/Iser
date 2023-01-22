@@ -72,7 +72,7 @@ export default function LanguagePopover() {
       >
         <Stack spacing={0.75}>
           {LANGS.map((option) => (
-            <MenuItem key={option.value} selected={option.value === i18n.language} onClick={() => changeLanguage(option.value)}>
+            <MenuItem key={option.value} selected={option.value === i18n.language} onClick={() => changeLanguage(option.value)} disabled={option.disabled}>
               <Box component="img" alt={option.label} src={option.icon} sx={{ width: 28, mr: 2 }} />
               {option.label}
             </MenuItem>

@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText, Button } from '@mui/material';
+import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 import {
   deleteUser,
   banUser,
@@ -20,13 +20,14 @@ import ConfirmationDialog from '../../../../common/components/ConfirmationDialog
 
 interface UserMoreMenuProps {
   userId: User['userId'],
-  userStatus: User['userStatus']
+  userStatus: User['userStatus'],
 }
 
 const UserMoreMenu: React.FC<UserMoreMenuProps> = ({ userId, userStatus }) => {
   const ref = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
   const [isDeleteConfirmModalOpen, setIsDeleteConfirmModalOpen] = useState(false);
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const dispatch = useDispatch();
 

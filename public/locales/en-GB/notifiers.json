@@ -1,7 +1,8 @@
 {
   "notification_msg_sign_up": {
     "sign_up_failed": "Sign up failed",
-    "sign_up_success": "Sign up successful"
+    "sign_up_success": "Sign up successful",
+    "sign_up_forbidden": "User <bold>{{userEmail}}</bold> already exists"
   },
   "notification_msg_sign_in": {
     "sign_in_failed": "Unable to sign in",
@@ -19,14 +20,17 @@
     "user_permissions_changed": "User <bold>{{userEmail}}</bold> permissions changed",
     "user_permissions_change_fail": "Couldn't change user permissions",
     "user_permissions_change_unauth": "Insufficient permissions to change user permissions",
+    "user_permissions_change_forbidden": "Can't change your permissions",
     "user_banned": "User <bold>{{userEmail}}</bold> banned",
     "user_ban_fail": "Couldn't ban the user",
     "user_ban_unauth": "Insufficient permissions to ban a user",
+    "user_ban_forbidden": "Can't ban yourself",
     "user_unbanned": "User <bold>{{userEmail}}</bold> unbanned",
     "user_unban_fail": "Couldn't unban the user",
     "user_unban_unauth": "Insufficient permissions to unban a user",
     "user_deleted": "User <bold>{{userEmail}}</bold> deleted",
     "user_delete_fail": "Couldn't remove the user",
-    "user_delete_unauth": "Insufficient permissions to romove a user"
+    "user_delete_unauth": "Insufficient permissions to romove a user",
+    "user_delete_forbidden": "Can't delete your account"
   }
 }

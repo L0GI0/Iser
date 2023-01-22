@@ -122,7 +122,7 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem onClick={() => { handleClose(); dispatch(logOut()) }} sx={{ m: 1 }}>
+        <MenuItem onClick={() => { handleClose(); dispatch(logOut())}} sx={{ m: 1 }}>
           <Iconify sx={{ mr: 1 }} icon={'bx:log-out-circle'} />
             {t('account_popover.log_out_button')}
         </MenuItem>

@@ -4,7 +4,7 @@ export const REQUEST_STATUS: Record<RequestStatus, RequestStatus> = {
   success: 'success',
   unauthorised: 'unauthorised',
   failed: 'failed',
-  forbidden: 'forbidden'
+  forbidden: 'forbidden',
 }
 
 export const LANGUAGES:  Record<Languages, Language>  = {
@@ -22,11 +22,13 @@ export const LANGUAGES:  Record<Languages, Language>  = {
     value: 'de',
     label: 'Deutsch',
     icon: '/static/icons/lng_flag_de.svg',
+    disabled: true,
   },
   "fr": {
     value: 'fr',
     label: 'Français',
     icon: '/static/icons/lng_flag_fr.svg',
+    disabled: true
   }
 }
 

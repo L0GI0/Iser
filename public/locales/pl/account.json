@@ -3,6 +3,7 @@
   "sign_in": {
     "form": {
       "label_sign_in": "Logowanie",
+      "label_select_account": "Wybierz konto:",
       "checkbox_remember_me": "Zapamiętaj mnie na tym komputerze",
       "button_sign_in": "Zaloguj się",
       "button_sign_in_with_google": "Zaloguj się z kontem Google",
@@ -35,11 +36,7 @@
       }
     },
     "result": {
-      "sign_up_failure_description": "Prosimy spróbować później"
-    },
-    "notifications": {
-      "sign_up_failure": "Rejestracja niepowodła się",
-      "sign_up_completed": "Rejestracja zakończona pomyślnie"
+      "sign_up_failure_description": "Prosimy spróbować ponownie"
     }
   },
   "settings": {

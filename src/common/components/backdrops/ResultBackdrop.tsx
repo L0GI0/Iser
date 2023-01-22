@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import { ReactNode } from "react";
 import styled from "styled-components";
-import { BackdropProps, Container } from "@mui/material";
+import { BackdropProps } from "@mui/material";
 import { ReactiveContainer } from 'common/components/styledElements'
 import { BorderFlexLimitedBackdrop, SuccessIcon, ResultHeader, ResultDescription, InformationIcon, AppWarningIcon, ErrorIcon } from "./styledElements";
 import RoundButton from '../RoundButton'
@@ -23,7 +23,7 @@ export const RESULT_VARIANTS: Record<ResultVariant, ResultVariant> = {
 }
 
 interface ResultBackdropProps {
-  resultText: string,
+  resultText: ReactNode,
   descriptionText?: string,
   variant?: ResultVariant,
   onClose: () => void,

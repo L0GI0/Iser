@@ -5,6 +5,7 @@ import { Box, List, Collapse, ListItemText, ListItemIcon, ListItemButton } from 
 import styled from 'styled-components'
 import { NavigationItem } from 'features/iser/layout/NavConfig'
 import Iconify from 'common/components/Iconify';
+import { AuthorisedFeatureContainer } from 'common/components/AuthorisedFeature';
 
 // ----------------------------------------------------------------------
 
@@ -43,13 +44,14 @@ interface NavItemProps {
   item: NavigationItem,
   active: (path: string) => boolean,
   isCollapse: boolean,
+  disabled: boolean
 }
 
 const NavItem = ({ item, active, isCollapse }: NavItemProps) => {
 
   const isActiveRoot = active(item.path);
 
-  const { title, path, icon, info, children } = item;
+  const { title, path, icon, info, children, disabled = false} = item;
 
   const [open, setOpen] = useState(isActiveRoot);
 
@@ -68,7 +70,7 @@ const NavItem = ({ item, active, isCollapse }: NavItemProps) => {
 
   if (children) {
     return (
-      <>
+      <AuthorisedFeatureContainer disabled={disabled}>
         <ListItem
           isOpen={open}
           onClick={handleOpen}
@@ -122,22 +124,24 @@ const NavItem = ({ item, active, isCollapse }: NavItemProps) => {
             })}
           </List>
         </Collapse>
-      </>
+      </AuthorisedFeatureContainer>
     );
   }
 
   return (
-    <ListItem
-      component={RouterLink}
-      to={path}
-      isOpen={open}>
-        <ListItemIconStyle>{icon && icon}</ListItemIconStyle>
-        {!isCollapse && (
-        <>
-          <ListItemText disableTypography primary={title} />
-          { info && info }
-        </>)}
-    </ListItem>
+    <AuthorisedFeatureContainer disabled={disabled ?? false}>
+      <ListItem
+        component={RouterLink}
+        to={path}
+        isOpen={open}>
+          <ListItemIconStyle>{icon && icon}</ListItemIconStyle>
+          {!isCollapse && (
+          <>
+            <ListItemText disableTypography primary={title} />
+            { info && info }
+          </>)}
+      </ListItem>
+    </AuthorisedFeatureContainer>
   );
 }
 

@@ -44,7 +44,8 @@ const DeleteUser: React.FC<DeleteUserProps> = ({user, updateAccount}) => {
         <SwitchInput
             text={confirmSwitchLabel}
             checked={isUserDeletetionConfirmed}
-            onChange={() => setIsUserDeletetionConfirmed(!isUserDeletetionConfirmed)}/>
+            onChange={() => setIsUserDeletetionConfirmed(!isUserDeletetionConfirmed)}
+            />
         <Button variant="outlined" color="error" disabled={!isUserDeletetionConfirmed} onClick={onDeleteUser}>
           {t('user_delete.button_unban_user')}
         </Button>

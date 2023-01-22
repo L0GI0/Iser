@@ -12,7 +12,7 @@ import { GENDER } from 'features/iser/profile/constants';
 
 interface AccountReactiveState {
    logIn: ReactiveRequestState,
-   signUp: ReactiveRequestState,
+   signUp: ReactiveRequestState<Pick<User, 'emailAddress'>>,
    profileUpdate: ReactiveRequestState
 }
 
@@ -64,7 +64,12 @@ export const profileInitialState = {
 
 const accountInitialReactiveState = {
   logIn: reactiveStateDefaultValue,
-  signUp: reactiveStateDefaultValue,
+  signUp: {
+    ...reactiveStateDefaultValue,
+    reqStatusResponse: {
+      'emailAddress': ''
+    }
+  },
   profileUpdate: reactiveStateDefaultValue
 }
 
@@ -113,6 +118,10 @@ const accountSlice = createSlice({
       state.accountReactiveState.logIn.isRequesting = false;
     },
 
+    logInCancel(state: AccountState){
+      state.accountReactiveState.logIn.isRequesting = false;
+    },
+
     signUp(state: AccountState, action: PayloadAction<AccountPayloadIn & { userType: AccountType } >) {
       state.accountReactiveState.signUp.reqStatus = null;
       state.accountReactiveState.signUp.isRequesting = true;
@@ -125,11 +134,12 @@ const accountSlice = createSlice({
 
     signUpFail(state: AccountState, action: PayloadAction<AccountPayloadError>){
       state.accountReactiveState.signUp.isRequesting = false;
-      state.accountReactiveState.signUp.reqStatus = 'failed';
+      state.accountReactiveState.signUp.reqStatus = action.payload.error.response.requestStatus;
+      state.accountReactiveState.signUp.reqStatusResponse = action.payload.error.response.user;
     },
 
-    signUpCancel(){
-
+    signUpCancel(state: AccountState){
+      state.accountReactiveState.signUp.isRequesting = false;
     },
 
     authenticate(){
@@ -147,12 +157,13 @@ const accountSlice = createSlice({
     refreshToken(){
     },
 
-    refreshTokenFailed(state: AccountState, action: PayloadAction<AccountPayloadError>) {
+    refreshTokenFailed(state: AccountState) {
     },
 
     refreshTokenDone(state, action: PayloadAction<LogInPayload & { user: { userType: AccountType }}>) {
       state.accessToken = action.payload.tokens.accessToken;
       state.user.userType = action.payload.user.userType;
+      console.log(`Refresh token done`)
     },
 
     clearSignUpStatus(state: AccountState) {
@@ -207,6 +218,7 @@ const {
   logIn,
   logInDone,
   logInFail,
+  logInCancel,
   signUp,
   signUpDone,
   signUpFail,
@@ -243,9 +255,11 @@ const accountReducer = accountSlice.reducer;
 
 export { asyncActionCreators }
 export { accountActionCreators };
-export { logIn,
+export { 
+  logIn,
   logInDone,
   logInFail,
+  logInCancel,
   signUp,
   signUpDone,
   signUpFail,
@@ -263,6 +277,7 @@ export { logIn,
   updateProfile,
   profileUpdated,
   profileUpdateFailed,
-  setThemeMode };
+  setThemeMode
+};
 export type accountState = ReturnType<typeof accountReducer>;
 export default accountReducer;

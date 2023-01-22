@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Typography, Container, Box } from "@mui/material";
+import { Typography, Container } from "@mui/material";
 import { useTranslation } from 'react-i18next'
 import TwoSectionsLayout from "common/components/layouts/TwoSectionsLayout";
 import {
@@ -21,7 +21,7 @@ import CredentialsFromInput, {
 import InfoContent from "../components/InfoContent";
 import { triggerNotification } from "features/notifiers/store/notifiersSlice";
 import { GreyRedirectLink, LineDivider, ResponsiveContainer, SignInWithGoogleButton } from "../components/styledElements";
-import { logIn } from "../store/accountSlice";
+import { logIn, logInCancel } from "../store/accountSlice";
 
 // ----------------------------------------------------------------------
 
@@ -54,6 +54,10 @@ const SignInForm: React.FC = () => {
 
   useStateChangeNotifier(logInState.reqStatus, getSignInStateSnackbarMap(dispatch, t));
 
+  const cancelLogIn = () => {
+    dispatch(logInCancel())
+  }
+
   const logInUser = () => {
     if (inputFormRef.current?.validateForm()) {
       dispatch(triggerNotification());
@@ -70,13 +74,13 @@ const SignInForm: React.FC = () => {
   return (
       <SignInFormContainer>
       <Typography variant="h3">{t('sign_in.form.label_sign_in')}</Typography>
-        <LoadingBackdrop open={logInState.isRequesting}>
-          <CredentialsFromInput ref={inputFormRef} />
+        <LoadingBackdrop open={logInState.isRequesting} onCancel={cancelLogIn}>
+          <CredentialsFromInput ref={inputFormRef} viewPredefinedAccounts/>
+          <ResponsiveContainer>
+            <CheckboxInput promptText={t('sign_in.form.checkbox_remember_me')} />
+            <RoundButton text={t('sign_in.form.button_sign_in')} color="primary" onClick={logInUser} />
+          </ResponsiveContainer>
         </LoadingBackdrop>
-        <ResponsiveContainer>
-          <CheckboxInput promptText={t('sign_in.form.checkbox_remember_me')} />
-          <RoundButton text={t('sign_in.form.button_sign_in')} color="primary" onClick={logInUser} />
-        </ResponsiveContainer>
       </SignInFormContainer>
   );
 };

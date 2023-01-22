@@ -13,7 +13,7 @@ const PreAuthRoute = () => {
   );
 
   return (
-    isLoggedIn ? <Navigate to='/iser/dashboard'/> : <Outlet/>
+    isLoggedIn ? <Navigate to='/iser/analytics'/> : <Outlet/>
   )
 }
 

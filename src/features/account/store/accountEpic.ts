@@ -1,6 +1,6 @@
 import { of, Observable, switchMap, defer } from "rxjs";
 import { ActionCreator, ActionCreatorWithPayload } from "@reduxjs/toolkit";
-import { concatMap, catchError, mergeMap, takeUntil, take, mergeWith } from "rxjs/operators";
+import { concatMap, catchError, mergeMap, takeUntil, take, mergeWith, exhaustMap } from "rxjs/operators";
 import { AjaxError } from "rxjs/ajax";
 import { Epic, ofType, combineEpics, StateObservable } from "redux-observable";
 import {
@@ -20,6 +20,8 @@ import {
   profileUpdateFailed,
   profileUpdateCancel,
   authenticated,
+  signUpCancel,
+  logInCancel
 } from "./accountSlice";
 import { RootState } from "rootStore/rootReducer";
 import { ajaxApi } from "common/api/ajaxApi";
@@ -37,8 +39,9 @@ export const authErrorHandler = (
     error.response.message !== "jwt malformed" &&
     (error.status === 401 || error.status === 403)
   ) {
+    console.log(`error satus = ${error.status} | error.message = ${error.response.message}`)
     return action$.pipe(
-      ofType<AsyncAccountActions, typeof refreshTokenDone.type, RefreshTokenAction>(
+      ofType<RootActions, typeof refreshTokenDone.type, RefreshTokenAction>(
         refreshTokenDone.type
       ),
       takeUntil(
@@ -47,7 +50,7 @@ export const authErrorHandler = (
         )
       ),
       take(1),
-      mergeMap(() =>
+      exhaustMap(() =>
         source.pipe(catchError(() => of(failAction ? failAction({error}): () => {})))
       ),
       mergeWith(of(refreshToken()))
@@ -85,11 +88,16 @@ type SessionActions = LogOutAction | AuthenticateAction;
 
 type RefreshTokenAction = ActionFromCreator<typeof refreshToken>
 type RefreshTokenFailed = ActionFromCreator<typeof refreshTokenFailed>
-type RefreshTokenDone = ActionFromCreator<typeof refreshTokenDone>
-type RefreshTokenActions = RefreshTokenAction | RefreshTokenDone | RefreshTokenFailed
+export type RefreshTokenDone = ActionFromCreator<typeof refreshTokenDone>
+export type RefreshTokenActions = RefreshTokenAction | RefreshTokenDone | RefreshTokenFailed
 
 
 type AsyncAccountActions = SignUpActions | LogInActions | ProfileActions  | SessionActions | RefreshTokenActions
+
+
+
+
+
 
 /* Input Stream Type, Output Stream Type, State related to the Epic dispatch */
 export const logInEpic: Epic<RootActions, RootActions, RootState> = (
@@ -104,6 +112,11 @@ export const logInEpic: Epic<RootActions, RootActions, RootState> = (
       return ajaxApi(state$)
         .post(`auth/login`, { accountLogin, accountPassword })
         .pipe(
+          takeUntil(
+            action$.pipe(
+              ofType((logInCancel.type))
+            )
+          ),
           concatMap((ajaxResponse) => {
             return of(logInDone(ajaxResponse.response));
           }),
@@ -124,6 +137,11 @@ export const logInEpic: Epic<RootActions, RootActions, RootState> = (
         return ajaxApi(state$)
           .delete(`auth/refresh_token`)
           .pipe(
+            takeUntil(
+              action$.pipe(
+                ofType((signUpCancel.type))
+              )
+            ),
             concatMap(() => {
               return of();
             }),
@@ -147,7 +165,7 @@ export const signUpEpic: Epic<RootActions, RootActions, RootState> = (
         .pipe(
           takeUntil(
             action$.pipe(
-              ofType((signUpDone.type))
+              ofType((signUpCancel.type))
             )
           ),
           concatMap(() => {

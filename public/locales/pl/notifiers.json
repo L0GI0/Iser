@@ -1,7 +1,8 @@
 {
   "notification_msg_sign_up": {
     "sign_up_failed": "Rejestracja nie powodła się",
-    "sign_up_success": "Rejestracja zakończona pomyślnie"
+    "sign_up_success": "Rejestracja zakończona pomyślnie",
+    "sign_up_forbidden": "Użytkownik <bold>{{userEmail}}</bold> już istnieje"
   },
   "notification_msg_sign_in": {
     "sign_in_failed": "Logowanie nie powodło się",
@@ -19,14 +20,17 @@
     "user_permissions_changed": "Uprawnienia użytkownika <bold>{{- userEmail }}</bold> zmienione",
     "user_permissions_change_fail": "Nie udalo się zmienic uprawnień użytkownika",
     "user_permissions_change_unauth": "Brak uprawnień do odblokowywania uzytkowniów",
+    "user_permissions_change_forbidden": "Nie można zmienić uprawnień swojego konta",
     "user_banned": "Użytkownik <bold>{{- userEmail }}</bold> zablokowany",
     "user_ban_fail": "Nie udalo się zablokowac użytkownika",
     "user_ban_unauth": "Brak uprawnien do blokowania uzytkowniów",
+    "user_ban_forbidden": "Nie można banować swojego konta",
     "user_unbanned": "Użytkownik <bold>{{- userEmail }}</bold> odblokowany",
     "user_unban_fail": "Nie udalo się odblokowac użytkownika",
     "user_unban_unauth": "Brak uprawnień do odblokowywania uzytkowniów",
     "user_deleted": "Użytkownik <bold>{{- userEmail }}</bold> usunięty",
     "user_delete_fail": "Nie udalo się usunąć użytkownika",
-    "user_delete_unauth": "Brak uprawnien do usuwania uzytkowniów"
+    "user_delete_unauth": "Brak uprawnien do usuwania uzytkowniów",
+    "user_delete_forbidden": "Nie można usuwać swojego konta"
   }
 }

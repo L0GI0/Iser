@@ -12,7 +12,8 @@ export const namespaces = [
   "dashboard",
   "notifiers",
   "profile",
-  "users"
+  "users",
+  "analytics"
 ]
 
 export const defaultNS = 'common'
