@@ -9,6 +9,7 @@ import FormLabel from './FormLabel';
 import MenuItem from './MenuItem';
 import Table from './Table';
 import Avatar from './Avatar';
+import Radio from './Radio';
 import { Theme } from '@mui/material/styles';
 
 // ----------------------------------------------------------------------
@@ -25,6 +26,7 @@ export default function ComponentsOverrides(theme: Theme) {
     Table(theme),
     Avatar(theme),
     Paper(theme),
+    Radio(theme),
     CssBaseline(),
   );
 }

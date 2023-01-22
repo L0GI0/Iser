@@ -17,13 +17,13 @@ import { enqueueSnackbar } from "./store/notifiersSlice";
 // ----------------------------------------------------------------------
 
 interface StatetoSnackBarMap {
-    triggerValue: any,
+    triggerValue: RequestStatus,
     snackBarMessage: React.ReactNode,
     variant: VariantType,
     onExit?: () => void
 }
 
-export const getSignUpStateToSnackbarMap = (t: TFunction<['account', 'notifiers']>): Array<StatetoSnackBarMap> => [
+export const getSignUpStateToSnackbarMap = (t: TFunction<['account', 'notifiers']>, userEmail: User['emailAddress']): Array<StatetoSnackBarMap> => [
     {
         triggerValue: REQUEST_STATUS.success,
         snackBarMessage: t('notification_msg_sign_up.sign_up_success', { ns: 'notifiers'}),
@@ -33,6 +33,18 @@ export const getSignUpStateToSnackbarMap = (t: TFunction<['account', 'notifiers'
         triggerValue: REQUEST_STATUS.failed,
         snackBarMessage: t('notification_msg_sign_up.sign_up_failed', { ns: 'notifiers'} ),
         variant: 'error'
+    },
+    {
+      triggerValue: REQUEST_STATUS.forbidden,
+      snackBarMessage: 
+      (<Trans
+        t={t}
+        ns={['notifiers', 'account']}
+        i18nKey={"notifiers:notification_msg_sign_up.sign_up_forbidden"}
+        values={{ userEmail: userEmail}}
+        components={{ bold: <strong/>}}
+        />),
+      variant: 'warning'
     },
 ]
 
@@ -134,6 +146,14 @@ export const getDeleteUserStateSnackbarMap = (dispatch: AppDispatch, t: TFunctio
         dispatch(clearDeleteUserStatus());
     }
   },
+  {
+    triggerValue: REQUEST_STATUS.forbidden,
+    snackBarMessage: t('notification_msg_users.user_delete_forbidden', { ns: 'notifiers'}),
+    variant: 'warning',
+    onExit: () => {
+        dispatch(clearDeleteUserStatus());
+  }
+  }
 ]
 
 export const getBanUserStateSnackbarMap = (dispatch: AppDispatch, t: TFunction<['notifiers', 'users']>, userEmail: User['emailAddress']): Array<StatetoSnackBarMap> => [
@@ -152,12 +172,12 @@ export const getBanUserStateSnackbarMap = (dispatch: AppDispatch, t: TFunction<[
       }
   },
     {
-      triggerValue: REQUEST_STATUS.failed,
-      snackBarMessage: t('notification_msg_users.user_ban_fail', { ns: 'notifiers'}),
-      variant: 'error',
+      triggerValue: REQUEST_STATUS.forbidden,
+      snackBarMessage: t('notification_msg_users.user_ban_forbidden', { ns: 'notifiers'}),
+      variant: 'warning',
       onExit: () => {
           dispatch(clearBanUserStatus());
-      }
+    }
   },
   {
     triggerValue: REQUEST_STATUS.unauthorised,
@@ -234,6 +254,14 @@ export const getChangeUserPermissionsStateSnackbarMap = (dispatch: AppDispatch, 
       dispatch(clearChangeUserPermissionsStatus());
     }
   },
+  {
+    triggerValue: REQUEST_STATUS.forbidden,
+    snackBarMessage: t('notification_msg_users.user_permissions_change_forbidden', { ns: 'notifiers'}),
+    variant: 'error',
+    onExit: () => {
+      dispatch(clearChangeUserPermissionsStatus());
+    }
+  }
 ]
 
 export const getUsersTableStateSnackbarMap = (dispatch: AppDispatch, t: TFunction<['notifiers']>): Array<StatetoSnackBarMap> => [

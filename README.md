@@ -1,13 +1,13 @@
 <p align="center"></p>
 
 <p align="center">
-   <a href="https://github.com/L0GI0/Iser" target="_blank">
+   <a href="https://iser-app.vercel.app/app/signin" target="_blank">
       <img src="https://github.com/L0GI0/Iser/blob/master/public/static/iser-logo.png" alt="iser" width="60px" height="auto">
    </a>
 </p>
 
 <h1 align="center">
-   <a href="https://github.com/L0GI0/Iser" target="_blank" align="center">
+   <a href="https://iser-app.vercel.app/app/signin" target="_blank" align="center">
       Iser - Free MUI & Redux Observables React Admin Dashboard
    </a>
 </h1>
@@ -56,11 +56,11 @@ This is a React app that I built form stratch, in order to use it as a ready tem
 - User profile (Views for editing and customising users profile)
 
 
-<a href="https://github.com/L0GI0/Iser](https://www.youtube.com/watch?v=Hh8DeDIwwGY" target="_blank">
+<a href="https://www.youtube.com/watch?v=Hh8DeDIwwGY" target="_blank">
    <img src="https://user-images.githubusercontent.com/48987014/211198294-6d7117d9-61dd-49f3-975c-2d41542833ec.png" alt="iser" width="60px" height="auto">
 </a>
 </br>
- <a href="https://github.com/L0GI0/Iser](https://www.youtube.com/watch?v=Hh8DeDIwwGY" target="_blank" align="center">
+ <a href=https://www.youtube.com/watch?v=Hh8DeDIwwGY" target="_blank" align="center">
    Iser - Youtube
 </a>
 
@@ -82,6 +82,8 @@ While building this app, I learned:
 - How to use react-redux toolkit with epic middleware using redux observables. Got familiar with rxjs, observables and declarative way of handling async code
 - How to improve performance by detecting and getting rid of unnecessary app renders using why-did-you-render by Welldone Software
 - How to implement JWT based authorisation and authentication. How to automatically refresh token after it's expiration is detected on any API call, and how to fulfill initial request with new token using async data stream with epic middleware
+- How to create dynamic charts using Apexcharts
+- How to create searchable, paginated, dynamic, customised MUI table
 
 ## Architecture 🏗️
 

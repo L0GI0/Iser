@@ -1,7 +1,11 @@
 {
-  "name": "iser-front",
-  "version": "0.1.0",
+  "name": "iser-app",
+"version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": "18.x",
+    "npm": "9.2.0"
+  },
   "dependencies": {
     "@babel/core": "^7.18.2",
     "@babel/helper-get-function-arity": "^7.16.7",
@@ -56,7 +60,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "PORT=3006 react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

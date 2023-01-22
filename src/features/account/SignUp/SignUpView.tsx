@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from "react";
+import { useRef, useMemo, ReactNode } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +15,7 @@ import ResultBackdrop from "common/components/backdrops/ResultBackdrop";
 import { RootState } from "rootStore/rootReducer";
 import { RESULT_VARIANTS, ResultVariant } from "common/components/backdrops/ResultBackdrop";
 import { REQUEST_STATUS } from "common/constants";
-import { signUp, clearSignUpStatus } from '../store/accountSlice'
+import { signUp, clearSignUpStatus, signUpCancel } from '../store/accountSlice'
 import { useStateChangeNotifier, getSignUpStateToSnackbarMap } from 'features/notifiers/useStateChangeNotifiers'
 import { triggerNotification } from 'features/notifiers/store/notifiersSlice'
 import { ReactiveContainer as SignUpFormContainer } from 'common/components/styledElements'
@@ -24,6 +24,7 @@ import { TFunction } from "react-i18next";
 import InfoContent from "../components/InfoContent";
 import { LineDivider, ResponsiveContainer, SignInWithGoogleButton } from "../components/styledElements";
 import CredentialsFromInput, { CredentialsFormRef } from "../components/CredentialsFormInput";
+import { Trans } from 'react-i18next';
 
 // ----------------------------------------------------------------------
 
@@ -41,14 +42,23 @@ const RegistrationTerms = styled(Typography).attrs({
 
 type SignUpResult = {
   variant: ResultVariant,
-  message: string
+  message: ReactNode
 }
 
-const getSignUpResult = (status: RequestStatus, t: TFunction<["account", "notifiers"]>): SignUpResult => {
+const getSignUpResult = (status: RequestStatus, t: TFunction<["account", "notifiers"]>, userEmail: string): SignUpResult => {
   if(status === REQUEST_STATUS.success)
-    return { variant: RESULT_VARIANTS.success, message: t('sign_up.notifications.sign_up_completed')}
+    return { variant: RESULT_VARIANTS.success, message: t('notifiers:notification_msg_sign_up.sign_up_success')}
 
-  return { variant: RESULT_VARIANTS.error, message: t('sign_up.notifications.sign_up_failure')}
+  if(status === REQUEST_STATUS.forbidden)
+    return { variant: RESULT_VARIANTS.warning, message: <Trans
+      t={t}
+      ns={['notifiers', 'account']}
+      i18nKey={"notifiers:notification_msg_sign_up.sign_up_forbidden"}
+      values={{ userEmail: userEmail}}
+      components={{ bold: <strong/>}}
+      />}
+    
+  return { variant: RESULT_VARIANTS.error, message: t('notifiers:notification_msg_sign_up.sign_up_failure')}
 }
 
 const SignUpForm: React.FC = () => {
@@ -60,13 +70,17 @@ const SignUpForm: React.FC = () => {
   const inputFormRef = useRef<CredentialsFormRef>(null);
   
   const dispatch = useDispatch();
-  useStateChangeNotifier(signUpState.reqStatus, getSignUpStateToSnackbarMap(t));
+  useStateChangeNotifier(signUpState.reqStatus, getSignUpStateToSnackbarMap(t, signUpState.reqStatusResponse?.emailAddress ?? 'unknown'));
 
   const signUpResult: SignUpResult = useMemo(() => {
     if(signUpState.reqStatus)
-      return getSignUpResult(signUpState.reqStatus, t)
+      return getSignUpResult(signUpState.reqStatus, t, signUpState.reqStatusResponse?.emailAddress ?? 'unknown')
     return { variant: RESULT_VARIANTS.error, message: 'Internal Application Error' }
   }, [signUpState.reqStatus])
+
+  const cancelSignUp = () => {
+    dispatch(signUpCancel())
+  }
 
   const signUpUser = (): void => {
     if (inputFormRef.current?.validateForm()) {
@@ -85,7 +99,7 @@ const SignUpForm: React.FC = () => {
   return (
       <SignUpFormContainer>
       <Typography variant="h3">{t('sign_up.form.label_sign_up')}</Typography>
-        <LoadingBackdrop open={signUpState.isRequesting}>
+        <LoadingBackdrop open={signUpState.isRequesting} onCancel={cancelSignUp}>
           <ResultBackdrop
             open={!!signUpState.reqStatus}
             variant={signUpResult.variant}

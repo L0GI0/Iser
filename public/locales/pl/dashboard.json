@@ -6,8 +6,8 @@
   "navigation_section": {
     "dashboard_nav_item": "panel główny",
     "user_nav_item": "użytkownicy",
-    "product_nav_item": "produkt",
-    "blog_nav_item": "blog"
+    "product_nav_item": "produkty",
+    "blog_nav_item": "faktury"
   },
   "contact_section": {
     "text_contact_me": "Kontakt:"

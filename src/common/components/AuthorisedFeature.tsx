@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 // ----------------------------------------------------------------------
 
-const AuthorisedFeatureContainer = styled.div<{ disabled: boolean }>(({ disabled }) => ({
+export const AuthorisedFeatureContainer = styled.div<{ disabled: boolean }>(({ disabled }) => ({
   transition: 'all 100ms linear',
   ...(disabled && {
     opacity: '0.3',
@@ -40,12 +40,12 @@ const AuthorisedFeature: React.FC<PropsWithChildren<AuthorisedProps>> = ({ as="d
   return (
     featureUnauthorised ? (
       <Tooltip {...tooltipSettings} title={tooltipSettings.title ?? t('tooltip_feature_unauthorised')}>
-      <span>
-        <AuthorisedFeatureContainer disabled={featureUnauthorised} as={as}>
-          { children }
-        </AuthorisedFeatureContainer>
-      </span>
-    </Tooltip>
+        <span>
+         <AuthorisedFeatureContainer disabled={featureUnauthorised} as={as}>
+            { children }
+         </AuthorisedFeatureContainer>
+        </span>
+      </Tooltip>
     ) : <> { children } </>
   )
 }

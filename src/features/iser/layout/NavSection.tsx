@@ -16,7 +16,7 @@ export default function NavSection({ navConfig, isCollapse, ...other }: NavSecti
     <Box {...other}>
       <List disablePadding sx={{ p: 1 }}>
         {navConfig.map((item) => (
-          <NavItem key={item.title} item={item} active={match} isCollapse={isCollapse}/>
+          <NavItem key={item.title} item={item} active={match} isCollapse={isCollapse} disabled={item.disabled ?? false}/>
         ))}
       </List>
     </Box>

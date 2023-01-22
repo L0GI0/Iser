@@ -1,0 +1,10 @@
+{
+  "chart_total_visits": {
+    "label_total_visits": "Total Visits",
+    "label_desktop": "Desktop",
+    "label_mobile": "Mobile"
+  },
+  "chart_yearly_sales": {
+    "label_yearly_sales": "Yearly sales"
+  }
+}

@@ -1,6 +1,6 @@
 import { useEffect, memo } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Box, Drawer, Stack } from '@mui/material';
+import { Box, Drawer, Stack, Link } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components'
 import useResponsive from 'common/utils/useResponsive';
@@ -13,6 +13,7 @@ import useCollapseDrawer from './useColapseDrawer';
 import CollapseButton from './components/CollapseButton';
 import SidebarAccount from './components/SidebarAccount';
 import SidebarFooter from './components/SidebarFooter';
+import { Link as RouterLink } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
@@ -77,7 +78,9 @@ const  Sidebar = memo(({ isSidebarOpen, onCloseSidebar }: SidebarProps) => {
         }}
       >
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Logo />
+          <Link underline="none" component={RouterLink} to="/iser/analytics">
+            <Logo />
+          </Link>
           {isDesktop && !isCollapse && (
             <CollapseButton onToggleCollapse={onToggleCollapse} collapseClick={collapseClick} />
           )}

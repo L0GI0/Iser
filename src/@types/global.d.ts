@@ -16,7 +16,8 @@ declare global {
   interface Language {
     value: Languages,
     label: string,
-    icon: string
+    icon: string,
+    disabled?: boolean,
   }
 
   type AccountType = 'admin' | 'user'

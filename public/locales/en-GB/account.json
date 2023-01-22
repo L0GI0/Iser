@@ -3,6 +3,7 @@
   "sign_in": {
     "form": {
       "label_sign_in": "Sign in",
+      "label_select_account": "Select account:",
       "checkbox_remember_me": "Remember me on this device",
       "button_sign_in": "Sign in",
       "button_sign_in_with_google": "Sign in with your Google account",
@@ -35,11 +36,7 @@
       }
     },
     "result": {
-      "sign_up_failure_description": "Please try again later"
-    },
-    "notifications": {
-      "sign_up_failure": "Sign up failed",
-      "sign_up_completed": "Signed up sucessfully"
+      "sign_up_failure_description": "Please try again"
     }
   },
   "settings": {

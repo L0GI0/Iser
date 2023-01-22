@@ -1,0 +1,10 @@
+{
+  "chart_total_visits": {
+    "label_total_visits": "Łączna liczba wizyt",
+    "label_desktop": "Komputery",
+    "label_mobile": "Urządzenie mobilne"
+  },
+  "chart_yearly_sales": {
+    "label_yearly_sales": "Roczna sprzedaż"
+  }
+}

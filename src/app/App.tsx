@@ -10,7 +10,7 @@ import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 
 import SignInView from "features/account/SignIn/SignInView";
 import SignUpView from "features/account/SignUp/SignUpView";
-import DashboardView from "features/iser/dashboard/DashboardView";
+import AnalyticsView from "features/iser/dashboard/AnalyticsView";
 import UsersView from 'features/iser/users/UsersView';
 import SettingsView from "features/account/settings/SettingsView";
 import ProfileView from 'features/iser/profile/ProfileView';
@@ -59,7 +59,7 @@ function App() {
                   </Route>              
                     <Route path="/iser/" element={<IserLayout/>}>
                       <Route path="/iser/" element={<PrivateRoute/>}>
-                        <Route path='/iser/dashboard' element={<DashboardView/>}/>
+                        <Route path='/iser/analytics' element={<AnalyticsView/>}/>
                         <Route path="/iser/profile" element={<ProfileView/>}/>
                         <Route path="/iser/settings" element={<SettingsView/>}/>
                         <Route path="/iser/users" element={<UsersRoute/>}>
