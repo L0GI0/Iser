@@ -5,6 +5,7 @@ export const REQUEST_STATUS: Record<RequestStatus, RequestStatus> = {
   unauthorised: 'unauthorised',
   failed: 'failed',
   forbidden: 'forbidden',
+  not_found: 'not_found'
 }
 
 export const LANGUAGES:  Record<Languages, Language>  = {

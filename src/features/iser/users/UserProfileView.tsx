@@ -1,83 +1,77 @@
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { AjaxResponse, AjaxError } from "rxjs/ajax";
-import { map } from "rxjs/operators";
-import { Observable } from "rxjs";
 import { Box, Grid } from '@mui/material';
 import {
   useNavigate,
 } from "react-router-dom";
-import { ajaxApi } from 'common/api/ajaxApi';
+import { of } from 'rxjs';
+import { switchMap } from 'rxjs/operators'
 import { RootState } from 'rootStore/rootReducer';
 import LoadingBackdrop from 'common/components/backdrops/LoadingBackdrop';
-import { ProfileContent, ProfileBackground } from '../profile/components/styledElements';
 import InfoCard from 'common/components/Card/InfoCard';
+import { useRenderMiddleware } from 'common/utils/useObservable';
+import { ActionFromCreator } from "rootStore/common";
+
+import { fetchUser, fetchUserFail } from '../store/iserSlice';
+import { ProfileContent, ProfileBackground } from '../profile/components/styledElements';
 import ProfileCard  from '../profile/components/ProfileCard';
 
 // ----------------------------------------------------------------------
 
-interface AccountDataState {
-  user: Omit<User, keyof Profile | 'userId'>,
-  profile: Profile
-}
-
 const UserProfileView = () => {
 
-  const [isUserFetching, setIsUserFetching] = useState<boolean>(true);
-  const [accountData, setAccountData] = useState<AccountDataState | null>(null);
+  const fetchUserState = useSelector((state: RootState) => state.iserReducer.iserReactiveState.fetchUser);
+  const targetUser = useSelector((state: RootState) => state.iserReducer.targetUser);
 
   const params = useParams();
-
-  const state = useSelector((state: RootState) => state);
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const ajax = ajaxApi(state);
-
-  const fetchUser = (): Observable<Account> =>
-    ajax.get(`users/${params.id}`).pipe(
-      map((ajaxResponse: AjaxResponse<{ user: Account }>): Account => {
-        return ajaxResponse.response.user;
-      })
-    );
-
   useEffect(() => {
-  }, [accountData])
-
-  useEffect(() => {
-    fetchUser().subscribe({
-      next: (user: Account) => { const { emailAddress, userStatus, userType, userId, ...rest } = user;
-        setAccountData({
-          user: { 
-            emailAddress: emailAddress,
-            userStatus: userStatus,
-            userType: userType
-        },
-        profile: { ...rest }})},
-      error: (error: AjaxError) => { setIsUserFetching(false);
-        if(error.status === 404)
-          navigate('/iser/users/not_found')
-        },
-      complete: () => { return setIsUserFetching(false) }
-    }
-    )
+    dispatch(fetchUser({userId: params.id ?? ""}))
   }, [])
 
+  useRenderMiddleware(fetchUserFail.type, 
+    switchMap((action: ActionFromCreator<typeof fetchUserFail>) => {
+    if(action.payload.error.response.requestStatus === 'not_found')
+      return of(navigate('/iser/users/not_found'));
+    return of();
+  }))
+
+    const userProfile = targetUser ? {
+      firstName: targetUser.firstName,
+      lastName: targetUser.lastName,
+      emailAddress: targetUser.emailAddress,
+      role: targetUser.role,
+      location: targetUser.location,
+      gender: targetUser.gender,
+      language: targetUser.language,
+      birthDate: targetUser.birthDate?.toLocaleString()
+    } : null
+
+
+  const userDetails = targetUser ? {
+      userId: targetUser.userId,
+      emailAddress: targetUser.emailAddress,
+      userStatus: targetUser.userStatus,
+      userType: targetUser.userType,
+    } : null
+
   return (
-    <LoadingBackdrop open={isUserFetching}>
-        { accountData &&
+    <LoadingBackdrop open={fetchUserState.isRequesting}>
+        { targetUser && userProfile && userDetails &&
         <> 
           <ProfileContent>
             <ProfileBackground/>
             <ProfileCard profileVariant="primary" profile={{
-              firstName: accountData.profile.firstName,
-              lastName: accountData.profile.lastName,
-              emailAddress: accountData.user.emailAddress,
-              role: accountData.profile.role,
-              location: accountData.profile.location,
-              userStatus: accountData.user.userStatus,
-              userType: accountData.user.userType
+              firstName: targetUser.firstName,
+              lastName: targetUser.lastName,
+              emailAddress: targetUser.emailAddress,
+              role: targetUser.role,
+              location: targetUser.location,
+              userStatus: targetUser.userStatus,
+              userType: targetUser.userType
               }}/>
           </ProfileContent>
           <Box sx={{ mt: 5, mx: 5 }}>
@@ -85,7 +79,7 @@ const UserProfileView = () => {
               <Grid item xs={12} lg={6}>
                 <InfoCard
                   title="Profile information"
-                  info={accountData.profile}
+                  info={userProfile}
                   action={{
                     route: `/iser/users/edit/${params.id}`,
                     tooltip: "Edit Profile",
@@ -95,7 +89,7 @@ const UserProfileView = () => {
               <Grid item xs={12} lg={6}>
                 <InfoCard
                   title="User information"
-                  info={accountData.user}
+                  info={userDetails}
                   action={{
                     route: `/iser/users/edit/${params.id}`,
                     tooltip: "Edit User",

@@ -1,12 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AjaxError } from "rxjs/ajax";
 import { PaletteMode } from '@mui/material';
 import {
   reactiveStateDefaultValue,
 } from "common/constants";
-import { LANGUAGES } from 'common/constants';
-import { USER_TYPE, USER_STATUS } from '../contants';
-import { GENDER } from 'features/iser/profile/constants';
+import { profileInitialState, userInitialState, RequestError } from 'rootStore/common';
 
 // ----------------------------------------------------------------------
 
@@ -42,25 +39,6 @@ export interface AccountPayloadIn {
 }
 
 
-export interface AccountPayloadError {
-  error: AjaxError
-}
-
-export const userInitialState = {
-    emailAddress: '',
-    userType: USER_TYPE.user,
-    userStatus: USER_STATUS.active
-}
-
-export const profileInitialState = {
-    firstName: "",
-    lastName: "",
-    gender: GENDER.other,
-    birthDate: new Date('01/01/1990'),
-    location: "",
-    language: LANGUAGES["en-GB"].value,
-    role: ""
-}
 
 const accountInitialReactiveState = {
   logIn: reactiveStateDefaultValue,
@@ -113,7 +91,7 @@ const accountSlice = createSlice({
       state.accountReactiveState.logIn.isRequesting = false;
     },
 
-    logInFail(state: AccountState, action: PayloadAction<AccountPayloadError>){
+    logInFail(state: AccountState, action: PayloadAction<RequestError>){
       state.accountReactiveState.logIn.reqStatus = action.payload.error.response.requestStatus;
       state.accountReactiveState.logIn.isRequesting = false;
     },
@@ -132,7 +110,7 @@ const accountSlice = createSlice({
       state.accountReactiveState.signUp.reqStatus = 'success';
     },
 
-    signUpFail(state: AccountState, action: PayloadAction<AccountPayloadError>){
+    signUpFail(state: AccountState, action: PayloadAction<RequestError>){
       state.accountReactiveState.signUp.isRequesting = false;
       state.accountReactiveState.signUp.reqStatus = action.payload.error.response.requestStatus;
       state.accountReactiveState.signUp.reqStatusResponse = action.payload.error.response.user;
@@ -163,7 +141,6 @@ const accountSlice = createSlice({
     refreshTokenDone(state, action: PayloadAction<LogInPayload & { user: { userType: AccountType }}>) {
       state.accessToken = action.payload.tokens.accessToken;
       state.user.userType = action.payload.user.userType;
-      console.log(`Refresh token done`)
     },
 
     clearSignUpStatus(state: AccountState) {
@@ -183,7 +160,6 @@ const accountSlice = createSlice({
     },
 
     profileUpdated(state: AccountState, action: PayloadAction<Profile>) {
-      state.accountReactiveState.profileUpdate.isRequesting = false;
       state.profile.firstName = action.payload.firstName;
       state.profile.lastName = action.payload.lastName;
       state.profile.gender = action.payload.gender;
@@ -193,10 +169,10 @@ const accountSlice = createSlice({
       state.profile.role = action.payload.role;
 
       state.accountReactiveState.profileUpdate.reqStatus = 'success';
-
+      state.accountReactiveState.profileUpdate.isRequesting = false;
     },
 
-    profileUpdateFailed(state: AccountState, action: PayloadAction<AccountPayloadError>) {
+    profileUpdateFailed(state: AccountState, action: PayloadAction<RequestError>) {
       state.accountReactiveState.profileUpdate.isRequesting= false;
       state.accountReactiveState.profileUpdate.reqStatus = "failed";
     },

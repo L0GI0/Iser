@@ -8,7 +8,7 @@ import FormInput from 'common/components/inputs/FormInput';
 import IserTextInput from "common/components/inputs/IserTextInput";
 import IserMenuItem from "common/components/IserMenuItem";
 import createChangeHandler from 'common/utils/createChangeHandler';
-import { changeUserPermissions } from 'features/iser/store/iserSlice';
+import { changeUserPermissions, fetchUser } from 'features/iser/store/iserSlice';
 import { triggerNotification } from 'features/notifiers/store/notifiersSlice';
 import { USER_TYPES } from 'features/account/contants';
 import { useTranslation } from 'react-i18next';
@@ -23,10 +23,9 @@ const UsersTypesExplenation = styled.ul`
 
 interface UserPermissionsProps {
   user: User,
-  updateAccount: SetStateCallback<boolean>
 }
 
-const UserPermissions: React.FC<UserPermissionsProps> = ({user, updateAccount}) => {
+const UserPermissions: React.FC<UserPermissionsProps> = ({ user }) => {
 
   const dispatch = useDispatch();
 
@@ -39,7 +38,7 @@ const UserPermissions: React.FC<UserPermissionsProps> = ({user, updateAccount}) 
   const onPermissionsChange = async () => {
     dispatch(triggerNotification());
     await dispatch(changeUserPermissions({userId: user.userId, userType: selectedUserType}));
-    updateAccount(true);
+    dispatch(fetchUser({userId: user.userId}))
   }
 
   const permissionsDescription = 

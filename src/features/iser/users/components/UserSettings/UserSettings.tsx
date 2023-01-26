@@ -6,17 +6,16 @@ import { Stack } from '@mui/material';
 // ----------------------------------------------------------------------
 
 interface UserSettingsProps {
-  user: User,
-  updateAccount: SetStateCallback<boolean>
+  user: User
 }
 
-const UserSettings: React.FC<UserSettingsProps> = ({ user, updateAccount }) => {
+const UserSettings: React.FC<UserSettingsProps> = ({ user }) => {
 
   return (
     <Stack spacing={2}>
-      <UserPermissions user={user} updateAccount={updateAccount} />
-      <BanUser user={user} updateAccount={updateAccount} />
-      <DeleteUser user={user} updateAccount={updateAccount}/>
+      <UserPermissions user={user}/>
+      <BanUser user={user}/>
+      <DeleteUser user={user}/>
     </Stack>
   )
 }
