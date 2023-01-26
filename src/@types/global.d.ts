@@ -28,7 +28,7 @@ declare global {
     firstName: string,
     lastName: string,
     gender: Genders,
-    birthDate: Date | null,
+    birthDate: Date | number,
     location: string,
     language: Languages,
     role: string
@@ -45,7 +45,7 @@ declare global {
 
   interface Account extends Profile, User {}
   
-  type RequestStatus = 'success' | 'failed' | 'unauthorised' | "forbidden";
+  type RequestStatus = 'success' | 'failed' | 'unauthorised' | "forbidden" | 'not_found';
 
   type ReactiveRequestState<ResponseType = undefined> = {
     isRequesting: boolean,

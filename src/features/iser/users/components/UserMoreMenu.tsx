@@ -9,7 +9,8 @@ import {
   clearDeleteUserStatus,
   clearBanUserStatus,
   clearUnbanUserStatus,
-  unbanUser
+  unbanUser,
+  fetchUsers
 } from 'features/iser/store/iserSlice';
 import { triggerNotification } from "features/notifiers/store/notifiersSlice";
 import Iconify from 'common/components/Iconify';
@@ -33,24 +34,27 @@ const UserMoreMenu: React.FC<UserMoreMenuProps> = ({ userId, userStatus }) => {
 
   const { t } = useTranslation(['users', 'notifiers']);
 
-  const onDeleteUser = () => {
+  const onDeleteUser = async () => {
     dispatch(triggerNotification());
     dispatch(clearDeleteUserStatus());
-    dispatch(deleteUser({ userId: userId }));
+    await dispatch(deleteUser({ userId: userId }));
+    dispatch(fetchUsers())
     setIsOpen(false);
   }
 
-  const onBanUser = () => {
+  const onBanUser = async () => {
     dispatch(triggerNotification());
     dispatch(clearBanUserStatus());
-    dispatch(banUser({ userId: userId }));
+    await dispatch(banUser({ userId: userId }));
+    dispatch(fetchUsers())
     setIsOpen(false);
   }
 
-  const onUnbanUser = () => {
+  const onUnbanUser = async () => {
     dispatch(triggerNotification());
     dispatch(clearUnbanUserStatus());
-    dispatch(unbanUser({ userId: userId }));
+    await dispatch(unbanUser({ userId: userId }));
+    dispatch(fetchUsers())
     setIsOpen(false);
   }
   

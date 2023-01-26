@@ -1,5 +1,5 @@
 import { of, Observable, switchMap, defer } from "rxjs";
-import { ActionCreator, ActionCreatorWithPayload } from "@reduxjs/toolkit";
+import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 import { concatMap, catchError, mergeMap, takeUntil, take, mergeWith, exhaustMap } from "rxjs/operators";
 import { AjaxError } from "rxjs/ajax";
 import { Epic, ofType, combineEpics, StateObservable } from "redux-observable";
@@ -24,6 +24,7 @@ import {
   logInCancel
 } from "./accountSlice";
 import { RootState } from "rootStore/rootReducer";
+import { ActionFromCreator } from "rootStore/common";
 import { ajaxApi } from "common/api/ajaxApi";
 import { RootActions } from "rootStore/rootEpic";
 
@@ -39,7 +40,6 @@ export const authErrorHandler = (
     error.response.message !== "jwt malformed" &&
     (error.status === 401 || error.status === 403)
   ) {
-    console.log(`error satus = ${error.status} | error.message = ${error.response.message}`)
     return action$.pipe(
       ofType<RootActions, typeof refreshTokenDone.type, RefreshTokenAction>(
         refreshTokenDone.type
@@ -63,12 +63,6 @@ export const authErrorHandler = (
   return of(logOut())
 };
 
-type ActionFromCreator<C extends ActionCreator<unknown>> = ReturnType<C>;
-
-type CaseReducerRecord = Record<string, ActionCreator<unknown>>;
-export type ActionFromCaseReducerActions<R extends CaseReducerRecord> =
-  ActionFromCreator<R[keyof R]>;
-
 type LogInAction = ActionFromCreator<typeof logIn>;
 type LogInCallbackActions = ActionFromCreator<typeof logInDone | typeof logInFail
 >;
@@ -91,13 +85,7 @@ type RefreshTokenFailed = ActionFromCreator<typeof refreshTokenFailed>
 export type RefreshTokenDone = ActionFromCreator<typeof refreshTokenDone>
 export type RefreshTokenActions = RefreshTokenAction | RefreshTokenDone | RefreshTokenFailed
 
-
 type AsyncAccountActions = SignUpActions | LogInActions | ProfileActions  | SessionActions | RefreshTokenActions
-
-
-
-
-
 
 /* Input Stream Type, Output Stream Type, State related to the Epic dispatch */
 export const logInEpic: Epic<RootActions, RootActions, RootState> = (

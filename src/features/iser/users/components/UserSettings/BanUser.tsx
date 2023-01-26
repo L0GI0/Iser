@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import LabeledCard from "common/components/Card/LabeledCard";
 import Label from "common/components/Label";
 import { Button, Stack, Typography } from '@mui/material';
-import { banUser, unbanUser } from 'features/iser/store/iserSlice';
+import { banUser, unbanUser, fetchUser } from 'features/iser/store/iserSlice';
 import { triggerNotification } from 'features/notifiers/store/notifiersSlice';
 import { useTranslation } from 'react-i18next';
 
@@ -10,10 +10,9 @@ import { useTranslation } from 'react-i18next';
 
 interface BanUserProps {
   user: User,
-  updateAccount: SetStateCallback<boolean>
 }
 
-const BanUser: React.FC<BanUserProps> = ({user, updateAccount}) => {
+const BanUser: React.FC<BanUserProps> = ({ user }) => {
 
   const dispatch = useDispatch();
 
@@ -22,15 +21,14 @@ const BanUser: React.FC<BanUserProps> = ({user, updateAccount}) => {
   const onBanUser = async () => {
     dispatch(triggerNotification())
     await dispatch(banUser({userId: user.userId}));
+    dispatch(fetchUser({userId: user.userId}))
     
-    updateAccount(true);
   }
 
   const onUnbanUser = async () => {
     dispatch(triggerNotification())
     await dispatch(unbanUser({userId: user.userId}));
-    
-    updateAccount(true);
+    dispatch(fetchUser({userId: user.userId}))
   }
 
   return (
@@ -43,7 +41,7 @@ const BanUser: React.FC<BanUserProps> = ({user, updateAccount}) => {
             { user.userStatus }
           </Typography>
         </Label>
-        </Typography>
+        </Typography> 
         {
         user.userStatus === 'active' ?
           (<Button variant="contained" color="error" onClick={onBanUser}>

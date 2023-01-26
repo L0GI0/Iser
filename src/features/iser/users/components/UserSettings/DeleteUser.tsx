@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import LabeledCard from "common/components/Card/LabeledCard";
 import SwitchInput from 'common/components/inputs/SwitchInput';
 import { Button, Stack, Typography } from '@mui/material';
-import { deleteUser } from 'features/iser/store/iserSlice';
+import { deleteUser, fetchUser } from 'features/iser/store/iserSlice';
 import { triggerNotification } from 'features/notifiers/store/notifiersSlice';
 import { useTranslation } from 'react-i18next';
 
@@ -11,10 +11,9 @@ import { useTranslation } from 'react-i18next';
 
 interface DeleteUserProps {
   user: User,
-  updateAccount: SetStateCallback<boolean>
 }
 
-const DeleteUser: React.FC<DeleteUserProps> = ({user, updateAccount}) => {
+const DeleteUser: React.FC<DeleteUserProps> = ({ user }) => {
 
   const dispatch = useDispatch();
 
@@ -24,8 +23,8 @@ const DeleteUser: React.FC<DeleteUserProps> = ({user, updateAccount}) => {
 
   const onDeleteUser = async () => {
     dispatch(triggerNotification())
-    dispatch(deleteUser({userId: user.userId}))
-    updateAccount(true);
+    await dispatch(deleteUser({userId: user.userId}))
+    dispatch(fetchUser({userId: user.userId}))
   }
 
   const confirmSwitchLabel =

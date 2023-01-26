@@ -25,7 +25,6 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    debug: true,
     supportedLngs: supportedLngs,
     ns: namespaces,
     defaultNS,
